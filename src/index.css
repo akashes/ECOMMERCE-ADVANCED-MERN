@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+
+@theme{
+
+   --color-primary:#ff5252
+}
+
+/* @theme inline{
+  --color-primary:var(--primary)
+} */
+
+@layer base{
+  :root{
+    --primary:#ff5252
+  }
+}
+
+
+body{
+    font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+}
+
+.container{
+  width: 90%;
+  margin: auto;
+
+}
+
+
+
+.link:hover{
+  color:var(--primary)
+}
+
+.MuiBadge-badge{
+  background-color: var(--primary) !important;
+}
