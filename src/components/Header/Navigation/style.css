@@ -1,0 +1,28 @@
+.categoryPanel button{
+    text-transform: capitalize;
+}
+
+.nav li .submenu{
+    visibility: hidden;
+}
+.nav li .submenu button{
+    font-weight: 400 !important;
+}
+.nav  li:hover .submenu{
+    opacity: 1 !important;
+    visibility: inherit;
+    top:100%
+}
+
+.nav li .submenu li .submenu{
+    top:0px !important;
+    left:120% !important;
+    opacity: 0 !important;
+}
+
+.nav  li .submenu li:hover .submenu{
+    opacity: 1 !important;
+    left:100% !important;
+
+    /* top:0% */
+}

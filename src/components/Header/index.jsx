@@ -4,12 +4,11 @@ import Search from "../Search"
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
-
 import {  BsCart3 } from "react-icons/bs";
 import { IoGitCompareOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
-
 import Tooltip from '@mui/material/Tooltip';
+import Navigation from "./Navigation";
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -23,7 +22,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Header = () => {
   return (
-    <header >
+    <header className="bg-white" >
         <div className="top-strip py-2 border-t-[1px] border-gray-300 border-b-[1px] ">
 
         <div className="container">
@@ -50,7 +49,7 @@ const Header = () => {
 
         </div>
         </div>
-        <div className="header py-3">
+        <div className="header py-4 border-b-[1px] border-gray-300 ">
             <div className="container flex items-center justify-between">
                 <div className="col1 w-[25%]">
                     <Link to={'/'}><img src="/logo.jpg" alt="logo" /></Link>
@@ -102,6 +101,8 @@ const Header = () => {
                 </div>
             </div>
         </div>
+        <Navigation/>
+
 
 
     </header>
