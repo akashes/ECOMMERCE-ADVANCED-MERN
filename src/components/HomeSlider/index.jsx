@@ -34,16 +34,17 @@ const HomeSlider = () => {
           disableOnInteraction: false,
         }}
  className="sliderHome">
-        <SwiperSlide>
-          <div className="item rounded-[20px] overflow-hidden">
-          <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129443/banner1_ssgz0l.jpg" loading='lazy' alt="Banner - Big Fab Sale Upto 50% off " className='w-full' />
-
-          </div>
-        </SwiperSlide>
+        
         <SwiperSlide>
           <div className="item rounded-[20px] overflow-hidden">
 
           <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129059/Banner6_f3poie.jpg" loading='lazy' alt="Banner-Deals Starting from 499 " className='w-full' />
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className="item rounded-[20px] overflow-hidden">
+          <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129443/banner1_ssgz0l.jpg" loading='lazy' alt="Banner - Big Fab Sale Upto 50% off " className='w-full' />
+
           </div>
         </SwiperSlide>
         <SwiperSlide>

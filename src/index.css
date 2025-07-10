@@ -51,14 +51,12 @@ nav ul button:hover{
   background: none!important;
 }
 
-/* banner */
-
-
+/* Home Slider or Banner */
 .sliderHome{
   overflow: inherit !important;
 
 }
-.swiper-button-prev,.swiper-button-next{
+ .swiper-button-prev,.swiper-button-next{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,7 +68,74 @@ nav ul button:hover{
   box-shadow: 0 1px 3px #0000001f,0 1px 2px #0000003d !important;
 }
 
+
 .swiper-button-prev:after,.swiper-button-next:after{
   font-size: 22px !important;
   color:#000
+}
+
+
+/* category slider component */
+
+.homeCatSlider{
+  overflow: inherit !important;
+}
+.homeCatSlider .swiper-button-prev,
+.homeCatSlider .swiper-button-next {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* styling navigation arrows */
+.homeCatSlider .swiper-button-prev:after,
+.homeCatSlider .swiper-button-next:after{
+  font-size: 16px !important;
+}
+
+
+/* showing navigation only when hovering */
+.homeCatSlider:hover .swiper-button-prev,
+.homeCatSlider:hover .swiper-button-next {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.homeCatSlider .swiper-button-prev{
+  left:-6px !important;
+}
+
+.homeCatSlider .swiper-button-next{
+  right:-6px !important;
+}
+
+/* hover styles for both home slider and category slider */
+ .swiper-button-prev:hover ,
+ .swiper-button-next:hover{
+  background-color:#ff5252 !important;
+}
+
+ .swiper-button-prev:hover::after,
+ .swiper-button-next:hover::after
+{
+  color:#fff !important;
+}
+
+
+
+
+
+.homeCatSlider .swiper{
+  overflow:visible !important;
+}
+
+.homeCatSlider .item{
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.homeCatSlider .item:hover img{
+  transform: scale(1.1);
 }
