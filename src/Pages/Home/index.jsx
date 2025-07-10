@@ -1,10 +1,10 @@
 import React from 'react'
-
+import HomeSlider from '../../components/HomeSlider'
 const Home = () => {
   return (
-    <div className=''>
-      home
-    </div>
+   <>
+   <HomeSlider/>
+   </>
   )
 }
 

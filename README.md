@@ -15,3 +15,8 @@ If you are developing a production application, we recommend using TypeScript wi
 
 # Ecommerce Project
 
+## packages used
+-tailwind
+-react icons 
+-mui //for components not icons 
+-slick slider
