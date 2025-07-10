@@ -12,7 +12,8 @@
 
 @layer base{
   :root{
-    --primary:#ff5252
+    --primary:#ff5252;
+
   }
 }
 
@@ -25,6 +26,20 @@ body{
 
     overflow-x: hidden;
 }
+
+::-webkit-scrollbar{
+  width: 8px !important;
+  height: 8px !important;
+}
+::-webkit-scrollbar-thumb{
+  background-color: var(--primary);
+    border-radius: 4px;
+
+}
+::-webkit-scrollbar-track{
+  background-color: #fff;
+}
+
 
 .container{
   width: 95%;
@@ -138,4 +153,24 @@ nav ul button:hover{
 
 .homeCatSlider .item:hover img{
   transform: scale(1.1);
+}
+
+
+.ads-banner-slider .swiper-button-prev,
+.ads-banner-slider .swiper-button-next{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 100%;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  
+  
+}
+
+.ads-banner-slider .swiper-button-prev:after,
+.ads-banner-slider .swiper-button-next:after{
+  font-size: 16px !important;
 }
