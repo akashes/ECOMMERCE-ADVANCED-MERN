@@ -10,12 +10,12 @@ import { Navigation } from 'swiper/modules';
 import BannerBox from '../BannerBox';
 
 
-const AdsBannerSlider = ({itemCount}) => {
+const AdsBannerSlider = ({itemsCount}) => {
   return (
    <div className='py-5 w-full ads-banner'>
    <Swiper
      
-           slidesPerView={itemCount}
+           slidesPerView={itemsCount}
            spaceBetween={10}
            navigation={true}
            modules={[Navigation]}

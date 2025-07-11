@@ -33,7 +33,7 @@ const ProductItem = () => {
           z-50 flex items-center gap-2 flex-col w-[50px] transition-all ease-in-out duration-300
           opacity-0 group-hover:opacity-100
            ">
-                <Tooltip title="Quick View" placement="right">
+                <Tooltip title="Quick View" placement="left">
             <Button className='  !w-[35px] !h-[35px] !min-w-[35px] group !rounded-full !bg-white
              
               hover:!bg-primary hover:!text-white '>
@@ -41,14 +41,14 @@ const ProductItem = () => {
             </Button>
             </Tooltip>
 
-                <Tooltip title="Compare" placement="right">
+                <Tooltip title="Compare" placement="left">
 
             <Button className='!w-[35px] !h-[35px] !min-w-[35px] group !rounded-full !bg-white  hover:!bg-primary hover:!text-white'>
                 <IoGitCompareOutline className=' action-icon text-[18px] text-black hover:text-white transition-colors'/>
             </Button>
                 </Tooltip>
 
-                <Tooltip title="Add To Wishlist" placement="right">
+                <Tooltip title="Add To Wishlist" placement="left">
 
             <Button className='!w-[35px] !h-[35px] !min-w-[35px] group !rounded-full !bg-white hover:!bg-primary
              hover:!text-white

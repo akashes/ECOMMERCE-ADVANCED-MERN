@@ -21,7 +21,7 @@ const openCategoryPanel=(val)=>{
 
   return (  
     <>
-    <nav className="py-2">
+    <nav className="">
        
         <div className="container flex items-center justify-end  gap-8">
             <div className="col_1 w-[20%]">
@@ -37,7 +37,7 @@ const openCategoryPanel=(val)=>{
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
                         <Button className=" font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)]
+                        hover:!text-[var(--primary)] !py-4
                         ">
 
                         Home
@@ -47,7 +47,7 @@ const openCategoryPanel=(val)=>{
                     <li className="list-none relative">
                         <Link to='/' className="link text-[14px] font-[500] ">
                           <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)]
+                        hover:!text-[var(--primary)] !py-4
                         ">
 
                         Fashion
@@ -125,7 +125,7 @@ const openCategoryPanel=(val)=>{
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
                          <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)]
+                        hover:!text-[var(--primary)] !py-4
                         ">
                         Electronics
                         </Button>
@@ -135,7 +135,7 @@ const openCategoryPanel=(val)=>{
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
                          <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)]
+                        hover:!text-[var(--primary)] !py-4
                         ">Bags</Button>
                         </Link>
                         
@@ -143,31 +143,31 @@ const openCategoryPanel=(val)=>{
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
                          <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)]
+                        hover:!text-[var(--primary)] !py-4
                         ">Footwear</Button></Link>
                     </li>
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
                          <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)]
+                        hover:!text-[var(--primary)] !py-4
                         ">Groceries</Button></Link>
                     </li>
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
                          <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)]
+                        hover:!text-[var(--primary)] !py-4
                         ">Beauty</Button></Link>
                     </li>
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
                          <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)]
+                        hover:!text-[var(--primary)] !py-4
                         ">Wellness</Button></Link>
                     </li>
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
                          <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)]
+                        hover:!text-[var(--primary)] !py-4
                         ">Jewellery</Button>
                         </Link>
                     </li>
