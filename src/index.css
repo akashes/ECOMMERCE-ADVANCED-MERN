@@ -174,3 +174,22 @@ nav ul button:hover{
 .ads-banner-slider .swiper-button-next:after{
   font-size: 16px !important;
 }
+
+
+/* tabs section */
+
+/* tabs underline */
+.MuiTabs-indicator{
+  background-color: var(--primary) !important;
+}
+
+.MuiTab-textColorPrimary.Mui-selected{
+  color:var(--primary) !important;
+}
+
+/* swipper-wrapper is overflow:hidden by default , so applying padding to see the shadow of product card */
+.productsSlider .swiper-wrapper{
+  padding: 15px;
+  margin-left: -15px;
+  margin-right: -15px;
+}
