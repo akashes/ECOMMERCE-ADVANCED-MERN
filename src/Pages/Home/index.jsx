@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HomeSlider from '../../components/HomeSlider'
 import HomeCatSlider from '../../components/HomeCatSlider'
 
@@ -21,10 +21,13 @@ import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import BlogItem from '../../components/BlogItem';
 import Footer from '../../components/Footer';
+import HomeSliderV2 from '../../components/HomeSliderV2';
+import BannerBoxV2 from '../../components/BannerBoxV2';
 
 
 
 const Home = () => {
+ 
 
     const [value, setValue] = React.useState(0);
 
@@ -36,6 +39,20 @@ const Home = () => {
   return (
    <>
    <HomeSlider/>
+   <section className='py-6'>
+    <div className="container flex   gap-5  ">
+      <div className="section1 w-[70%]    ">
+
+      <HomeSliderV2  />
+      </div>
+      <div className="section2 w-[30%] flex flex-col justify-between items-center gap-5  " 
+      >
+        <BannerBoxV2 info="left" src={"https://res.cloudinary.com/dllelmzim/image/upload/v1752300372/1741664496923_1737020250515_New_Project_47_rsj6yc.jpg"}  />
+        <BannerBoxV2 info="right" src={"https://res.cloudinary.com/dllelmzim/image/upload/v1752300372/1741664665391_1741497254110_New_Project_50_fwovj5.jpg"} />
+      </div>
+
+    </div>
+   </section>
    <HomeCatSlider/>
 
    {/* shows products by category using tabs */}
