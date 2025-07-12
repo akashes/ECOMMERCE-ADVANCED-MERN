@@ -23,6 +23,7 @@ import BlogItem from '../../components/BlogItem';
 import Footer from '../../components/Footer';
 import HomeSliderV2 from '../../components/HomeSliderV2';
 import BannerBoxV2 from '../../components/BannerBoxV2';
+import AdsBannerSliderV2 from '../../components/AdsBannerSliderV2';
 
 
 
@@ -89,6 +90,7 @@ const Home = () => {
   {/* ads banners section with multiple views */}
    <section className='py-4 pt-2  bg-white '>
     <div className="container">
+      {/* free shipping info section */}
       <div className="freeShipping w-[80%] mx-auto  p-4 border-2 border-[var(--primary)] flex items-center justify-between rounded-md mb-5 cursor-pointer ">
         <div className="col1 flex items-center gap-4">
         <LiaShippingFastSolid className='text-[50px]'/>
@@ -105,7 +107,10 @@ const Home = () => {
 
       </div>
 
-   <AdsBannerSlider itemsCount={4}/>
+
+
+
+   <AdsBannerSliderV2 itemsCount={4}/>
     </div>
    
 
