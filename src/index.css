@@ -13,6 +13,9 @@
 @layer base{
   :root{
     --primary:#ff5252;
+    /* --secondary:#26c6da; */
+    --secondary:#ffc107;
+    --tertiary:#e0e0e0;
 
   }
 }
@@ -52,6 +55,14 @@ body{
   font-weight: 500 !important;
   font-size: 16px !important;
 
+}
+.btn-org:hover{
+  background-color: #171717 !important;
+  color: white !important;
+}
+/* MUI checkbox padding  */
+.MuiCheckbox-root{
+  padding: 6px !important;
 }
 
 
@@ -211,3 +222,15 @@ footer form input::placeholder{
   font-size: 13px !important;
   color: rgba(0, 0, 0, 0.8);
 }
+
+ .itemViewActions button.active svg{
+  color: var(--primary) !important;
+  opacity: 1 !important;
+
+}
+
+.Mui-selected.MuiPaginationItem-page{
+  background-color: var(--primary) !important;
+  color: #fff !important;
+}
+
