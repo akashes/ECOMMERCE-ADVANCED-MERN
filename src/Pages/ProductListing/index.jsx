@@ -137,7 +137,7 @@ const ProductListing = () => {
                 {
                     itemView === 'grid'?
                     <> 
-                    <ProductItem/>
+                    <ProductItem />
                 <ProductItem/>
                 <ProductItem/>
                 <ProductItem/>

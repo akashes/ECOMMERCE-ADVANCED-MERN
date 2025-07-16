@@ -16,7 +16,7 @@ const ProductItem = () => {
   return (
     <div className='productItem rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)]  '>
       <div className='imaWrapper w-[100%]  rounded-t-md overflow-hidden relative group'>
-        <Link to='/'>
+        <Link to='/productDetails'>
 
         <div className="img h-[220px] overflow-hidden">
         <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752164841/1742463096955_hbhb1_pf1tig.jpg" 
@@ -61,7 +61,7 @@ const ProductItem = () => {
 
       </div>
       <div className="info p-3 py-5  ">
-        <h6 className='text-[13px]'>
+        <h6 className='text-[13px] !font-[400]'>
             <Link to='/' className='link'>
             Solyent Green
             </Link>

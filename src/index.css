@@ -25,7 +25,7 @@ body{
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
     background-color: #f5f0f0;
-    color:rgba(0, 0, 0, 0.9);
+    color:#3e3e3e;
 
     overflow-x: hidden;
 }
@@ -43,12 +43,45 @@ body{
   background-color: #fff;
 }
 
+/* Chrome, Safari, Edge */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* another way to hide arrows in number input */
+/* input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+} */
 
 .container{
   width: 95%;
   margin: auto;
 
 }
+p{
+  font-size: 14px;
+  line-height: 25px;
+  margin-bottom: 10px;
+}
+h1,h2,h3,h4,h5,h6{
+  font-weight: 600;
+}
+span{
+  user-select: none;
+}
+ 
+
+
 .btn-org{
   background-color: var(--primary) !important;
   color: #fff !important;
@@ -194,7 +227,7 @@ nav ul button:hover{
 }
 
 
-/* tabs section */
+/* tabs section / popular products slider section */
 
 /* tabs underline */
 .MuiTabs-indicator{
@@ -223,6 +256,7 @@ footer form input::placeholder{
   color: rgba(0, 0, 0, 0.8);
 }
 
+/* grid and list view buttons styling */
  .itemViewActions button.active svg{
   color: var(--primary) !important;
   opacity: 1 !important;
@@ -232,5 +266,58 @@ footer form input::placeholder{
 .Mui-selected.MuiPaginationItem-page{
   background-color: var(--primary) !important;
   color: #fff !important;
+}
+
+
+/* productDetails page  */
+.zoomProductSliderThumbs  .swiper-slide{
+  height: auto !important;
+  /* height: 150px !important; */
+}
+
+
+.zoomProductSliderThumbs .swiper-wrapper{
+  padding-top: 38px !important;
+  
+}
+
+
+.zoomProductSliderThumbs .swiper-button-prev{
+ top: 20px !important;
+ left:0px  !important;
+  width: 100% !important;
+ height: 30px !important;
+ border-radius: 0px !important;
+}
+.zoomProductSliderThumbs .swiper-button-next{
+ bottom: 0px !important;
+ right: inherit !important;
+ top: inherit !important;
+ width: 100% !important;
+ height: 30px !important;
+ border-radius: 0px !important;
+
+}
+.zoomProductSliderThumbs .swiper-button-prev::after{
+  transform: rotate(90deg);
+}
+
+.zoomProductSliderThumbs .swiper-button-next::after{
+  transform: rotate(90deg) !important;
+}
+
+/* making main product image in productDetails rounded */
+.iiz div{
+  border-radius: 10px !important;
+  overflow: hidden !important;
+}
+
+/* review section */
+.reviewsContainer::-webkit-scrollbar{
+  width: 4px !important;
+}
+.reviewsContainer::-webkit-scrollbar-thumb{
+  background-color: var(--tertiary) !important;
+
 }
 
