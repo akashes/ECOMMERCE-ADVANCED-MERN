@@ -13,8 +13,11 @@ import Tooltip from '@mui/material/Tooltip';
 import { MdOutlineShoppingCart } from "react-icons/md";
 
 
-
+import { useContext } from 'react';
+import { MyContext } from '../../App';
 const ProductsItemListView = () => {
+    const {setOpenProductDetailsModal} = useContext(MyContext)
+  
   return (
     <div className='productItem rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)] flex items-center  '>
       <div className='imaWrapper w-[25%]  rounded-t-md overflow-hidden relative group'>
@@ -38,7 +41,9 @@ const ProductsItemListView = () => {
                 <Tooltip title="Quick View" placement="left">
             <Button className='  !w-[35px] !h-[35px] !min-w-[35px] group !rounded-full !bg-white
              
-              hover:!bg-primary hover:!text-white '>
+              hover:!bg-primary hover:!text-white '
+              onClick={()=>setOpenProductDetailsModal(true)}
+              >
                 <MdZoomOutMap className='action-icon w-full h-full text-[18px] text-black hover:text-white  transition-colors'/>
             </Button>
             </Tooltip>

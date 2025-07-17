@@ -321,3 +321,6 @@ footer form input::placeholder{
 
 }
 
+.productDetailsModal .MuiDialogContent-root{
+  padding: 0px !important;
+}
