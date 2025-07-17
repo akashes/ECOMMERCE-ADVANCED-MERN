@@ -347,3 +347,8 @@ input[type="password"]::-webkit-textfield-decoration-container {
 }
 
 
+
+
+#size-menu .MuiButtonBase-root{
+  font-size: 12px !important;
+}

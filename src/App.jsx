@@ -24,6 +24,7 @@ import Register from './Pages/Register'
 import Drawer from '@mui/material/Drawer';
 
 import { MdOutlineDelete } from "react-icons/md";
+import CartPage from './Pages/Cart'
 
 
 
@@ -32,7 +33,7 @@ export const MyContext=createContext();
 const App = () => {
 
 
-  const [openCartPanel,setOpenCartPanel]=useState(true)
+  const [openCartPanel,setOpenCartPanel]=useState(false)
   
   const toggleCartPanel = (newOpen) => () => {
     setOpenCartPanel(newOpen);
@@ -68,6 +69,7 @@ const App = () => {
         <Route path='/productDetails/:id' element={<ProductDetails/>}  />
         <Route path='/login' element={<Login/>}  />
         <Route path='/register' element={<Register/>}  />
+        <Route path='/cart' element={<CartPage/>}  />
       </Routes>
        <Footer/>
 
