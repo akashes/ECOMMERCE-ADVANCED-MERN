@@ -93,6 +93,9 @@ span{
   background-color: #171717 !important;
   color: white !important;
 }
+.btn-lg{
+  padding: 8px 20px !important;
+}
 /* MUI checkbox padding  */
 .MuiCheckbox-root{
   padding: 6px !important;
@@ -324,3 +327,15 @@ footer form input::placeholder{
 .productDetailsModal .MuiDialogContent-root{
   padding: 0px !important;
 }
+
+
+
+/* login form */
+/* removes default eye icon from input */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none !important;
+}
+

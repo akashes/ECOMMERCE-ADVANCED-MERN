@@ -19,6 +19,8 @@ import ProductZoom from './components/ProductZoom'
 
 import { IoClose } from "react-icons/io5";
 import ProductInfo from './components/ProductInfo'
+import Login from './Pages/Login'
+import Register from './Pages/Register'
 
 export const MyContext=createContext();
 
@@ -50,6 +52,8 @@ const App = () => {
         <Route path='/' element={<Home/>}  />
         <Route path='/productListing' element={<ProductListing/>}  />
         <Route path='/productDetails/:id' element={<ProductDetails/>}  />
+        <Route path='/login' element={<Login/>}  />
+        <Route path='/register' element={<Register/>}  />
       </Routes>
        <Footer/>
 
