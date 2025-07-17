@@ -339,3 +339,11 @@ input[type="password"]::-webkit-textfield-decoration-container {
   display: none !important;
 }
 
+
+
+/* cart drawer/panel */
+.carPanel .MuiPaper-root{
+  width:400px
+}
+
+
