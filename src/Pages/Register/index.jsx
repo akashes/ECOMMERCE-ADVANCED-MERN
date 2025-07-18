@@ -20,17 +20,17 @@ const Register = () => {
                     {/* name input */}
                     <div className="form-group w-full mb-5">
 
-                <TextField className='w-full' id="name" label="Full Name" variant="outlined" type='email' />
+                <TextField className='w-full input-ele' id="name" label="Full Name" variant="outlined" type='email' />
                     </div>
                     {/* email input */}
                     <div className="form-group w-full mb-5">
 
-                <TextField className='w-full' id="email" label="Email Id" variant="outlined" type='email' />
+                <TextField className='w-full input-ele' id="email" label="Email Id" variant="outlined" type='email' />
                     </div>
                    {/* password input */}
                     <div className="form-group w-full mb-5 relative">
 
-                <TextField className='w-full' id="password" label="Password" variant="outlined" type={showPassword?'text':'password'}
+                <TextField className='w-full input-ele' id="password" label="Password" variant="outlined" type={showPassword?'text':'password'}
                 />
                     <Button type='button' className='!absolute right-3 top-[50%] -translate-y-[50%] !text-black !w-[35px] !min-w-[35px] !rounded-full opacity-75'
                     onClick={()=>setShowPassword(!showPassword)}

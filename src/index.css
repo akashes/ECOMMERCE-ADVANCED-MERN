@@ -348,7 +348,17 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
 
 
-
+ /* MUI menu component for size and quantity in cartPage,  forcing font size */
 #size-menu .MuiButtonBase-root{
   font-size: 12px !important;
+}
+
+
+/* forcing black color on MUI inputs on focus */
+.input-ele .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: black !important;
+}
+
+.input-ele label.Mui-focused {
+  color: gray !important;
 }

@@ -25,6 +25,11 @@ import Drawer from '@mui/material/Drawer';
 
 import { MdOutlineDelete } from "react-icons/md";
 import CartPage from './Pages/Cart'
+import Verify from './Pages/Verify'
+
+import  { Toaster } from 'react-hot-toast';
+import ForgotPassword from './Pages/ForgotPassword'
+
 
 
 
@@ -51,11 +56,16 @@ const App = () => {
          setOpenProductDetailsModal(false);
         };
         
+        // const openAlertBox=(status)=>{
+        //   toast(status)
+        // }
         
         const values={
           setOpenProductDetailsModal,
-          setOpenCartPanel
+          setOpenCartPanel,
+          // openAlertBox, //passing function for toast using context //may change later 
         }
+
      
   return (
     <>
@@ -70,6 +80,8 @@ const App = () => {
         <Route path='/login' element={<Login/>}  />
         <Route path='/register' element={<Register/>}  />
         <Route path='/cart' element={<CartPage/>}  />
+        <Route path='/verify' element={<Verify/>}  />
+        <Route path='/forgot-password' element={<ForgotPassword/>}  />
       </Routes>
        <Footer/>
 
@@ -301,6 +313,8 @@ const App = () => {
         </div>
       </Drawer>
     </BrowserRouter>
+          <Toaster />
+
 
     </>
   )
