@@ -29,6 +29,7 @@ import Verify from './Pages/Verify'
 
 import  { Toaster } from 'react-hot-toast';
 import ForgotPassword from './Pages/ForgotPassword'
+import Checkout from './Pages/Checkout'
 
 
 
@@ -82,6 +83,7 @@ const App = () => {
         <Route path='/cart' element={<CartPage/>}  />
         <Route path='/verify' element={<Verify/>}  />
         <Route path='/forgot-password' element={<ForgotPassword/>}  />
+        <Route path='/checkout' element={<Checkout/>}  />
       </Routes>
        <Footer/>
 
@@ -304,8 +306,12 @@ const App = () => {
               <Button className='btn-org btn-lg w-[50%]'>
                 View Cart
               </Button>
-              <Button className='btn-org btn-lg w-[50%]'>
+              <Button className='btn-org btn-lg w-[50%]' >
+                <Link to='/checkout'>
+                
                 Checkout
+                </Link>
+
               </Button>
             </div>
           </div>
