@@ -374,3 +374,9 @@ input[type="password"]::-webkit-textfield-decoration-container {
 .input-ele label.Mui-focused {
   color: gray !important;
 }
+
+
+/* adding width to header account menu */
+#account-menu .MuiPaper-root{
+  width:200px !important;
+}

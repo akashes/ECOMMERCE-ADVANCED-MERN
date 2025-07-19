@@ -37,6 +37,7 @@ import Checkout from './Pages/Checkout'
 export const MyContext=createContext();
 
 const App = () => {
+  const[isLogin,setIsLogin]=useState(true)
 
 
   const [openCartPanel,setOpenCartPanel]=useState(false)
@@ -65,6 +66,8 @@ const App = () => {
           setOpenProductDetailsModal,
           setOpenCartPanel,
           // openAlertBox, //passing function for toast using context //may change later 
+          isLogin,
+          setIsLogin
         }
 
      
@@ -84,6 +87,7 @@ const App = () => {
         <Route path='/verify' element={<Verify/>}  />
         <Route path='/forgot-password' element={<ForgotPassword/>}  />
         <Route path='/checkout' element={<Checkout/>}  />
+        <Route path='/my-account' element={<Checkout/>}  />
       </Routes>
        <Footer/>
 
