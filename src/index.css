@@ -16,6 +16,7 @@
     /* --secondary:#26c6da; */
     --secondary:#ffc107;
     --tertiary:#e0e0e0;
+    --primary-lighter:#ff7a7a;
 
   }
 }
@@ -108,9 +109,34 @@ span{
 .btn-lg{
   padding: 8px 20px !important;
 }
+.btn-sm{
+  font-size: 12px !important;
+  padding: 5px 10px !important;
+}
+.btn-org.btn-border{
+  background: none !important;
+  border: 1px solid var(--primary) !important;
+  color: var(--primary) !important;
+
+}
+.btn-org.btn-border:hover{
+  background-color: #171717 !important;
+  color: #fff !important;
+outline: white !important;
+  border: white !important;
+
+}
 /* MUI checkbox padding  */
+
+
 .MuiCheckbox-root{
   padding: 6px !important;
+}
+
+
+/* forcing black border on MUI input elements on focus , delete is if not working */
+.MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: rgb(145, 132, 132) !important;
 }
 
 

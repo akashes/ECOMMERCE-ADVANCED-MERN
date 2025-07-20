@@ -178,6 +178,8 @@ const Header = () => {
         </MenuItem>
         </Link>
       
+        <Link to='/my-orders'>
+        
         <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
         <IoBagCheck/>
         <span className="text-[14px]">
@@ -185,6 +187,10 @@ const Header = () => {
         Orders
         </span>
         </MenuItem>
+        </Link>
+        
+        <Link to='/my-list'>
+
         <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
         <IoHeartSharp/>
         <span className="text-[14px]">
@@ -192,6 +198,11 @@ const Header = () => {
         My List
         </span>
         </MenuItem>
+        </Link>
+
+
+        <Link to='/address'>
+
         <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
         <BiSolidMap/>
         <span className="text-[14px]">
@@ -199,6 +210,8 @@ const Header = () => {
         Address
         </span>
         </MenuItem>
+        </Link>
+
         <Divider/>
         <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
         <IoLogOut/>
