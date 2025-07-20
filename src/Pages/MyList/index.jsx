@@ -48,15 +48,7 @@ const MyList = () => {
   </section>
 
 
-    // <section className="section py-10 ">
-    //   <div className="container w-[80%] max-w-[80%] flex gap-5 ">
-    //     <div className="leftSection w-[70%] m-auto">
-         
-        
-    //     </div>
-      
-    //   </div>
-    // </section>
+
   );
 };
 
