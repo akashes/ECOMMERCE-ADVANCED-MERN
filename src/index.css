@@ -394,7 +394,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
 /* forcing black color on MUI inputs on focus */
 .input-ele .MuiOutlinedInput-root.Mui-focused fieldset {
-  border-color: black !important;
+  border-color: rgb(97, 91, 91) !important;
 }
 
 .input-ele label.Mui-focused {

@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import Header from './components/Header'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import Home from './Pages/Home'
@@ -33,15 +33,17 @@ import Checkout from './Pages/Checkout'
 import MyAccount from './Pages/MyAccount'
 import MyList from './Pages/MyList'
 import Orders from './Pages/Orders'
+import axios from 'axios'
 
 
 
 export const MyContext=createContext();
 
+axios.defaults.withCredentials=true
+
 const App = () => {
-  const[isLogin,setIsLogin]=useState(true)
 
-
+  // const[isLogin,setIsLogin]=useState(false)
   const [openCartPanel,setOpenCartPanel]=useState(false)
   
   const toggleCartPanel = (newOpen) => () => {
@@ -68,9 +70,20 @@ const App = () => {
           setOpenProductDetailsModal,
           setOpenCartPanel,
           // openAlertBox, //passing function for toast using context //may change later 
-          isLogin,
-          setIsLogin
+          // isLogin,
+          // setIsLogin
         }
+
+        // useEffect(()=>{
+
+        //   const token=localStorage.getItem('accessToken')
+        //   if(token!==null && token!==undefined && token!==''){
+        //     setIsLogin(true)
+        //   }else{
+        //     setIsLogin(false)
+        //   }
+
+        // },[isLogin])
 
      
   return (
@@ -92,6 +105,7 @@ const App = () => {
         <Route path='/my-account' element={<MyAccount/>}  />
         <Route path='/my-list' element={<MyList/>}  />
         <Route path='/my-orders' element={<Orders/>}  />
+        <Route path='/request-otp' element={<p>request otp</p>}/>
       </Routes>
        <Footer/>
 

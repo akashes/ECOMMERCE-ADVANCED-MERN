@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Search from "../Search"
 
 import Badge from '@mui/material/Badge';
@@ -21,7 +21,6 @@ import { FaRegUser } from "react-icons/fa";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
 
 
 import { FaUserCog } from "react-icons/fa";
@@ -29,6 +28,9 @@ import { BiSolidMap } from "react-icons/bi";
 import { IoBagCheck } from "react-icons/io5";
 import { IoHeartSharp } from "react-icons/io5";
 import { IoLogOut } from "react-icons/io5";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
+import {  postData } from "../../utils/api.js";
+import { showError, showSuccess } from "../../utils/toastUtils.js";
 
 
 
@@ -43,10 +45,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Header = () => {
-
-
-
-
+  const navigate = useNavigate()
 
     const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -58,12 +57,25 @@ const Header = () => {
   };
 
 
+const handleLogout=async()=>{
+  handleClose()
+  const result = await postData('/api/user/logout')
+  if(!result.success){
+    showError(result.message||'Something went wrong')
+    return
+    
+  }
+  //logout success
+  showSuccess(result.message||'Logout successful')
+  authContext.logout()
+
+
+}
 
 
 
 
-
-
+    const authContext = useContext(AuthContext)
     const{setOpenCartPanel,isLogin}=useContext(MyContext)
   return (
     <header className="bg-white" >
@@ -109,7 +121,7 @@ const Header = () => {
                     
                     <ul className="flex items-center justify-end gap-3 w-full">
                         {
-                            isLogin ===false ? (
+                            authContext?.isLogin ===false ? (
                                        <li className="list-none">
                             <Link className="link transition ease-in-out duration-300 text-[15px] font-[500]" to='/login' >Login</Link>  | &nbsp;
                              <Link className="link transition ease-in-out duration-300 text-[15px] font-[500]" to='/register'>Register</Link>
@@ -213,9 +225,11 @@ const Header = () => {
         </Link>
 
         <Divider/>
-        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
+        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]"
+        onClick={handleLogout}
+        >
         <IoLogOut/>
-        <span className="text-[15px]">
+        <span className="text-[15px]" >
 
         Logout
         </span>

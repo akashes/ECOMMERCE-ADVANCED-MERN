@@ -1,6 +1,6 @@
 import {toast} from 'react-hot-toast'
 
-export const showSuccess = (msg) => toast.success(msg);
+export const showSuccess = (msg,duration=2000,position='top-center') => toast.success(msg,{position,duration});
 export const showError = (msg) => toast.error(msg);
 export const showWarning = (msg) =>
   toast(msg, {

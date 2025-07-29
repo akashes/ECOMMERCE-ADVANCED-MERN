@@ -3,9 +3,18 @@ import Button  from '@mui/material/Button';
 
 import TextField from '@mui/material/TextField';
 import AccountSidebar from '../../components/AccountSidebar';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
+import { Navigate } from 'react-router-dom';
+
+
+
 
 
 const MyAccount = () => {
+    const authContext = useContext(AuthContext)
+
+    if(!authContext.isLogin) return <Navigate to='/login'/>
   return (  
       <section className="py-10 w-full ">
     <div className="container flex  gap-5

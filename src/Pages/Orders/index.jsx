@@ -166,7 +166,7 @@ const Orders = () => {
 
                 {
                   showProducts===0 && (
-                     <tr >
+                     <tr  >
                   <td colSpan="6" className=" pl-20"  >
                      <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rtl:text-right">
