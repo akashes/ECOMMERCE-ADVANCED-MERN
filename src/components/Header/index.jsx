@@ -68,6 +68,7 @@ const handleLogout=async()=>{
   //logout success
   showSuccess(result.message||'Logout successful')
   authContext.logout()
+  navigate('/')
 
 
 }
@@ -136,8 +137,8 @@ const handleLogout=async()=>{
                                     </Button>
                                     <div className="info flex flex-col items-start">
 
-                                        <h4 className="text-[14px] capitalize font-[500] text-[rgba(0,0,0,0.7)]">Akash es</h4>
-                                        <span className="text-[13px] capitalize font-[400] text-[rgba(0,0,0,0.7)]">akash@gmail.com</span>
+                                        <h4 className="text-[14px] capitalize font-[500] text-[rgba(0,0,0,0.7)]">{authContext?.user?.name}</h4>
+                                        <span className="text-[13px] capitalize font-[400] text-[rgba(0,0,0,0.7)]">{authContext?.user?.email}</span>
 
                                     </div>
 

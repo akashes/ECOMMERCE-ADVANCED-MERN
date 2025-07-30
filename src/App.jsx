@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react'
+import React, {  useContext, useEffect, useState } from 'react'
 import Header from './components/Header'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import Home from './Pages/Home'
@@ -28,12 +28,14 @@ import CartPage from './Pages/Cart'
 import Verify from './Pages/Verify'
 
 import  { Toaster } from 'react-hot-toast';
-import ForgotPassword from './Pages/ForgotPassword'
 import Checkout from './Pages/Checkout'
 import MyAccount from './Pages/MyAccount'
 import MyList from './Pages/MyList'
 import Orders from './Pages/Orders'
 import axios from 'axios'
+import ResetPassword from './Pages/ForgotPassword'
+import PrivateRoute from './components/PrivateRoute'
+import { AuthContext } from './contexts/AuthContext'
 
 
 
@@ -42,6 +44,7 @@ export const MyContext=createContext();
 axios.defaults.withCredentials=true
 
 const App = () => {
+  const{loading}=useContext(AuthContext)
 
   // const[isLogin,setIsLogin]=useState(false)
   const [openCartPanel,setOpenCartPanel]=useState(false)
@@ -86,6 +89,13 @@ const App = () => {
         // },[isLogin])
 
      
+  //         if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <div className="loader"></div> {/* or spinner UI */}
+  //     </div>
+  //   );
+  // }
   return (
     <>
     <BrowserRouter>
@@ -99,10 +109,17 @@ const App = () => {
         <Route path='/login' element={<Login/>}  />
         <Route path='/register' element={<Register/>}  />
         <Route path='/cart' element={<CartPage/>}  />
-        <Route path='/verify' element={<Verify/>}  />
-        <Route path='/forgot-password' element={<ForgotPassword/>}  />
+        <Route path='/verify' element={<Verify resetPassword={false} />}  />
+        <Route path='/verify-reset-password' element={<Verify resetPassword={true}/>}  />
+        <Route path='/reset-password' element={<ResetPassword/>}  />
         <Route path='/checkout' element={<Checkout/>}  />
-        <Route path='/my-account' element={<MyAccount/>}  />
+        
+        <Route path='/my-account' element={
+          <PrivateRoute>
+          <MyAccount/>
+          </PrivateRoute>
+
+          }  />
         <Route path='/my-list' element={<MyList/>}  />
         <Route path='/my-orders' element={<Orders/>}  />
         <Route path='/request-otp' element={<p>request otp</p>}/>

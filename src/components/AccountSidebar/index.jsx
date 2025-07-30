@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { IoMdCloudUpload } from 'react-icons/io'
 import { NavLink } from 'react-router-dom'
 import Button from '@mui/material/Button';
@@ -8,24 +8,90 @@ import { BiSolidMap } from "react-icons/bi";
 import { IoBagCheck } from "react-icons/io5";
 import { IoHeartSharp } from "react-icons/io5";
 import { IoLogOut } from "react-icons/io5";
+import axios from 'axios';
+import { showError, showSuccess } from '../../utils/toastUtils';
+import { AuthContext } from '../../contexts/AuthContext';
+import { uploadImage } from '../../utils/api';
 
 const AccountSidebar = () => {
+    const{user,setUser}=useContext(AuthContext)
+    const[avatar,setAvatar]=useState(user?.avatar?.url || 'https://res.cloudinary.com/dllelmzim/image/upload/v1753808261/user_dhgqbt.png')
+
+    const [isUploading,setIsUploading]=useState(false)
+    const handleImageChange=async(e)=>{
+        const file=e.target.files[0]
+        if(!file) return
+        //checking image type
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+
+        if(!validTypes.includes(file.type)){ 
+            showError('Please select a valid image file')
+            return
+        }
+        setIsUploading(true)
+        try {
+             const formData = new FormData()
+        formData.append('avatar',file)
+
+        // const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/user/upload-avatar`,formData,{
+        //     headers:{
+        //         'Content-Type':'multipart/form-data'
+        //     }
+        // })
+        const res = await uploadImage('/api/user/upload-avatar',formData)
+        console.log(res)
+        if(!res.success){
+            showError(res.data.message||'Something went wrong')
+            return
+        }
+        if(res.success){
+            setAvatar(res.avatar)
+            setUser(prev=>({...prev,avatar:{url:res.avatar}}))
+
+            showSuccess('Avatar updated successfully')
+        }
+            
+        } catch (error) {
+            console.log('upload error',error.response?.data || error.message)
+        }finally{
+            setIsUploading(false)
+        }
+        
+       
+     
+    }
+
+
   return (
      <div className=" bg-gradient-to-tr from-[#ffffff] to-[#e9e9e9] card bg-white shadow-md rounded-md sticky top-[10px] ">
 
                      <div className="w-full p-5 flex items-center justify-center flex-col">
                         {/* image */}
-              <div className='w-[110px] h-[110px] rounded-full bg-gray-200 overflow-hidden mb-4 relative group ring-4 ring-gray-300'>
-              <img src="https://www.bing.com/th/id/OIP.Yd0yOhKDwRsMqsERE0LiKQHaEJ?w=168&h=100&c=8&rs=1&qlt=90&o=6&cb=thwsc4&dpr=1.3&pid=3.1&rm=2" alt="" className='w-full h-full object-cover' />
-              <div className="group-hover:opacity-100 transition-all absolute opacity-0 overlay w-[100%] h-[100%]  top-0 left-0 z-50 bg-[rgba(0,0,0,0.7)] flex items-center justify-center">
-                <IoMdCloudUpload className=' text-white text-[25px]'/>
-                <input type="file" className='absolute top-0 left-0 w-full h-full opacity-0' />
+         <div className={`w-[110px] h-[110px] rounded-full overflow-hidden mb-4 relative group ${isUploading ? 'ring-4 ring-primary animate-pulse' : 'ring-4 ring-gray-300'}`}>
+  <img src={avatar}  alt="avatar" className="w-full h-full object-cover" />
 
-              </div>
-              </div>
+  {/* Spinner Overlay when uploading */}
+  {isUploading && (
+    <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  )}
+
+  {/* Upload Overlay */}
+  <div className="group-hover:opacity-100 transition-all absolute opacity-0 overlay w-full h-full top-0 left-0 z-40 bg-[rgba(0,0,0,0.6)] flex items-center justify-center">
+    <IoMdCloudUpload className="text-white text-[25px]" />
+    <input
+      type="file"
+      className="absolute top-0 left-0 w-full h-full opacity-0"
+      onChange={handleImageChange}
+      disabled={isUploading}
+    />
+  </div>
+</div>
+
               {/* name */}
-              <h3>Akash es</h3>
-              <p className='text-[13px] font-[500] '>akash@gmail.com</p>
+              <h3>{user?.name}</h3>
+              <p className='text-[13px] font-[500] '>{user?.email}</p>
                 
 
                     </div>

@@ -19,6 +19,7 @@ const Login = () => {
     const authContext = useContext(AuthContext)
     const[isLoading,setIsLoading]=useState(false)
     const[showPassword,setShowPassword]=useState(false)
+    const[forgotPasswordMode,setForgotPasswordMode]=useState(false)
     
      const [formFields, setFormFields] = useState({
        email: '',
@@ -26,13 +27,13 @@ const Login = () => {
      })
      const navigate = useNavigate()
      //forgot password
-    const forgotPassword=(e)=>{
+    const forgotPassword=async(e)=>{
         e.preventDefault()
         const email = formFields.email.trim()
 
         // check if empty
         if(email===''){
-            showWarning('Please enter an email address')
+            showWarning('Please enter the email id to reset password')
 
             return;
         }
@@ -44,11 +45,21 @@ const Login = () => {
             return
          }
          //valid email
-         navigate('/verify')
-         showSuccess('OTP sent to your email')
+         localStorage.setItem('verifyEmail',email)
+         setForgotPasswordMode(true)
+        const result = await postData('/api/user/forgot-password', {email})
+        console.log(result)
+        if(!result.success){
+            setForgotPasswordMode(false)
+            showError(result.message || `couldn't send password reset OTP to ${email}`)
+            return
+        }
+
+        setForgotPasswordMode(false)
+         navigate('/verify-reset-password')
+         showSuccess(`Password reset OTP has been sent to ${email}`)
       
        
-
     }
 
     //login
@@ -128,7 +139,7 @@ const Login = () => {
                     
                     
                     </div>
-                    <p  className='link cursor-pointer text-[14px] font-[600] ' onClick={forgotPassword}>Forgot Password?</p>
+                    <Button disabled={forgotPasswordMode}  className={`!capitalize !text-gray-600 link cursor-pointer text-[14px] font-[600] hover:!text-primary ${forgotPasswordMode && 'opacity-70 !text-gray-600 cursor-not-allowed'}`} onClick={ !forgotPasswordMode && forgotPassword}>Forgot Password?</Button>
                     <div className="flex items-center w-full mt-3 mb-3">
                         <Button disabled={isLoading} type='submit' className={`!w-full  btn-org btn-lg ${isLoading && 'opacity-90 cursor-not-allowed'} `}>
                             {isLoading?<CircularProgress size={20} color='inherit'/>:'Login'}
