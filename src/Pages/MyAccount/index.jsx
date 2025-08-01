@@ -13,6 +13,10 @@ import { IoMdEyeOff } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 
 import { Collapse } from "react-collapse";
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
+
+
 
 const MyAccount = () => {
   const authContext = useContext(AuthContext);
@@ -22,11 +26,14 @@ const MyAccount = () => {
   const[oldPassword,setOldPassword]=useState('')
   const[newPassword,setNewPassword]=useState('')
   const[confirmPassword,setConfirmPassword]=useState('')
-  const[formFields,setFormFields]=useState({
-    name:authContext.user.name,
-    phone:authContext.user.mobile
-  })
+  // const[formFields,setFormFields]=useState({
+  //   name:authContext.user.name,
+  //   phone:authContext.user.mobile
+  // })
+  const[phone,setPhone]=useState(authContext.user.mobile|| '')
+  const[name,setName]=useState(authContext.user.name|| '')
 
+  console.log(name,phone)
   const[isChangePasswordFormShow,setIsChangePasswordFormShow]=useState(false)
   const[showOldPassword,setShowOldPassword]=useState(false)
   const[showConfirmPassword,setShowConfirmPassword]=useState(false)
@@ -34,12 +41,11 @@ const MyAccount = () => {
 
   const isPasswordDisabled = !oldPassword || !newPassword || !confirmPassword;
   const updateUser=async(e)=>{
+    console.log('inside update user')
     e.preventDefault()
-    const name = formFields.name
-    const mobile = formFields.phone
 
-    const hasChangedName = name !== authContext.user.name;
-const hasChangedMobile = mobile !== authContext.user.mobile;
+    const hasChangedName = name !== authContext.user?.name;
+const hasChangedMobile = phone !== authContext.user?.mobile;
     //atleast one field should be filled
     if(!hasChangedName && !hasChangedMobile){
         showWarning('Please fill at least one field')
@@ -47,7 +53,7 @@ const hasChangedMobile = mobile !== authContext.user.mobile;
     }
 
 
-      const res=  await putData('/api/user/update-user-details',{name,mobile})
+      const res=  await putData('/api/user/update-user-details',{name,mobile:phone})
       console.log(res)
      if(!res.success){
         showWarning(res.message || 'Something went wrong')
@@ -56,7 +62,7 @@ const hasChangedMobile = mobile !== authContext.user.mobile;
      
      showSuccess(res.message || 'Profile updated successfully')
 
-     authContext.setUser(prev=>({...prev,name,mobile}))
+     authContext.setUser(prev=>({...prev,name,mobile:phone}))
   }
   const handlePasswordUpdate=async(e)=>{
     e.preventDefault()
@@ -108,8 +114,8 @@ const hasChangedMobile = mobile !== authContext.user.mobile;
                     label="Full Name"
                     size="small"
                     disabled={loading}
-                    value={formFields.name}
-                    onChange={(e) => setFormFields({...formFields,name:e.target.value})}
+                    value={name}
+                    onChange={(e)=>setName(e.target.value)}
                   />
                 </div>
                 <div className="w-[50%]">
@@ -126,16 +132,16 @@ const hasChangedMobile = mobile !== authContext.user.mobile;
               </div>
               <div className="flex items-center gap-5 mt-4 ">
                 <div className="w-[50%]">
-                  <TextField
-                    className="w-full"
-                    label="Phone No"
-                    type="number"
-                    variant="outlined"
-                    size="small"
-                    disabled={loading}
-                    value={formFields.phone}
-                    onChange={(e) => setFormFields({...formFields,phone:e.target.value})}
-                  />
+               
+             <div>
+              <div>
+                <PhoneInput
+                  defaultCountry="in"
+                  value={phone}
+                  onChange={(phone) => setPhone(phone)}
+                />
+              </div>
+              </div>
                 </div>
                 {
                !authContext?.user?.verify_email ?

@@ -10,6 +10,7 @@ export const AuthContextProvider  = ({children})=>{
     const[user,setUser]=useState(null)
     const[loading,setLoading]=useState(false)
     const[resetPasswordToken,setResetPasswordToken]=useState(null)
+    const[authChecked,setAuthChecked]=useState(false)
 
      const logout=()=>{
       localStorage.removeItem('accessToken')
@@ -76,6 +77,7 @@ export const AuthContextProvider  = ({children})=>{
       } catch (err) {
         logout();
         setLoading(false);
+        setAuthChecked(true);
         return;
       }
     }
@@ -103,11 +105,13 @@ export const AuthContextProvider  = ({children})=>{
        })
        .finally(()=>{
         setLoading(false)
+        setAuthChecked(true)
        })
     }else{
       //absence or expired token
       logout()
       setLoading(false)
+      setAuthChecked(true)
 
     }
       tryRefreshAndLoadUser();
@@ -125,7 +129,7 @@ export const AuthContextProvider  = ({children})=>{
   }, []);
 console.log(user)
     return(
-        <AuthContext.Provider value={{isLogin,user,setUser,login,logout,resetPasswordToken,setResetPasswordToken,loading,setLoading}}>
+        <AuthContext.Provider value={{isLogin,user,setUser,login,logout,resetPasswordToken,setResetPasswordToken,loading,setLoading,authChecked}}>
             {children}
         </AuthContext.Provider>
     )

@@ -3,11 +3,11 @@ import { AuthContext } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
-  const { isLogin, loading, user } = useContext(AuthContext);
+  const { isLogin, loading, user ,authChecked} = useContext(AuthContext);
 
   console.log("PrivateRoute check →", { loading, isLogin, user });
 
-  if (user===null ||loading) {
+  if (!authChecked ||loading) {
     return (
       <div className="flex justify-center items-center h-screen">
         loading
