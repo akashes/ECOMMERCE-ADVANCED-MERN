@@ -36,12 +36,14 @@ import axios from 'axios'
 import ResetPassword from './Pages/ForgotPassword'
 import PrivateRoute from './components/PrivateRoute'
 import { AuthContext } from './contexts/AuthContext'
+import Address from './Pages/MyAccount/Address'
 
 
 
 export const MyContext=createContext();
 
 axios.defaults.withCredentials=true
+axios.defaults.baseURL=import.meta.env.VITE_API_URL
 
 const App = () => {
   const{loading}=useContext(AuthContext)
@@ -114,6 +116,8 @@ const App = () => {
         <Route path='/reset-password' element={<ResetPassword/>}  />
         <Route path='/checkout' element={<Checkout/>}  />
         
+
+
         <Route path='/my-account' element={
           <PrivateRoute>
           <MyAccount/>
@@ -123,6 +127,7 @@ const App = () => {
         <Route path='/my-list' element={<MyList/>}  />
         <Route path='/my-orders' element={<Orders/>}  />
         <Route path='/request-otp' element={<p>request otp</p>}/>
+        <Route path='/address' element={<Address/>}/>
       </Routes>
        <Footer/>
 

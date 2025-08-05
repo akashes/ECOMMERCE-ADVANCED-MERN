@@ -410,3 +410,24 @@ input[type="password"]::-webkit-textfield-decoration-container {
 .overflow-x-auto::-webkit-scrollbar-thumb{
   background-color: #ccc;
 }
+
+
+.react-international-phone-input{
+  width: 100% !important;
+
+}
+
+
+.react-international-phone-country-selector-button{
+  width: 55px !important;
+}
+.react-international-phone-input-container{
+  border:1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+
+
+.MuiPaper-root.MuiPaper-elevation{
+  width: 400px;
+}
+

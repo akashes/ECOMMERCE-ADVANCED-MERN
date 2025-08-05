@@ -51,6 +51,10 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
         showWarning('Please fill at least one field')
         return
     }
+    if(phone.length>13 || phone.length<13){
+        showWarning('Please enter a valid phone number')
+        return
+    }
 
 
       const res=  await putData('/api/user/update-user-details',{name,mobile:phone})
@@ -133,22 +137,20 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
               <div className="flex items-center gap-5 mt-4 ">
                 <div className="w-[50%]">
                
-             <div>
-              <div>
                 <PhoneInput
+
+                className="!w-full"
                   defaultCountry="in"
                   value={phone}
                   onChange={(phone) => setPhone(phone)}
                 />
-              </div>
-              </div>
                 </div>
                 {
                !authContext?.user?.verify_email ?
                      <div className="w-[50%]">
                   <Button className="!bg-black !text-white ">Verify Email</Button>
                 </div>:
-                <div className="flex  items-center gap-1 ">
+                <div className="flex  items-center gap-1 w-[50%] ">
                     <img className="w-[20px]  align-middle" src="https://res.cloudinary.com/dllelmzim/image/upload/v1753885099/check_fl8d2v.png" alt="" />
                     <p className="!m-0">email verified</p>
                 </div>

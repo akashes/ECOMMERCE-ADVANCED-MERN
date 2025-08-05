@@ -61,6 +61,13 @@ const AccountSidebar = () => {
      
     }
 
+    useEffect(()=>{
+        if(localStorage.getItem('user')){
+            const userDetails = JSON.parse(localStorage.getItem('user'))
+            setAvatar(userDetails.avatar.url)
+        }
+    })
+
 
   return (
      <div className=" bg-gradient-to-tr from-[#ffffff] to-[#e9e9e9] card bg-white shadow-md rounded-md sticky top-[10px] ">

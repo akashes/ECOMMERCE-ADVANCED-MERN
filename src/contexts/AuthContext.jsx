@@ -24,13 +24,16 @@ export const AuthContextProvider  = ({children})=>{
 
     const scheduleRefresh=(token)=>{
       const {exp}=jwtDecode(token)
+      
       if(!exp) throw new Error('Invalid token')
       console.log('expiry',exp)
       const refreshTime = (exp*1000)-Date.now()-30*1000 //30 seconds before expiry
       
       console.log('refresh time',refreshTime)
       refreshTimer=setTimeout(async()=>{
+        console.log('timer reached calling refresh token')
         const newToken = await refreshAccessToken()
+        console.log('new token from timer function',newToken)
         if(newToken){
           console.log('new token got from refresh',newToken)
           localStorage.setItem('accessToken',newToken)
@@ -42,6 +45,8 @@ export const AuthContextProvider  = ({children})=>{
     }
 
     const login=(token,userData)=>{
+      console.log('inside login')
+      console.log(token,userData)
       if(refreshTimer) clearTimeout(refreshTimer)
       localStorage.setItem('accessToken',token)
       localStorage.setItem('user',JSON.stringify(userData))
@@ -56,6 +61,7 @@ export const AuthContextProvider  = ({children})=>{
 
       useEffect(() => {
     const token = localStorage.getItem('accessToken');
+    console.log('token from localstroage',token)
     //trying  to login user if token is present
     const tryRefreshAndLoadUser = async () => {
     setLoading(true);
@@ -89,9 +95,11 @@ export const AuthContextProvider  = ({children})=>{
 
     //get userdetails on refresh if token is valid
     if(token && !isTokenExpired(token)){
+      console.log('token is valid , calling user details')
         setLoading(true)
        fetchDataFromApi('/api/user/user-details')
        .then((res)=>{
+        console.log(res)
 
         if(res.success){
           setIsLogin(true)
