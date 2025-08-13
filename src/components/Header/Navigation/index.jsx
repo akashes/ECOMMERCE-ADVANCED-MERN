@@ -6,11 +6,17 @@ import { GoRocket } from "react-icons/go";
 
 
 import CategoryPanel from "./CategoryPanel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import './style.css'
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMenuCategories } from "../../../features/category/categoryMenuSlice";
 
 const Navigation = () => {
+
+    const{categories}=useSelector(state=>state.category)
+
+    const dispatch = useDispatch()
 const[isOpenCategoryPanel,setIsOpenCategoryPanel]=useState(false)
 
 
@@ -18,6 +24,10 @@ const[isOpenCategoryPanel,setIsOpenCategoryPanel]=useState(false)
 const openCategoryPanel=(val)=>{
    setIsOpenCategoryPanel(val)
 }
+
+useEffect(()=>{
+    dispatch(fetchMenuCategories())
+},[])
 
   return (  
     <>
@@ -44,133 +54,68 @@ const openCategoryPanel=(val)=>{
                         </Button>
                         </Link>
                     </li>
-                    <li className="list-none relative">
+                    {
+                        categories?.length>0  && categories.map((category)=>(
+                                 <li key={category._id} className="list-none relative">
                         <Link to='/' className="link text-[14px] font-[500] ">
                           <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
                         hover:!text-[var(--primary)] !py-4
                         ">
 
-                        Fashion
+                        {category.name}
                         </Button>
                         </Link>
-                        <div className="submenu absolute top-[120%] opacity-0 transition-all  left-[0%] min-w-[150px] bg-white shadow-md">
+                       {
+                        category?.children?.length!==0 && (
+                             <div className="submenu absolute top-[120%] opacity-0 transition-all  left-[0%] min-w-[150px] bg-white shadow-md rounded-md">
                             <ul>
-                                <li className="list-none w-full relative">
+                                {
+                                    category?.children?.length>0 && category.children.map((subCategory)=>(
+                                            <li key={subCategory._id} className="list-none w-full relative">
                                     <Link to='/' className="w-full">
-                                    <Button className="  !text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)]  w-full !justify-start !rounded-none" >Men</Button>
+                                    <Button className="  !text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)]  w-full !justify-start !rounded-none whitespace-nowrap" >{subCategory.name}</Button>
                                      {/* inner submenu */}
-                                       <div className="submenu absolute top-[100%] opacity-0 transition-all  left-[100%] min-w-[150px] bg-white shadow-md ">
+                                     {
+                                        subCategory?.children?.length!==0 &&             <div className="submenu absolute top-[100%] opacity-0 transition-all  left-[100%] min-w-[150px] bg-white shadow-md rounded-md ">
                             <ul>
-                                <li className="list-none w-full">
+                                {
+                                    subCategory?.children?.length>0 && subCategory.children.map((thirdSubCategory)=>(
+                                           <li key={thirdSubCategory._id} className="list-none w-full">
                                     <Link to='/' className="w-full">
-                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full !justify-start !rounded-none" >T-shirt</Button>
+                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full !justify-start !rounded-none whitespace-nowrap" >{thirdSubCategory.name}</Button>
                                     </Link>
                                 </li>
-                                <li className="list-none w-full">
-                                    <Link>
-                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full  !justify-start !rounded-none">Jeans</Button>
-                                    </Link>
-                                </li>
-                                <li className="list-none w-full">
-                                    <Link>
 
-                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full !justify-start !rounded-none">Watch</Button>
-                                    </Link>
-                                </li>
-                                <li className="list-none w-full">
-                                    <Link>
-
-                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full !justify-start !rounded-none">Pants</Button>
-                                    </Link>
-                                </li>
-                                <li className="list-none w-full">
-
-                                    <Link>
-                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full !justify-start !rounded-none">Footwear</Button>
-                                    </Link>
-                                </li>
+                                    ))
+                                }
+                             
+                      
                                
                             </ul>
                         </div>
+                                     }
+                           
                                     </Link>
                        
                                 </li>
-                                <li className="list-none w-full">
-                                    <Link>
-                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full  !justify-start !rounded-none">Women</Button>
-                                    </Link>
-                                </li>
-                                <li className="list-none w-full">
-                                    <Link>
 
-                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full !justify-start !rounded-none">Kids</Button>
-                                    </Link>
-                                </li>
-                                <li className="list-none w-full">
-                                    <Link>
-
-                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full !justify-start !rounded-none">Girls</Button>
-                                    </Link>
-                                </li>
-                                <li className="list-none w-full">
-
-                                    <Link>
-                                    <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full !justify-start !rounded-none">Boys</Button>
-                                    </Link>
-                                </li>
+                                    ))
+                                    
+                                }
+                            
+                        
                                
                             </ul>
                         </div>
+                        )
+                       }
                     </li>
-                    <li className="list-none">
-                        <Link to='/' className="link text-[14px] font-[500] ">
-                         <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)] !py-4
-                        ">
-                        Electronics
-                        </Button>
-                        </Link>
 
-                    </li>
-                    <li className="list-none">
-                        <Link to='/' className="link text-[14px] font-[500] ">
-                         <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)] !py-4
-                        ">Bags</Button>
-                        </Link>
-                        
-                    </li>
-                    <li className="list-none">
-                        <Link to='/' className="link text-[14px] font-[500] ">
-                         <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)] !py-4
-                        ">Footwear</Button></Link>
-                    </li>
-                    <li className="list-none">
-                        <Link to='/' className="link text-[14px] font-[500] ">
-                         <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)] !py-4
-                        ">Groceries</Button></Link>
-                    </li>
-                    <li className="list-none">
-                        <Link to='/' className="link text-[14px] font-[500] ">
-                         <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)] !py-4
-                        ">Beauty</Button></Link>
-                    </li>
-                    <li className="list-none">
-                        <Link to='/' className="link text-[14px] font-[500] ">
-                         <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)] !py-4
-                        ">Wellness</Button></Link>
-                    </li>
-                    <li className="list-none">
-                        <Link to='/' className="link text-[14px] font-[500] ">
-                         <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)] !py-4
-                        ">Jewellery</Button>
-                        </Link>
-                    </li>
+                        ))
+                    }
+               
+                
+             
                   
                 </ul>
 
@@ -184,7 +129,11 @@ const openCategoryPanel=(val)=>{
 
         </div>
     </nav>
-    <CategoryPanel openCategoryPanel={openCategoryPanel}  isOpenCategoryPanel={isOpenCategoryPanel} />
+    {
+        categories?.length!==0 && 
+    <CategoryPanel categories={categories} openCategoryPanel={openCategoryPanel}  isOpenCategoryPanel={isOpenCategoryPanel} />
+
+    }
     </>
 
   )

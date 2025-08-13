@@ -3,11 +3,15 @@ import Drawer from '@mui/material/Drawer';
 
 import { IoCloseSharp } from "react-icons/io5";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CategoryCollapse from '../../CategoryCollapse';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMenuCategories } from '../../../features/category/categoryMenuSlice';
 
 
 const CategoryPanel = (props) => {
+  const{categories}=useSelector(state=>state.category)
+
 
 
     // const openSubmenu=(index)=>{
@@ -25,8 +29,11 @@ const CategoryPanel = (props) => {
     // }
 
 
+
     const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" className='categoryPanel'
+    <Box 
+    // sx={{ width: 250 }}
+     role="presentation" className='categoryPanel px-3'
     //  onClick={()=>props.openCategoryPanel(false)}
      >
         <h3 className='p-3 text-[16px] font-[500] flex items-center justify-between'>
@@ -34,12 +41,16 @@ const CategoryPanel = (props) => {
              <IoCloseSharp onClick={()=>props.openCategoryPanel(false)} className='cursor-pointer text-[20px]' />
                  </h3>
 
-                 <CategoryCollapse/>
+                {
+                  categories.length!==0 &&   <CategoryCollapse />
+                }
+                
                  
    
   
     </Box>
   );
+
 
   return (
    <>

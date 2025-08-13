@@ -352,6 +352,12 @@ footer form input::placeholder{
   border-radius: 10px !important;
   overflow: hidden !important;
 }
+.iiz__img{
+  border-radius: 10px !important;
+  overflow: hidden !important;
+
+
+}
 
 /* review section */
 .reviewsContainer::-webkit-scrollbar{
