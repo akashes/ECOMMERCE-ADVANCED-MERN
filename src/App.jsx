@@ -55,7 +55,11 @@ const App = () => {
     setOpenCartPanel(newOpen);
   };
   
-   const [openProductDetailsModal, setOpenProductDetailsModal] = React.useState(false);
+   const [openProductDetailsModal, setOpenProductDetailsModal] = React.useState({
+    open:false,
+    product:null
+   });
+   console.log(openProductDetailsModal)
    const [maxWidth, setMaxWidth] = useState('lg');
        const [fullWidth, setFullWidth] = useState(true);
        
@@ -64,7 +68,10 @@ const App = () => {
        
        
        const handleCloseProductDetailsModal = () => {
-         setOpenProductDetailsModal(false);
+         setOpenProductDetailsModal({
+          open:false,
+          product:null
+         });
         };
         
         // const openAlertBox=(status)=>{
@@ -135,8 +142,9 @@ const App = () => {
     </MyContext.Provider>
 
       {/* product details modal */}
-     <Dialog
-        open={openProductDetailsModal}
+      {
+        openProductDetailsModal &&  <Dialog
+        open={openProductDetailsModal.open}
         onClose={handleCloseProductDetailsModal}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -154,10 +162,10 @@ const App = () => {
 
             </Button>
               <div className="col1 w-[40%] px-3 py-8">
-                <ProductZoom/>
+                <ProductZoom images={ openProductDetailsModal?.product?.images} />
               </div>
               <div className="col2 w-[60%] py-8 px-8 pr-16 productContent">
-                <ProductInfo/>
+                <ProductInfo product={openProductDetailsModal?.product} />
               </div>
 
             </div>
@@ -165,6 +173,8 @@ const App = () => {
         </DialogContent>
        
       </Dialog>
+      }
+    
 
          {/* cart drawer */}
         <Drawer  open={openCartPanel} onClose={toggleCartPanel(false)} anchor='right' className='carPanel'>

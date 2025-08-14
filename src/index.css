@@ -317,7 +317,7 @@ footer form input::placeholder{
 }
 
 
-.zoomProductSliderThumbs .swiper-wrapper{
+.zoomProductSliderThumbs.space .swiper-wrapper{
   padding-top: 38px !important;
   
 }
@@ -437,3 +437,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
   width: 400px;
 }
 
+.productDetailsModal .MuiDialog-paper{
+  width: 1200px !important;
+  max-width:1200px !important ;
+}

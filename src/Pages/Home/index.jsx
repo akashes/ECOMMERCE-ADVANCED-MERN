@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HomeSlider from '../../components/HomeSlider'
 import HomeCatSlider from '../../components/HomeCatSlider'
 
@@ -23,18 +23,46 @@ import BlogItem from '../../components/BlogItem';
 import HomeSliderV2 from '../../components/HomeSliderV2';
 import BannerBoxV2 from '../../components/BannerBoxV2';
 import AdsBannerSliderV2 from '../../components/AdsBannerSliderV2';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPopularProductsByCategory } from '../../features/popularProducts/popularProducts';
 
 
 
 const Home = () => {
+
+  const dispatch = useDispatch()
+  
+  const{categories}=useSelector(state=>state.category)
+    const { productsByCategory, loading } = useSelector(state => state.popularProducts);
+
  
 
-    const [value, setValue] = React.useState(0);
 
+
+    const [value, setValue] = React.useState(0);
+    //popular products active tab handler
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+
+
+  useEffect(()=>{
+    if(categories.length>0){
+      const categoryId = categories[value]?._id
+      //fetching only if not present in state
+      if(!productsByCategory[categoryId]){
+        dispatch(fetchPopularProductsByCategory(categoryId))
+      }
+    }
+
+  },[value,categories,dispatch])
+
+  const currentCategoryId = categories[value]?._id
+  const popularProducts=productsByCategory[currentCategoryId]||[]
+
+  console.log(currentCategoryId)
+  console.log(popularProducts)
 
   return (
    <>
@@ -58,10 +86,10 @@ const Home = () => {
    {/* shows products by category using tabs */}
    <section className='bg-white py-8 '>
     <div className="container">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between ">
         <div className="leftSec">
           <h2 className='text-[20px] font-[600]'>Popular Products</h2>
-          <p className='text-[14px] font-[400]'>Do not miss out on our most popular products</p>
+          <p className='text-[14px] font-[400] mt-0 mb-0'>Do not miss out on our most popular products</p>
         </div>
         <div className="rightSec w-[60%]">
       <Tabs
@@ -71,18 +99,23 @@ const Home = () => {
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
       >
-        <Tab label="Fashion" />
-        <Tab label="Electronics" />
-        <Tab label="Bags" />
-        <Tab label="Footwear" />
-        <Tab label="Groceries" />
-        <Tab label="Wellness" />
-        <Tab label="Jewellery" />
+        {
+          categories?.length>0 && categories.map((category)=>(
+
+            <Tab key={category._id} label={category.name} />
+          ))
+
+        }
+      
     
       </Tabs>
         </div>
       </div>
-      <ProductsSlider itemsCount={6} />
+      {
+        popularProducts &&
+      <ProductsSlider items={popularProducts} itemsCount={popularProducts?.length} />
+
+      }
     </div>
    </section>
 

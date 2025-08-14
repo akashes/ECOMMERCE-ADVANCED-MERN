@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -10,17 +10,27 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Navigation,Autoplay } from 'swiper/modules';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchHomeSlides } from '../../features/homeSlides';
+
 
 
 
 const HomeSlider = () => {
+
+  const{homeSlides}=useSelector(state=>state.homeSlides)
+  console.log(homeSlides)
+  const dispatch = useDispatch()
    const progressCircle = useRef(null);
   const progressContent = useRef(null);
   const onAutoplayTimeLeft = (s, time, progress) => {
     progressCircle.current.style.setProperty('--progress', 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
+useEffect(()=>{
+  dispatch(fetchHomeSlides())
 
+},[])
   return (
     <div className='homeSlider py-4'>
       <div className="container">
@@ -36,53 +46,18 @@ const HomeSlider = () => {
         }}
  className="sliderHome">
         
-        <SwiperSlide>
+        {
+          homeSlides?.length>0 && homeSlides.map((img)=>(
+               <SwiperSlide>
           <div className="item rounded-[20px] overflow-hidden">
 
-          <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129059/Banner6_f3poie.jpg" loading='lazy' alt="Banner-Deals Starting from 499 " className='w-full' />
+          <img src={img.url} loading='lazy' alt="Banner-Deals Starting from 499 " className='w-full' />
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className="item rounded-[20px] overflow-hidden">
-          <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129443/banner1_ssgz0l.jpg" loading='lazy' alt="Banner - Big Fab Sale Upto 50% off " className='w-full' />
+          ))
+        }
+     
 
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item rounded-[20px] overflow-hidden">
-
-          <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129060/Banner7_jlcaub.jpg" loading='lazy' alt="Banner-Nykaa fashion styled dresses" className='w-full' />
-          </div>
-          
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item rounded-[20px] overflow-hidden">
-
-          <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129060/Banner2_zqtkdk.jpg" loading='lazy' alt="Banner-End of Sale , Upto 50% off" className='w-full' />
-          </div>
-
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item rounded-[20px] overflow-hidden">
-          
-          <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129060/Banner5_ecadru.jpg" loading='lazy' alt="Banner - Poppies on the sea - child Wears" className='w-full' />
-          </div>
-
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item rounded-[20px] overflow-hidden">
-
-          <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129060/Banner3_mndss8.jpg" loading='lazy' alt="Banner - Grocery deals" className='w-full' />
-          </div>
-
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item rounded-[20px] overflow-hidden">
-
-          <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752129060/Banner4_yiwxwa.jpg" loading='lazy' alt="Banner - New Season specific styles " className='w-full' />
-          </div>
-
-        </SwiperSlide>
         
       </Swiper>
       </div>

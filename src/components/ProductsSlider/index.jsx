@@ -14,41 +14,29 @@ import { Link } from 'react-router-dom';
 import ProductItem from '../ProductsItem';
 
 
-const ProductsSlider = ({itemsCount}) => {
+const ProductsSlider = ({items,itemsCount}) => {
   return (
-    <div className='productsSlider py-3'>
+    <div className='productsSlider py-3 '>
           <Swiper
                
-               slidesPerView={itemsCount}
+               slidesPerView={6}
                spaceBetween={10}
                navigation={true}
                modules={[Navigation]}
                className="mySwiper"
              >
-                <SwiperSlide>         
-             <ProductItem/>
+               {
+                  items?.length>0 && items.map((item)=>
+                    (
+                       <SwiperSlide key={item._id}>         
+             <ProductItem item={item} />
                 </SwiperSlide>
-                <SwiperSlide>         
-             <ProductItem/>
-                </SwiperSlide>
-                <SwiperSlide>         
-             <ProductItem/>
-                </SwiperSlide>
-                <SwiperSlide>         
-             <ProductItem/>
-                </SwiperSlide>
-                <SwiperSlide>         
-             <ProductItem/>
-                </SwiperSlide>
-                <SwiperSlide>         
-             <ProductItem/>
-                </SwiperSlide>
-                <SwiperSlide>         
-             <ProductItem/>
-                </SwiperSlide>
-                <SwiperSlide>         
-             <ProductItem/>
-                </SwiperSlide>
+                    )
+
+                  )
+               }
+               
+
 
            
              </Swiper>
