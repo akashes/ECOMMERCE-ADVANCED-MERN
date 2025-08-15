@@ -441,3 +441,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
   width: 1200px !important;
   max-width:1200px !important ;
 }
+
+header{
+  box-shadow: 0px 1px 5px #0000001a;
+}

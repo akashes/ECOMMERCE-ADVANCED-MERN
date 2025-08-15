@@ -21,7 +21,7 @@ const ProductItem = ({item}) => {
 
   return (
     <div className='  productItem rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)]  '>
-      <div className='imaWrapper w-[100%]  rounded-t-md overflow-hidden relative group'>
+      <div className='imgWrapper w-[100%]  rounded-t-md overflow-hidden relative group'>
         <Link to={`/product/${item._id}`}>
 
         <div className="img h-[220px] overflow-hidden">
@@ -84,7 +84,7 @@ const ProductItem = ({item}) => {
         </h6>
         <h3 className='text-[13px] title mt-1 font-[500] text-[#000] mb-1'>
             <Link to={`/product/${item._id}`} className='link'>
-            {item.name}
+            {item.name.substr(0,40)+'...'}
             </Link>
             </h3>
             <Rating name="size-small" defaultValue={item.rating} size="small" readOnly />

@@ -79,7 +79,7 @@ const handleLogout=async()=>{
     const authContext = useContext(AuthContext)
     const{setOpenCartPanel,isLogin}=useContext(MyContext)
   return (
-    <header className="bg-white" >
+    <header className="bg-white sticky top-[-50px] z-100 " >
         <div className="top-strip py-2 border-t-[1px] border-gray-300 border-b-[1px] ">
 
         <div className="container">
