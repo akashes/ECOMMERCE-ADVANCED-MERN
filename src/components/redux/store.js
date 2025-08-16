@@ -7,6 +7,7 @@ import popularProductsByCategoryReducer from '../../features/popularProducts/pop
 import latestProductsReducer from '../../features/latestProducts/latestProducts.js'
 import featuredProductsReducer from '../../features/featuredProducts/featuredProducts.js'
 import bannerV1Reducer from '../../features/bannerV1Slice.js'
+import blogReducer from '../../features/blog/blogSlice.js'
 export const store = configureStore({
   reducer: {
     user:userReducer,
@@ -15,6 +16,7 @@ export const store = configureStore({
     popularProducts:popularProductsByCategoryReducer,
     latestProducts:latestProductsReducer,
     featuredProducts:featuredProductsReducer,
-    bannerV1:bannerV1Reducer
+    bannerV1:bannerV1Reducer,
+    blog:blogReducer
   },
 });

@@ -32,6 +32,7 @@ import { MdOutlineSearchOff } from 'react-icons/md';
 import ProductsSkelton from '../../components/ProductsSkelton';
 import { fetchBannerV1 } from '../../features/bannerV1Slice';
 import AdsBannerSkeletonSlider from '../../components/Skeltons/AdsBannerSkeltonSlider';
+import { getAllBlogs } from '../../features/blog/blogSlice';
 
 
 
@@ -52,6 +53,7 @@ const Home = () => {
     const{latestProducts,loading:latestProductsLoading}=useSelector(state=>state.latestProducts)
     const{featuredProducts,loading:featuredProductsLoading}=useSelector(state=>state.featuredProducts)
     const{banners,loading:adsBannerV1Loading}=useSelector(state=>state.bannerV1)
+    const{blogs,loading:blogsLoading}=useSelector(state=>state.blog)
     console.log(banners)
     
 
@@ -126,6 +128,11 @@ const handleChange = useCallback((event, newValue) => {
 
   useEffect(()=>{
     dispatch(fetchBannerV1())
+
+  },[])
+
+  useEffect(()=>{
+    dispatch(getAllBlogs())
 
   },[])
 
@@ -321,21 +328,17 @@ const handleChange = useCallback((event, newValue) => {
         modules={[Navigation]}
         className="blogSlider "
       >
-        <SwiperSlide>
-          <BlogItem/>
+        {
+          blogs?.length>0 && blogs.map((blog)=>(
+                   <SwiperSlide key={blog._id} >
+          <BlogItem blog={blog} />
         </SwiperSlide>
-        <SwiperSlide>
-          <BlogItem/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <BlogItem/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <BlogItem/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <BlogItem/>
-        </SwiperSlide>
+
+          ))
+        }
+ 
+ 
+
       </Swiper>
       
     </div>
