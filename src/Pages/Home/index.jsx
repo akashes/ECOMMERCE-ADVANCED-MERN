@@ -271,23 +271,24 @@ const handleChange = useCallback((event, newValue) => {
  {/* latest products and ads banner section  */}
    <section ref={latestRef} className="py-5 pt-0 bg-white">
     <div className="container">
-      <h2 className='text-[20px] font-[600]'>Latest Products</h2>
+    
+        
+
+
+        {
+          latestProductsLoading || latestProducts.length>0 &&   <h2 className='text-[20px] font-[600]'>Latest Products</h2>
+        }
+     
        {
           latestProductsLoading ?(
 
             <ProductsSkelton count={6}/>
           )
-          : latestProducts.length>0 ? (
+          : latestProducts.length>0 && (
 
             <ProductsSlider items={latestProducts} itemsCount={6}/>
-          ):(
-            latestTriggered && (
-                     <div className="w-full h-[400px] flex flex-col items-center justify-center text-gray-500 bg-gray-50 rounded-md shadow-sm border border-gray-200">
-      <MdOutlineSearchOff className="text-5xl mb-2" />
-      <p className="text-lg font-medium">No items found</p>
-    </div>
-            )
           )
+   
         }
 
       <AdsBannerSlider itemsCount={3} />

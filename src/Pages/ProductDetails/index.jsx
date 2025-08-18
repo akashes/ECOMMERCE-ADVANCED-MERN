@@ -16,6 +16,7 @@ import ProductInfo from "../../components/ProductInfo";
 
 
 const ProductDetails = () => {
+
     // tabs state  for product details/description/reviews
     const[activeTab,setActiveTab]=useState(0)
   return (
@@ -24,30 +25,36 @@ const ProductDetails = () => {
     <div className="py-5 ">
       <div className="container">
         <Breadcrumbs aria-label="breadcrumb">
-          <Link
+        {
+            mainCategory && (
+                  <Link
             className="link transition !text-[14px]"
             underline="hover"
             color="inherit"
             href="/"
           >
-            Home
+            {mainCategory.name}
           </Link>
-          <Link
-            underline="hover"
-            color="inherit"
-            href="/material-ui/getting-started/installation/"
-            className="link transition !text-[14px]"
-          >
-            Fashion
-          </Link>
-          <Link
-            underline="hover"
-            color="inherit"
-            href="/material-ui/getting-started/installation/"
-            className="link transition !text-[14px]"
-          >
-            Dress-name
-          </Link>
+
+            )
+        }
+        
+        {subCategory && (
+    <Link
+      underline="hover"
+      color="inherit"
+      className="link transition"
+      href={`/products?category=${mainCategory._id}&subCatId=${subCategory._id}`}
+    >
+      {subCategory.name}
+    </Link>
+  )}
+
+  {thirdCategory && (
+    <Typography sx={{ color: "text.primary" }}>
+      {thirdCategory.name}
+    </Typography>
+  )}
         </Breadcrumbs>
       </div>
  

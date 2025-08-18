@@ -8,6 +8,7 @@ import latestProductsReducer from '../../features/latestProducts/latestProducts.
 import featuredProductsReducer from '../../features/featuredProducts/featuredProducts.js'
 import bannerV1Reducer from '../../features/bannerV1Slice.js'
 import blogReducer from '../../features/blog/blogSlice.js'
+import filterProductsReducer from '../../features/productsFilter/productsFilterSlice.js'
 export const store = configureStore({
   reducer: {
     user:userReducer,
@@ -17,6 +18,7 @@ export const store = configureStore({
     latestProducts:latestProductsReducer,
     featuredProducts:featuredProductsReducer,
     bannerV1:bannerV1Reducer,
-    blog:blogReducer
+    blog:blogReducer,
+    filterProducts:filterProductsReducer
   },
 });

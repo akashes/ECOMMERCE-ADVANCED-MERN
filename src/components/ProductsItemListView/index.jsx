@@ -14,21 +14,21 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 
 import { useContext } from "react";
 import { MyContext } from "../../App";
-const ProductsItemListView = () => {
+const ProductsItemListView = ({item}) => {
   const { setOpenProductDetailsModal } = useContext(MyContext);
 
   return (
     <div className="productItem rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)] flex items-center  ">
       <div className="imaWrapper w-[25%]  rounded-t-md overflow-hidden relative group">
         <Link to="/">
-          <div className="img h-[220px] overflow-hidden">
+          <div className="img  overflow-hidden">
             <img
-              src="https://res.cloudinary.com/dllelmzim/image/upload/v1752164841/1742463096955_hbhb1_pf1tig.jpg"
+              src={item.images[0]?.url}
               alt=""
               className="w-full "
             />
             <img
-              src="https://res.cloudinary.com/dllelmzim/image/upload/v1752164708/1742463096956_hbhb2_arwfcv.jpg"
+              src={item.images[1]?.url}
               alt=""
               className="w-full absolute left-0 top-0 opacity-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-in-out "
             />
@@ -74,26 +74,25 @@ const ProductsItemListView = () => {
       <div className="info p-3 py-5  w-[75%]  px-8 ">
         <h6 className="text-[15px] !font-[400]">
           <Link to="/" className="link">
-            Solyent Green
+            {item?.brand}
           </Link>
         </h6>
         <h3 className="text-[18px] title  font-[500] text-[#000] mb-1 mt-3 mb-3">
           <Link to="/" className="link">
-            Siril Georgette Pink Color Saree With Blouse Piece
+            {item.name}
           </Link>
         </h3>
         <p className="text-[14px] mb-3">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illo ipsa
-          maxime est quas repellendus voluptatum, maiores libero officia
-          necessitatibus explicabo?
+          {item.description}
+         
         </p>
-        <Rating name="size-small" defaultValue={2} size="small" readOnly />
+        <Rating name="size-small" defaultValue={item.rating} size="small" readOnly />
 
         <div className="flex items-center gap-4">
           <span className="oldPrice line-through text-gray-500 text-[15px] font-[500]">
-            ₹ 1,999
+            ₹ {item.oldPrice}
           </span>
-          <span className="price text-primary font-[600]">1444</span>
+          <span className="price text-primary font-[600]">₹ {item.price}</span>
         </div>
 
         <Button className="btn-org !mt-3 flex gap-2 ">

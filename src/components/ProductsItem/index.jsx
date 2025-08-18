@@ -13,22 +13,23 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { useContext } from 'react';
 import { MyContext } from '../../App';
+import { BsCart3 } from 'react-icons/bs';
 
 
 const ProductItem = ({item}) => {
   const {setOpenProductDetailsModal} = useContext(MyContext)
-  const discount = item.oldPrice && item.price ? Math.round(((item.oldPrice - item.price)/item.oldPrice)*100):0;
+  const discount = item?.oldPrice && item?.price ? Math.round(((item.oldPrice - item.price)/item.oldPrice)*100):0;
 
   return (
     <div className='  productItem rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)]  '>
       <div className='imgWrapper w-[100%]  rounded-t-md overflow-hidden relative group'>
-        <Link to={`/product/${item._id}`}>
+        <Link to={`/product/${item?._id}`}>
 
         <div className="img h-[220px] overflow-hidden">
-        <img src={item.images[0]?.url} 
+        <img src={item?.images[0]?.url} 
         alt=""
         className='w-full ' />
-        <img src={item.images[1]?.url} 
+        <img src={item?.images[1]?.url} 
         alt=""
         className='w-full absolute left-0 top-0 opacity-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-in-out ' />
 
@@ -76,23 +77,31 @@ const ProductItem = ({item}) => {
          </div>
 
       </div>
-      <div className="info p-3 py-5  ">
+      <div className="info p-3 py-5 relative pb-[50px] h-[190px]  ">
         <h6 className='text-[13px] !font-[400]'>
         <span className='link'>
-            {item.brand}
+            {item?.brand}
             </span>
         </h6>
         <h3 className='text-[13px] title mt-1 font-[500] text-[#000] mb-1'>
             <Link to={`/product/${item._id}`} className='link'>
-            {item.name.substr(0,40)+'...'}
+            {item?.name.substr(0,30)+'...'}
             </Link>
             </h3>
-            <Rating name="size-small" defaultValue={item.rating} size="small" readOnly />
+            <Rating name="size-small" defaultValue={item?.rating} size="small" readOnly />
 
             <div className="flex items-center gap-4">
-                <span className='oldPrice line-through text-gray-500 text-[15px] font-[500]'>&#x20b9; {item.oldPrice}</span>
-                <span className="price text-primary font-[600]">&#x20b9; {item.price}</span>
+                <span className='oldPrice line-through text-gray-500 text-[15px] font-[500]'>&#x20b9; {item?.oldPrice}</span>
+                <span className="price text-primary font-[600]">&#x20b9; {item?.price}</span>
                 
+            </div>
+                 <div className=" absolute bottom-[15px] !w-full left-0 pl-3 pr-3  ">
+              
+                <Button className="!border-1 !border-primary !text-primary flex gap-2 !py-1 !w-full items-center">
+                    <BsCart3 className="text-[22px]"/>
+                    Add to Cart
+                </Button>
+
             </div>
 
       </div>

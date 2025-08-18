@@ -1,7 +1,7 @@
 import { Button } from "@mui/material"
 import { RiMenu2Fill } from "react-icons/ri";
 import { LiaAngleDownSolid } from "react-icons/lia";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { GoRocket } from "react-icons/go";
 
 
@@ -11,8 +11,11 @@ import { useEffect, useState } from "react";
 import './style.css'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMenuCategories } from "../../../features/category/categoryMenuSlice";
+import { resetFilters, setCategories, setSubCategories } from "../../../features/productsFilter/productsFilterSlice";
 
 const Navigation = () => {
+
+    const navigate  = useNavigate()
 
     const{categories}=useSelector(state=>state.category)
 
@@ -24,6 +27,9 @@ const[isOpenCategoryPanel,setIsOpenCategoryPanel]=useState(false)
 const openCategoryPanel=(val)=>{
    setIsOpenCategoryPanel(val)
 }
+
+
+
 
 useEffect(()=>{
     dispatch(fetchMenuCategories())
@@ -57,14 +63,23 @@ useEffect(()=>{
                     {
                         categories?.length>0  && categories.map((category)=>(
                                  <li key={category._id} className="list-none relative">
-                        <Link to='/' className="link text-[14px] font-[500] ">
+                        <Button
+                        onClick={()=>{
+                            // dispatch(resetFilters())
+                            
+                            dispatch(setCategories([category._id]))
+                            navigate(`/products?category=${category._id}`)
+
+                        }}
+                        // to={`/products?category=${category._id}`}
+                         className="link text-[14px] font-[500] ">
                           <Button className="font-[500] !text-[rgba(0,0,0,0.8)]
-                        hover:!text-[var(--primary)] !py-4
+                        hover:!text-[var(--primary)]
                         ">
 
                         {category.name}
                         </Button>
-                        </Link>
+                        </Button>
                        {
                         category?.children?.length!==0 && (
                              <div className="submenu absolute top-[120%] opacity-0 transition-all  left-[0%] min-w-[150px] bg-white shadow-md rounded-md">
@@ -72,7 +87,12 @@ useEffect(()=>{
                                 {
                                     category?.children?.length>0 && category.children.map((subCategory)=>(
                                             <li key={subCategory._id} className="list-none w-full relative">
-                                    <Link to='/' className="w-full">
+                                    <Button 
+                                    onClick={(()=>{
+                                        dispatch(setSubCategories(subCategory._id))
+                                        navigate(`/products?subCatId=${subCategory._id}`)
+                                    })}
+                                    className="w-full">
                                     <Button className="  !text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)]  w-full !justify-start !rounded-none whitespace-nowrap" >{subCategory.name}</Button>
                                      {/* inner submenu */}
                                      {
@@ -81,7 +101,7 @@ useEffect(()=>{
                                 {
                                     subCategory?.children?.length>0 && subCategory.children.map((thirdSubCategory)=>(
                                            <li key={thirdSubCategory._id} className="list-none w-full">
-                                    <Link to='/' className="w-full">
+                                    <Link to={`/products?thirdSubCatId=${thirdSubCategory._id}`} className="w-full">
                                     <Button className="!text-[rgba(0,0,0,0.8)] hover:!text-[var(--primary)] w-full !justify-start !rounded-none whitespace-nowrap" >{thirdSubCategory.name}</Button>
                                     </Link>
                                 </li>
@@ -95,7 +115,7 @@ useEffect(()=>{
                         </div>
                                      }
                            
-                                    </Link>
+                                    </Button>
                        
                                 </li>
 
