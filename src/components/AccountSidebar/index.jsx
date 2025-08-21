@@ -16,7 +16,7 @@ import { uploadImage } from '../../utils/api';
 const AccountSidebar = () => {
     const{user,setUser}=useContext(AuthContext)
     const[avatar,setAvatar]=useState(user?.avatar?.url || 'https://res.cloudinary.com/dllelmzim/image/upload/v1753808261/user_dhgqbt.png')
-
+console.log(avatar)
     const [isUploading,setIsUploading]=useState(false)
     const handleImageChange=async(e)=>{
         const file=e.target.files[0]
@@ -45,8 +45,8 @@ const AccountSidebar = () => {
             return
         }
         if(res.success){
-            setAvatar(res.avatar)
-            setUser(prev=>({...prev,avatar:{url:res.avatar}}))
+            setAvatar(res.avatar.url)
+            setUser(prev=>({...prev,avatar:res.avatar}))
 
             showSuccess('Avatar updated successfully')
         }
@@ -61,12 +61,12 @@ const AccountSidebar = () => {
      
     }
 
-    useEffect(()=>{
-        if(localStorage.getItem('user')){
-            const userDetails = JSON.parse(localStorage.getItem('user'))
-            setAvatar(userDetails.avatar.url)
-        }
-    })
+    // useEffect(()=>{
+    //     if(localStorage.getItem('user')){
+    //         const userDetails = JSON.parse(localStorage.getItem('user'))
+    //         setAvatar(userDetails.avatar.url)
+    //     }
+    // },[])
 
 
   return (

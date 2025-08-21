@@ -106,7 +106,10 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
             <div className="flex items-center justify-between pb-2">
 
             <h2 className="text-[20px]">My Profile</h2>
-            <Button className="!text-gray-700 gap-1" onClick={()=>setIsChangePasswordFormShow(prev=>!prev)} >Change Password <IoIosArrowDown className={` transition-transform duration-300 ${isChangePasswordFormShow && 'rotate-180'}`} />  </Button>
+            {
+              !authContext.user.signUpWithGoogle===true &&              <Button className="!text-gray-700 gap-1" onClick={()=>setIsChangePasswordFormShow(prev=>!prev)} >Change Password <IoIosArrowDown className={` transition-transform duration-300 ${isChangePasswordFormShow && 'rotate-180'}`} />  </Button>
+
+            }
             </div>
             <hr className="text-gray-400" />
             <form className="mt-5" onSubmit={updateUser} >
@@ -175,16 +178,16 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
             </form>
           </div>
 
-             <Collapse isOpened={isChangePasswordFormShow}>
+{
+  !authContext.user.signUpWithGoogle===true &&    <Collapse isOpened={isChangePasswordFormShow}>
              <div className="card bg-white  p-5 shadow-md rounded-md relative">
             <div className="flex items-center justify-between pb-2">
 
             <h2 className="text-[17px]">Change Password</h2>
             </div>
             <hr className="text-gray-400" />
-              <form className="mt-5">
-              <div className="flex items-center gap-2 ">
-                <div className="w-[50%]">
+              <form className="mt-5  grid grid-cols-2 gap-2" onSubmit={handlePasswordUpdate}>
+                <div className="col">
                         <div className="form-group w-full  relative">
 
                 <TextField className='w-full input-ele '  id="password" label="old Password" variant="outlined" name='old password' 
@@ -216,7 +219,7 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
 
        
                 </div>
-                <div className="w-[50%]">
+                <div className="col">
                     <div className="form-group w-full  relative">
 
                 <TextField className='w-full input-ele '  id="password" label="New Password" variant="outlined" name='old password' 
@@ -246,9 +249,7 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
                     
                     </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-5 mt-4 ">
-                <div className="w-[50%]">
+              <div className="col">
                     <div className="form-group w-full  relative">
 
                 <TextField className='w-full input-ele '  id="password" label="confirm Password" variant="outlined" name='old password' 
@@ -278,9 +279,6 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
                     
                     </div>
                 </div>
-           
-               
-              </div>
               <br />
 
               <div className="flex items-center gap-4">
@@ -289,7 +287,7 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
                    bg-gradient-to-tr from-[#ff7a7a] to-[#ec1616] !text-white hover:bg-gradient-to-tr hover:from-[#535353] hover:to-[#030202] hover:!text-white ${passwordLoading && 'pointer-events-none opacity-80'}`}
                    type="submit"
                    disabled={passwordLoading || isPasswordDisabled}
-                   onClick={handlePasswordUpdate}
+                  
                 >
                     {
                         passwordLoading ?  <CircularProgress size={20} className="absolute right-5 !text-black "/>  :   ' Update Password'
@@ -301,6 +299,8 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
             </form>
             </div>
              </Collapse>
+}
+           
 
 
              

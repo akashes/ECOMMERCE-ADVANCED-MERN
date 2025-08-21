@@ -4,7 +4,7 @@ import QtyBox from '../QtyBox'
 import { BsCart3 } from 'react-icons/bs'
 import { FaRegHeart } from 'react-icons/fa6'
 import { IoGitCompareOutline } from 'react-icons/io5'
-const ProductInfo = ({product}) => {
+const ProductInfo = ({product,goToReviews}) => {
 
     //    product size state
         const[productActionIndex,setProductActionIndex]=useState(null)
@@ -17,8 +17,8 @@ const ProductInfo = ({product}) => {
                     <span className="font-[500] text-black opacity-75 ">{product?.brand}</span>
                     </span>
 
-            <Rating name="size-small" defaultValue={product?.rating} size="small" readOnly />
-            <span className="text-[13px] cursor-pointer ">Review ({product?.reviews?.length})</span>
+            <Rating name="size-small" value={product?.rating} size="small" readOnly />
+            <span onClick={goToReviews} className="text-[13px] cursor-pointer ">Review ({product?.reviews?.length})</span>
 
             </div>
             {/* price and availablity */}

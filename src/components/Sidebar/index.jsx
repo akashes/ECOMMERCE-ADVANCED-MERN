@@ -6,7 +6,7 @@ import { Collapse } from 'react-collapse'
 import { FaAngleDown } from "react-icons/fa6";
 
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@mui/material';
 
 import RangeSlider from 'react-range-slider-input';
@@ -17,9 +17,11 @@ import Rating from '@mui/material/Rating';
 
 import './style.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { setDiscount, setPriceFilter } from '../../features/productsFilter/productsFilterSlice';
+import { resetFilters, setDiscount, setPriceFilter } from '../../features/productsFilter/productsFilterSlice';
 
 const Sidebar = (props) => {
+  const isFirstRender = useRef(true);
+
 
   const dispatch = useDispatch()
 
@@ -39,7 +41,7 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
 
   const{categories}=useSelector(state=>state.category)
 
-    const[isCategoryFilterOpen,setIsCategoryFilterOpen]=useState(false)
+    const[isCategoryFilterOpen,setIsCategoryFilterOpen]=useState(true)
     const[isAvailabilityFilterOpen,setIsAvailabilityFilterOpen]=useState(false)
     const[isSizeFilterOpen,setIsSizeFilterOpen]=useState(false)
 
@@ -56,6 +58,11 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
 
 
     useEffect(() => {
+
+        if (!debouncedPrice || debouncedPrice[0] === 100 && debouncedPrice[1] === 50000) {
+    return; // skip initial run
+  }
+
     if (debouncedPrice) {
       dispatch(setPriceFilter({ min: debouncedPrice[0], max: debouncedPrice[1] }));
     }
@@ -228,6 +235,14 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
 
      
       </div>
+
+      <Button onClick={()=>
+        {dispatch(resetFilters())
+                         window.scrollTo({ top: 0, behavior: "smooth" });
+
+
+        }
+        } className='!border-1 !border-primary !text-primary !mt-3'>Clear Filters</Button>
 
   </aside>
   )

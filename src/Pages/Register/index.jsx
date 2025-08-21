@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
@@ -11,12 +11,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { firebaseApp } from "../../firebase";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const auth = getAuth(firebaseApp)
 const provider = new GoogleAuthProvider();
 
 
 const Register = () => {
+  const authContext = useContext(AuthContext)
     const navigate = useNavigate()
     const[isLoading,setIsLoading]=useState(false)
   const [showPassword, setShowPassword] = React.useState(false);
@@ -86,9 +88,9 @@ const Register = () => {
 
   }
 
-  const authWithGoogle=()=>{
+  const authWithGoogle=async()=>{
     signInWithPopup(auth, provider)
-  .then((result) => {
+  .then(async(result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
@@ -97,7 +99,40 @@ const Register = () => {
     console.log(user)
     // IdP data available using getAdditionalUserInfo(result)
     // ...
+    const fields = {
+      name:user.providerData[0].displayName,
+      email:user.providerData[0].email,
+      password:null,
+      avatar:user.providerData[0].photoURL,
+      mobile:user.providerData[0].phoneNumber,
+      
+    }
+    console.log(fields)
+       setIsLoading(true)
+    const res = await postData('/api/user/google-auth', fields)
+    console.log(res)
+    setIsLoading(false)
+    if(!res.success){
+        showError(res.message || 'Registration failed')
+        return
+    }
+
+
+    //Registration success
+    //setting email to local storage
+    localStorage.setItem('verifyEmail',fields.email)
+           localStorage.setItem('accessToken',res.data.accessToken)
+            // localStorage.setItem('refreshToken',result.data.refreshToken)
+            authContext.login(res.data.accessToken,res.data.user)
+
+    showSuccess(res.message || 'Login successful',3000)
+    navigate('/')
+  
+
+    
+
   }).catch((error) => {
+    console.log(error)
     // Handle Errors here.
     const errorCode = error.code;
     const errorMessage = error.message;

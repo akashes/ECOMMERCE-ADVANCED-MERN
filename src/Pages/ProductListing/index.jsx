@@ -130,6 +130,12 @@ const handleSelectRating=(e)=>{
 
 const currentSortLabel = sortLabels[filters.sort] || "Relevance";
 
+useEffect(()=>{
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+
+
+
+},[])
   return (
   <section className='py-5 pb-0'>
     <div className="container">

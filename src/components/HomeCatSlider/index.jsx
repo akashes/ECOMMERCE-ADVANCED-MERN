@@ -10,14 +10,20 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Navigation } from 'swiper/modules';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchHomeSlides } from '../../features/homeSlides';
+import { setCategories } from '../../features/productsFilter/productsFilterSlice';
+import { Button } from '@mui/material';
 
 
 const HomeCatSlider = () => {
+  const dispatch  = useDispatch()
+  const navigate  = useNavigate()
+
 const rootCategories = useSelector(
   state => state.category.categories.map(cat => ({
+    _id:cat._id,
     name: cat.name,
     image: cat.images[0].url
   }))
@@ -42,7 +48,16 @@ console.log(rootCategories)
       rootCategories?.length>0 && rootCategories.map((item)=>(
 
         <SwiperSlide >
-         <Link to='/smart-tablet'>
+         <div
+         className='!text-[rgba(0,0,0,0.7)]'
+                                 onClick={()=>{
+                                     // dispatch(resetFilters())
+                                     
+                                     dispatch(setCategories([item._id]))
+                                     navigate(`/products?category=${item._id}`)
+         
+                                 }}
+         >
           <div className="item py-7 px-3 bg-white rounded-sm text-center flex items-center justify-center flex-col">
             <img src={item.image}  
             alt="Fashion"
@@ -50,7 +65,7 @@ console.log(rootCategories)
             />
             <h3 className='text-[15px] font-[500] mt-3'>{item.name}</h3>
           </div>
-         </Link>
+         </div>
         </SwiperSlide>
       ))
     }

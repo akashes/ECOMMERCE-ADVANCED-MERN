@@ -88,7 +88,11 @@ const ProductItem = ({item}) => {
             {item?.name.substr(0,30)+'...'}
             </Link>
             </h3>
-            <Rating name="size-small" defaultValue={item?.rating} size="small" readOnly />
+            {
+              item?.numReviews===0 ? <span className='text-[12px]'>No Reviews Yet</span>:
+                          <Rating name="size-small" value={item?.rating} size="small" readOnly />
+
+            }
 
             <div className="flex items-center gap-4">
                 <span className='oldPrice line-through text-gray-500 text-[15px] font-[500]'>&#x20b9; {item?.oldPrice}</span>

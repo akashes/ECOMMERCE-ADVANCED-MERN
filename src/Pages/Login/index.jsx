@@ -13,6 +13,11 @@ import { postData } from '../../utils/api';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useContext } from 'react';
 import {  AuthContext } from '../../contexts/AuthContext';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { firebaseApp } from "../../firebase";
+
+const auth = getAuth(firebaseApp)
+const provider = new GoogleAuthProvider();
 
 
 const Login = () => {
@@ -97,6 +102,64 @@ const Login = () => {
         navigate('/')
     }
 
+      const authWithGoogle=async()=>{
+        signInWithPopup(auth, provider)
+      .then(async(result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user)
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+        const fields = {
+          name:user.providerData[0].displayName,
+          email:user.providerData[0].email,
+          password:null,
+          avatar:user.providerData[0].photoURL,
+          mobile:user.providerData[0].phoneNumber,
+          
+        }
+        console.log(fields)
+           setIsLoading(true)
+        const res = await postData('/api/user/google-auth', fields)
+        console.log(res)
+        setIsLoading(false)
+        if(!res.success){
+            showError(res.message || 'Registration failed')
+            return
+        }
+    
+    
+        //Registration success
+        //setting email to local storage
+        localStorage.setItem('verifyEmail',fields.email)
+               localStorage.setItem('accessToken',res.data.accessToken)
+                // localStorage.setItem('refreshToken',result.data.refreshToken)
+                authContext.login(res.data.accessToken,res.data.user)
+    
+        showSuccess(res.message || 'Login successful',3000)
+        navigate('/')
+      
+    
+        
+    
+      }).catch((error) => {
+        console.log(error)
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+    
+      }
+
+
   return (
     <section className='section py-10'>
         <div className="container">
@@ -150,7 +213,7 @@ const Login = () => {
                             <Link to='/register' className='link text-[14px] font-[600] text-primary'> Sign Up</Link>
                             </p>
                         <p className="text-center font-[500]">Or continue with social account</p>
-                        <Button className=' w-full  !bg-[#f1f1f1] !text-black  flex gap-3  '>
+                        <Button onClick={authWithGoogle} className=' w-full  !bg-[#f1f1f1] !text-black  flex gap-3  '>
                             <FcGoogle className='text-[20px]'/>
                             Login with Google
                         </Button>
