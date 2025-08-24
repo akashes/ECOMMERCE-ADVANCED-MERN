@@ -31,6 +31,7 @@ import { IoLogOut } from "react-icons/io5";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 import {  postData } from "../../utils/api.js";
 import { showError, showSuccess } from "../../utils/toastUtils.js";
+import { useSelector } from "react-redux";
 
 
 
@@ -46,6 +47,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Header = () => {
   const navigate = useNavigate()
+  const{cart}=useSelector(state=>state.cart)
+  const{wishlist}=useSelector(state=>state.wishlist)
 
     const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -260,8 +263,10 @@ const handleLogout=async()=>{
                         <li>
                             <Tooltip title='Wishlist'>
 
-                              <IconButton aria-label="wishlist">
-                                <StyledBadge badgeContent={4} color="secondary">
+                              <IconButton onClick={()=>{
+                                navigate('/my-list')
+                              }} aria-label="wishlist">
+                                <StyledBadge badgeContent={wishlist?.length} color="secondary">
                                     <FaRegHeart />
                                 </StyledBadge>
                                 </IconButton>
@@ -271,7 +276,7 @@ const handleLogout=async()=>{
                             <Tooltip title='Cart'>
 
                               <IconButton aria-label="cart" onClick={()=>setOpenCartPanel(true)}>
-                                <StyledBadge badgeContent={4} color="secondary">
+                                <StyledBadge badgeContent={cart?.length} color="secondary">
                                     <BsCart3 />
                                 </StyledBadge>
                                 </IconButton>

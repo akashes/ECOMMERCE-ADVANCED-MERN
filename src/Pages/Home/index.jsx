@@ -33,6 +33,7 @@ import ProductsSkelton from '../../components/ProductsSkelton';
 import { fetchBannerV1 } from '../../features/bannerV1Slice';
 import AdsBannerSkeletonSlider from '../../components/Skeltons/AdsBannerSkeltonSlider';
 import { getAllBlogs } from '../../features/blog/blogSlice';
+import { getCartItems } from '../../features/cart/cartSlice';
 
 
 
@@ -135,6 +136,8 @@ const handleChange = useCallback((event, newValue) => {
     dispatch(getAllBlogs())
 
   },[])
+
+
 
   useEffect(()=>{
       window.scrollTo({ top: 0, behavior: "smooth" });

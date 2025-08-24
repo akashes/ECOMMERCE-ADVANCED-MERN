@@ -1,17 +1,58 @@
 
 
 import React,{useState} from 'react'
-import { IoIosClose } from 'react-icons/io';
+import { IoIosClose, IoMdInformationCircleOutline } from 'react-icons/io';
 import { VscTriangleDown } from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import  Rating  from '@mui/material/Rating';
-import { Button } from '@mui/material';
+import { Alert, Button } from '@mui/material';
+import { addToCart } from '../../features/cart/cartSlice';
+import { useDispatch } from 'react-redux';
+import { removeWishlistItem } from '../../features/wishList/wishListSlice';
+import { showError, showSuccess } from '../../utils/toastUtils';
 
 
-const MyListItems = () => {
+const MyListItems = ({item}) => {
 
+  const[showAlert,setShowAlert]=useState(false)
+
+  const dispatch = useDispatch()
+  console.log(item)
+
+  const handleMoveToCart=async(itemId,productId)=>{
+          const resultAction = await dispatch(addToCart(productId))
+          if(addToCart.fulfilled.match(resultAction)){
+            const removeListItemResult = await dispatch(removeWishlistItem(itemId))
+            if(removeWishlistItem.fulfilled.match(removeListItemResult)){
+              showSuccess('Item moved to Cart')
+              return
+            }else{
+              showError('Failed to move item to Cart')
+              return
+            }
+          }else{
+              // showError(resultAction.payload || 'Failed to move item to Cart')
+              if(resultAction.payload=='Product already in cart'){
+                setShowAlert(true)
+
+              }
+            
+          }
+    
+  }
+
+  const handleRemoveFromWishlist=async(id)=>{
+  const resultAction =   await dispatch(removeWishlistItem(id))
+  if(removeWishlistItem.fulfilled.match(resultAction)){
+    showSuccess("Item removed from Wishlist")
+  }
+  if(removeWishlistItem.rejected.match(resultAction)){
+    showError("Error removing item from Wishlist")
+  }
+
+  }
 
   return (
      <div className="cartItem w-full p-3 flex items-center gap-4 pb-5 border-b border-[rgba(0,0,0,0.1)]">
@@ -19,7 +60,7 @@ const MyListItems = () => {
               <div className="img w-[15%] rounded-md overflow-hidden">
                 <Link className="group">
                   <img
-                    src="https://serviceapi.spicezgold.com/download/1742462729829_zoom_1-1673275594.webp"
+                    src={item.productId.images[0].url}
                     alt=""
                     className="w-full group-hover:scale-105 transition-transform "
                   />
@@ -27,31 +68,54 @@ const MyListItems = () => {
               </div>
               {/* product info */}
               <div className="info w-[85%] relative">
-                <IoIosClose className="text-[25px] bg-gray-100 rounded-full text-gray-500 cursor-pointer absolute top-[0px] right-[0px] link transition-colors" />
-                <span className="text-[13px]">Allen Solly</span>
+                <IoIosClose onClick={()=>handleRemoveFromWishlist(item._id)} className="text-[25px] bg-gray-100 rounded-full text-gray-500 cursor-pointer absolute top-[0px] right-[0px] link transition-colors" />
+                <span className="text-[13px]">{item.productId.brand}</span>
                 <h3 className="text-[15px]">
                   <Link to="/sdf" className="link">
-                    Men Pure Cotton Striped Casual Shirt
+                    {item.productId.name}
                   </Link>
                 </h3>
                 <Rating
                   readOnly
                   name="size-small"
-                  defaultValue={4}
+                  value={item.productId.rating}
                   size="small"
                 />
                
                 <div className="flex items-center gap-4 mt-2 mb-2">
-                  <span className="price  font-[600] text-[14px]">1444</span>
+                  <span className="price  font-[600] text-[14px]">₹{item.productId.price}</span>
 
                   <span className="oldPrice line-through text-gray-500 text-[14px] font-[500]">
-                    ₹ 1,999
+                    ₹{item.productId.oldPrice}
                   </span>
                   <span className="price text-primary font-[600] text-[14px]">
-                    55% OFF
+                    {item.productId.discount>0 ? item.productId.discount+'% OFF':''}
                   </span>
-                </div>
-                <Button className='btn-org btn-sm'>Add to Cart</Button>
+                </div>{
+                  showAlert ?
+                  <>
+                   <Alert
+       className='mt-5 !w-[200px]'
+      severity="info"
+      icon={<IoMdInformationCircleOutline size={22} />}
+      sx={{
+        mb: 2,
+        borderRadius: 2,
+        fontSize: "0.9rem",
+        bgcolor: "rgba(33, 150, 243, 0.08)",
+      }}
+    >
+      Item already in Cart:
+
+    </Alert>
+                        <Button onClick={()=>handleRemoveFromWishlist(item._id)} className='btn-org btn-sm !p-2'>Remove from Wishlist</Button>
+                  </>
+
+    
+    : 
+                    <Button onClick={()=>handleMoveToCart(item._id,item.productId._id)} className='btn-org btn-sm'>Move to Cart</Button>
+
+                }
 
        
               </div>

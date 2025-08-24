@@ -136,6 +136,19 @@ useEffect(()=>{
 
 
 },[])
+
+useEffect(() => {
+  return () => {
+    // cleanup -reset filters when leaving page
+    dispatch(setCategories([]));
+    dispatch(setSubCategories(null));
+    dispatch(setThirdSubCategories(null));
+    dispatch(setSort(''));
+    dispatch(setRating(''));
+    dispatch(setPage(1));
+    dispatch(setPriceFilter({ minPrice: '', maxPrice: '' }));
+  };
+}, [dispatch]);
   return (
   <section className='py-5 pb-0'>
     <div className="container">

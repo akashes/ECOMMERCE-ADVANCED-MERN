@@ -3,9 +3,9 @@ import { PiKeyReturn } from "react-icons/pi";
 import { BsWallet2 } from "react-icons/bs";
 import { LiaGiftSolid } from "react-icons/lia";
 import { RiCustomerService2Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
-import { IoChatboxOutline } from "react-icons/io5";
-import { Button } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { IoChatboxOutline, IoClose } from "react-icons/io5";
+import { Button, Drawer } from "@mui/material";
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -16,10 +16,38 @@ import { FaFacebookF } from "react-icons/fa";
 import { RiYoutubeLine } from "react-icons/ri";
 import { FaPinterestP } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
+import { MdOutlineDelete } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { useContext } from "react";
+import { MyContext } from "../../App";
+import { removeCartItem } from "../../features/cart/cartSlice";
+import { showError, showSuccess } from "../../utils/toastUtils";
 
 
 
 const Footer = () => {
+    const{cart}=useSelector(state=>state.cart)
+    const{openCartPanel,setOpenCartPanel}=useContext(MyContext)
+    console.log(openCartPanel,setOpenCartPanel)
+    const navigate = useNavigate()
+
+    const dispatch = useDispatch()
+
+      const handleRemoveCartItem=async(id)=>{
+        const resultAction = await dispatch(removeCartItem(id))
+        if(removeCartItem.fulfilled.match(resultAction)){
+          showSuccess('Item removed from Cart')
+        }
+        if(removeCartItem.rejected.match(resultAction)){
+          showError('Error removing item from Cart')
+        }
+        
+    
+      }
+        const toggleCartPanel = (newOpen) => () => {
+            console.log(newOpen)
+    setOpenCartPanel(newOpen);
+  };
   return (
     <>
     <footer className="py-6 bg-[#fafafa]">
@@ -219,6 +247,110 @@ const Footer = () => {
        </div>
         </div>
     </div>
+
+
+    
+         {/* cart drawer */}
+        <Drawer  open={openCartPanel} onClose={toggleCartPanel(false)} anchor='right' className='carPanel'>
+          <div className="flex items-center justify-between py-3 px-4 gap-3 border-b-[1px] border-gray-300">
+          <h4>Shopping Cart ({cart?.length})</h4>
+
+          <IoClose className='text-[20px] cursor-pointer ' onClick={toggleCartPanel(false)}/>
+          </div>
+
+
+          <div  className="scroll w-full max-h-[500px] overflow-y-scroll overflow-x-hidden py-3 px-4 relative ">
+            {
+             cart&&   cart?.length>0 ? cart.map((item)=>{
+    
+              return(
+                     <div className="cartItem w-full flex items-center gap-4 border-b border-gray-300 py-3 ">
+             <div className="img w-[25%] group overflow-hidden h-[80px] rounded-md">
+              <Link className=' ' to={`/product/${item.productId._id}`}>
+              <img className='group-hover:scale-110 transition-all w-full' src={item?.productId?.images[0].url}
+               alt="" />
+              </Link>
+             </div>
+             <div className="info w-[75%] pr-6 relative">
+              <h4 className='text-[14px] font-[500]'>
+                <Link to={`/product/${item.productId._id}`} className='link '>
+                {item.productId.name.substr(0,40)+'...'}
+                </Link>
+              </h4>
+              <p className="flex items-center gap-5 my-2">
+                <span>Qty : <span>{item?.quantity}</span></span>
+                <span className='text-primary font-bold'>Price : <span > ₹ {item.quantity*item.productId.price}</span></span>
+                
+              </p>
+              <MdOutlineDelete onClick={()=>handleRemoveCartItem(item._id)} className='absolute right-[5px] top-[10px] text-[20px] cursor-pointer text-gray-500 link transition-all-'/>
+
+
+               
+             </div>
+             
+
+            </div>
+                
+               )}):(
+                <div className="flex items-center justify-center flex-col pt-[100px] gap-5">
+                    
+                    <img className="w-[150px]" src="https://res.cloudinary.com/dllelmzim/image/upload/v1755950175/delete_o3nlss.png" alt="" />
+                    <h4>Your Cart is currently empty</h4>
+                    <Button onClick={()=>{toggleCartPanel(false)(); navigate('/products')}} className="btn-org btn-sm">Continue Shopping</Button>
+                </div> 
+               )
+            }
+       
+
+         
+          
+          
+          </div>
+     
+        <div className="bottomSection absolute bottom-0 left-0 w-full px-">
+            <div className="bottomInfo py-3 px-4 w-full border-t border-[rgba(0,0,0,0.1)] flex flex-col items-center justify-between">
+            <div className='flex items-center justify-between w-full'> 
+
+            <span className='text-[14px] font-[600]'>{cart?.length} item</span>
+            <span className='text-primary font-bold' >
+  ₹ {cart?.reduce((acc, item) => acc + (item.quantity * item.productId.price), 0)}
+              </span>
+            </div>
+
+             {cart?.reduce((acc, item) => acc + (item.quantity * item.productId.price), 0)<249 &&(
+            <div className='flex items-center justify-between w-full'> 
+              
+
+            <span className='text-[14px] font-[600]'>Shipping</span>
+            <span className='text-primary font-bold' >₹ 50</span>
+            </div>
+
+             )}
+          </div>
+          <div className="bottomInfo py-3 px-4 w-full border-t border-[rgba(0,0,0,0.1)] flex flex-col items-center justify-between">
+            <div className='flex items-center justify-between w-full'> 
+
+            <span className='text-[14px] font-[600]'>Total (tax excl.)</span>
+            <span className='text-primary font-bold' >  ₹ {cart?.reduce((acc, item) => acc + (item.quantity * item.productId.price), 0)}</span>
+            </div>
+         
+
+
+            <div className="flex items-center justify-between w-full gap-5 mt-3">
+              <Button onClick={()=>{toggleCartPanel(false)(); navigate('/cart')}}  className='btn-org btn-lg w-[50%]'>
+              
+                View Cart
+              </Button>
+              <Link onClick={()=>toggleCartPanel(false)} className='btn-org btn-border  btn-lg w-[50%]' >
+                
+                Checkout
+
+              </Link>
+            </div>
+          </div>
+
+        </div>
+      </Drawer>
 
     </>
 

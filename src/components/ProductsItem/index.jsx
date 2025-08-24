@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import './style.css'
 import { Link } from 'react-router-dom'
 import Rating from '@mui/material/Rating';
 import { Button } from '@mui/material';
 
-import { FaRegHeart } from "react-icons/fa";
+import { FaMinus, FaPlus, FaRegHeart } from "react-icons/fa";
 import { IoGitCompareOutline } from "react-icons/io5";
 import { MdZoomOutMap } from "react-icons/md";
 
@@ -14,18 +14,103 @@ import Tooltip from '@mui/material/Tooltip';
 import { useContext } from 'react';
 import { MyContext } from '../../App';
 import { BsCart3 } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, removeCartItem, updateCart } from '../../features/cart/cartSlice';
+import { showError, showSuccess } from '../../utils/toastUtils';
+import { AuthContext } from '../../contexts/AuthContext';
 
+import throttle from 'lodash.throttle'
+import { addToWishlist } from '../../features/wishList/wishListSlice';
 
 const ProductItem = ({item}) => {
+  const context = useContext(AuthContext)
+  const dispatch = useDispatch()
   const {setOpenProductDetailsModal} = useContext(MyContext)
   const discount = item?.oldPrice && item?.price ? Math.round(((item.oldPrice - item.price)/item.oldPrice)*100):0;
+ const {cart,cartUpdationLoading,cartUpdatingItem}=useSelector(state=>state.cart)
 
+
+ 
+
+   const existingCartItem = cart.find(cartItem=>cartItem.productId._id===item._id)
+  
+
+
+
+
+ const handleUpdateQty = useMemo(() => 
+  throttle(async (newQty) => {
+    if (!existingCartItem) return;
+
+    if (newQty < 1) {
+      const resultAction = await dispatch(removeCartItem(existingCartItem._id));
+
+      if (removeCartItem.fulfilled.match(resultAction)) {
+        showSuccess(resultAction.payload.message || "Item removed from Cart");
+      } else {
+        showError(resultAction.payload || "Failed to remove item from Cart");
+      }
+      return;
+    }
+
+    const resultAction = await dispatch(
+      updateCart({ cartItemId: existingCartItem._id, quantity: newQty })
+    );
+    console.log(resultAction)
+
+    if (updateCart.fulfilled.match(resultAction)) {
+      showSuccess("Cart Updated");
+    } 
+    if(updateCart.rejected.match(resultAction)){
+      showError(resultAction.payload || 'Failed to update cart quantity')
+    }
+  }, 1000, { leading: true, trailing: true }),
+[dispatch, existingCartItem]
+);
+
+  const handleAddToCart=async(id)=>{
+    if(!context.user){
+      showError('You are not Logged in. Please Login before adding to Cart')
+      return
+    }
+    const resultAction = await dispatch(addToCart(id))
+    console.log(resultAction)
+            if(addToCart.fulfilled.match(resultAction)){
+              showSuccess('Item added to Cart')
+            }
+            if(addToCart.rejected.match(resultAction)){
+              showError(resultAction.payload || 'Failed to add item to Cart')
+            }
+    
+  }
+
+  console.log(existingCartItem)
+  console.log(cartUpdatingItem)
+  const isUpdating = existingCartItem && cartUpdatingItem === existingCartItem._id;
+  const isAddingNew = cartUpdatingItem ===item._id
+  const isOutOfStock = item.countInStock ===0
+
+
+  const handleAddToWishList=async(productId)=>{
+    const resultAction = await dispatch(addToWishlist(productId))
+    console.log(resultAction)
+    if(addToWishlist.fulfilled.match(resultAction)){
+      showSuccess('Item added to WishList')
+      return
+    }
+    if(addToWishlist.rejected.match(resultAction)){
+      showError(resultAction.payload || 'Failed to add item to WishList')
+      return
+    }
+
+
+  }
   return (
     <div className='  productItem rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)]  '>
       <div className='imgWrapper w-[100%]  rounded-t-md overflow-hidden relative group'>
         <Link to={`/product/${item?._id}`}>
 
-        <div className="img h-[220px] overflow-hidden">
+        <div className={`${isUpdating && '  scale-105 duration-500 ease-in-out'} img h-[220px] overflow-hidden`}>
         <img src={item?.images[0]?.url} 
         alt=""
         className='w-full ' />
@@ -67,7 +152,7 @@ const ProductItem = ({item}) => {
 
                 <Tooltip title="Add To Wishlist" placement="left">
 
-            <Button className='!w-[35px] !h-[35px] !min-w-[35px] group !rounded-full !bg-white hover:!bg-primary
+            <Button onClick={()=>handleAddToWishList(item._id)} className='!w-[35px] !h-[35px] !min-w-[35px] group !rounded-full !bg-white hover:!bg-primary
              hover:!text-white
              '>
                 <FaRegHeart className=' action-icon text-[18px] text-black hover:text-white transition-colors'/>
@@ -77,7 +162,7 @@ const ProductItem = ({item}) => {
          </div>
 
       </div>
-      <div className="info p-3 py-5 relative pb-[50px] h-[190px]  ">
+      <div className={`${isUpdating  && ''} info p-3 py-5 relative pb-[50px] h-[190px] `}>
         <h6 className='text-[13px] !font-[400]'>
         <span className='link'>
             {item?.brand}
@@ -100,11 +185,54 @@ const ProductItem = ({item}) => {
                 
             </div>
                  <div className=" absolute bottom-[15px] !w-full left-0 pl-3 pr-3  ">
-              
-                <Button className="!border-1 !border-primary !text-primary flex gap-2 !py-1 !w-full items-center">
-                    <BsCart3 className="text-[22px]"/>
-                    Add to Cart
+               {
+                isOutOfStock?<>
+                <p className='text-center text-primary font-bold text-[14px]'>Out Of Stock</p>
+                </>:
+                <>
+                              {
+         
+
+                
+
+                !existingCartItem  ?(
+                    <Button
+                    disabled={cartUpdationLoading}
+                onClick={()=>handleAddToCart(item._id)}
+                className="!border-1 !border-primary !text-primary flex gap-2 !py-1 !w-full items-center hover:!bg-black hover:!text-white hover:!border-black">
+                    <BsCart3 className={`text-[22px] ${isAddingNew && "cart-icon-loading"}` }/>
+                    {
+                      isAddingNew?"Adding ...":"Add to Cart"
+                    }
                 </Button>
+
+                ):(
+                  
+                <div className="flex items-center justify-between overflow-hidden rounded-full border border-[rgba(0,0,0,0.1)]">
+
+                <Button   
+                className='!min-w-[30px] !w-[30px] !h-[30px] !text-white !rounded-sm !bg-gray-400'
+
+
+                  // disabled={existingCartItem.quantity <= 1}
+ onClick={()=>handleUpdateQty(existingCartItem.quantity-1)}>
+                  <FaMinus/>
+                </Button>
+                <span >{existingCartItem.quantity}</span>
+               <Button
+                              className='!min-w-[30px] !w-[30px] !h-[30px] !text-white !rounded-sm !bg-black'
+
+              onClick={() => handleUpdateQty(existingCartItem.quantity + 1)}
+            >
+              <FaPlus />
+            </Button>
+                </div>
+
+                )
+              }
+                </>
+               }
+              
 
             </div>
 

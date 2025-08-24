@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
@@ -15,6 +15,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 const auth = getAuth(firebaseApp)
 const provider = new GoogleAuthProvider();
+
 
 
 const Register = () => {
@@ -144,6 +145,12 @@ const Register = () => {
   });
 
   }
+
+    useEffect(()=>{
+        window.scrollTo({ top: 0, behavior: "smooth" });
+  
+  
+    },[])
   return (
     <section className="section py-10">
       <div className="container">

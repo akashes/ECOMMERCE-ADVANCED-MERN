@@ -18,9 +18,12 @@ import { CircularProgress, Typography } from "@mui/material";
 import ProductDetailsSkeleton from "../../components/Skeltons/ProductDetailsSkelton";
 import { showError, showWarning } from "../../utils/toastUtils";
 import { AuthContext } from "../../contexts/AuthContext";
+import { MyContext } from "../../App";
+import { addToCart } from "../../features/cart/cartSlice";
 
 const ProductDetails = () => {
     const{user}=useContext(AuthContext)
+    const{user:contextUser}=useContext(MyContext)
     console.log(user)
     let reviewRef = useRef()
     const {id}=useParams()
@@ -62,6 +65,7 @@ const ProductDetails = () => {
 
 
     }
+   
 
 
     // tabs state  for product details/description/reviews

@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import  TextField  from '@mui/material/TextField'
 import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
@@ -160,6 +160,11 @@ const Login = () => {
       }
 
 
+        useEffect(()=>{
+            window.scrollTo({ top: 0, behavior: "smooth" });
+      
+      
+        },[])
   return (
     <section className='section py-10'>
         <div className="container">

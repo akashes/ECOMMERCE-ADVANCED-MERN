@@ -10,7 +10,7 @@ export const getAllBlogs=createAsyncThunk('blog/getAllBlogs',async(_,{rejectWith
          const result=await axios.get('/api/blog/get-all-blogs')
         if(!result.data.success){
             
-            throw new Error(result.data.message || 'Failed to Create Blog ')
+            throw new Error(result.data.message || 'Failed to get Blogs ')
         }
         return result.data
 

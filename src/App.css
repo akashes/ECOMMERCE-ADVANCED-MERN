@@ -1,0 +1,32 @@
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0; 
+  }
+  100% {
+    background-position: 1000px 0; 
+  }
+}
+
+.loading-gradient {
+  background: linear-gradient(
+    110deg,
+    #f3f3f3 8%,
+    #e0e0e0 18%,
+    #f3f3f3 33%
+  );
+  background-size: 2000px 100%; 
+  animation: shimmer 5s infinite linear;
+}
+
+
+@keyframes swing {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-4px); }
+  50%  { transform: translateX(4px); }
+  75%  { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+.cart-icon-loading {
+  animation: swing 4.2s ease-in-out infinite;
+}

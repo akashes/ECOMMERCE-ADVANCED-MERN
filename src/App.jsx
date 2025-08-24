@@ -37,6 +37,10 @@ import ResetPassword from './Pages/ForgotPassword'
 import PrivateRoute from './components/PrivateRoute'
 import { AuthContext } from './contexts/AuthContext'
 import Address from './Pages/MyAccount/Address'
+import { getCartItems, removeCartItem } from './features/cart/cartSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { showSuccess } from './utils/toastUtils'
+import ScrollToTop from './utils/ScrollToTop'
 
 
 
@@ -47,13 +51,15 @@ axios.defaults.baseURL=import.meta.env.VITE_API_URL
 
 const App = () => {
   const{loading}=useContext(AuthContext)
+  const dispatch = useDispatch()
+
+  const{user}=useContext(AuthContext)
+  const{cart}=useSelector(state=>state.cart)
 
   // const[isLogin,setIsLogin]=useState(false)
   const [openCartPanel,setOpenCartPanel]=useState(false)
   
-  const toggleCartPanel = (newOpen) => () => {
-    setOpenCartPanel(newOpen);
-  };
+
   
    const [openProductDetailsModal, setOpenProductDetailsModal] = React.useState({
     open:false,
@@ -81,6 +87,7 @@ const App = () => {
         const values={
           setOpenProductDetailsModal,
           setOpenCartPanel,
+          openCartPanel
           // openAlertBox, //passing function for toast using context //may change later 
           // isLogin,
           // setIsLogin
@@ -105,10 +112,19 @@ const App = () => {
   //     </div>
   //   );
   // }
+
+    useEffect(()=>{
+      if(user){
+
+        dispatch(getCartItems())
+      }
+  
+    },[user])
   return (
     <>
     <BrowserRouter>
     <MyContext.Provider value={values}>
+
 
       <Header/>
       <Routes>
@@ -176,202 +192,6 @@ const App = () => {
       }
     
 
-         {/* cart drawer */}
-        <Drawer  open={openCartPanel} onClose={toggleCartPanel(false)} anchor='right' className='carPanel'>
-          <div className="flex items-center justify-between py-3 px-4 gap-3 border-b-[1px] border-gray-300">
-          <h4>Shopping Cart (1)</h4>
-
-          <IoClose className='text-[20px] cursor-pointer ' onClick={toggleCartPanel(false)}/>
-          </div>
-
-
-          <div  className="scroll w-full max-h-[300px] overflow-y-scroll overflow-x-hidden py-3 px-4 relative ">
-            {/* cartItem */}
-            <div className="cartItem w-full flex items-center gap-4 border-b border-gray-300 py-3 ">
-             <div className="img w-[25%] group overflow-hidden h-[80px] rounded-md">
-              <Link className=' ' to='/product/23342'>
-              <img className='group-hover:scale-110 transition-all w-full' src="https://serviceapi.spicezgold.com/download/1742462909158_gdgd2.jpg"
-               alt="" />
-              </Link>
-             </div>
-             <div className="info w-[75%] pr-6 relative">
-              <h4 className='text-[14px] font-[500]'>
-                <Link to='/product/23342' className='link '>
-                Mens Cotton Casual Short Sleeve
-                </Link>
-              </h4>
-              <p className="flex items-center gap-5 my-2">
-                <span>Qty : <span>2</span></span>
-                <span className='text-primary font-bold'>Price : <span > ₹ 1,999</span></span>
-                
-              </p>
-              <MdOutlineDelete className='absolute right-[5px] top-[10px] text-[20px] cursor-pointer text-gray-500 link transition-all-'/>
-
-
-               
-             </div>
-             
-
-            </div>
-            {/* cartItem */}
-            <div className="cartItem w-full flex items-center gap-4 border-b border-gray-300 py-3 ">
-             <div className="img w-[25%] group overflow-hidden h-[80px] rounded-md">
-              <Link className=' ' to='/product/23342'>
-              <img className='group-hover:scale-110 transition-all w-full' src="https://serviceapi.spicezgold.com/download/1742462909158_gdgd2.jpg"
-               alt="" />
-              </Link>
-             </div>
-             <div className="info w-[75%] pr-6 relative">
-              <h4 className='text-[14px] font-[500]'>
-                <Link to='/product/23342' className='link '>
-                Mens Cotton Casual Short Sleeve
-                </Link>
-              </h4>
-              <p className="flex items-center gap-5 my-2">
-                <span>Qty : <span>2</span></span>
-                <span className='text-primary font-bold'>Price : <span > ₹ 1,999</span></span>
-                
-              </p>
-              <MdOutlineDelete className='absolute right-[5px] top-[10px] text-[20px] cursor-pointer text-gray-500 link transition-all-'/>
-
-
-               
-             </div>
-             
-
-            </div>
-            {/* cartItem */}
-            <div className="cartItem w-full flex items-center gap-4 border-b border-gray-300 py-3 ">
-             <div className="img w-[25%] group overflow-hidden h-[80px] rounded-md">
-              <Link className=' ' to='/product/23342'>
-              <img className='group-hover:scale-110 transition-all w-full' src="https://serviceapi.spicezgold.com/download/1742462909158_gdgd2.jpg"
-               alt="" />
-              </Link>
-             </div>
-             <div className="info w-[75%] pr-6 relative">
-              <h4 className='text-[14px] font-[500]'>
-                <Link to='/product/23342' className='link '>
-                Mens Cotton Casual Short Sleeve
-                </Link>
-              </h4>
-              <p className="flex items-center gap-5 my-2">
-                <span>Qty : <span>2</span></span>
-                <span className='text-primary font-bold'>Price : <span > ₹ 1,999</span></span>
-                
-              </p>
-              <MdOutlineDelete className='absolute right-[5px] top-[10px] text-[20px] cursor-pointer text-gray-500 link transition-all-'/>
-
-
-               
-             </div>
-             
-
-            </div>
-            {/* cartItem */}
-            <div className="cartItem w-full flex items-center gap-4 border-b border-gray-300 py-3 ">
-             <div className="img w-[25%] group overflow-hidden h-[80px] rounded-md">
-              <Link className=' ' to='/product/23342'>
-              <img className='group-hover:scale-110 transition-all w-full' src="https://serviceapi.spicezgold.com/download/1742462909158_gdgd2.jpg"
-               alt="" />
-              </Link>
-             </div>
-             <div className="info w-[75%] pr-6 relative">
-              <h4 className='text-[14px] font-[500]'>
-                <Link to='/product/23342' className='link '>
-                Mens Cotton Casual Short Sleeve
-                </Link>
-              </h4>
-              <p className="flex items-center gap-5 my-2">
-                <span>Qty : <span>2</span></span>
-                <span className='text-primary font-bold'>Price : <span > ₹ 1,999</span></span>
-                
-              </p>
-              <MdOutlineDelete className='absolute right-[5px] top-[10px] text-[20px] cursor-pointer text-gray-500 link transition-all-'/>
-
-
-               
-             </div>
-             
-
-            </div>
-            {/* cartItem */}
-            <div className="cartItem w-full flex items-center gap-4 border-b border-gray-300 py-3 ">
-             <div className="img w-[25%] group overflow-hidden h-[80px] rounded-md">
-              <Link className=' ' to='/product/23342'>
-              <img className='group-hover:scale-110 transition-all w-full' src="https://serviceapi.spicezgold.com/download/1742462909158_gdgd2.jpg"
-               alt="" />
-              </Link>
-             </div>
-             <div className="info w-[75%] pr-6 relative">
-              <h4 className='text-[14px] font-[500]'>
-                <Link to='/product/23342' className='link '>
-                Mens Cotton Casual Short Sleeve
-                </Link>
-              </h4>
-              <p className="flex items-center gap-5 my-2">
-                <span>Qty : <span>2</span></span>
-                <span className='text-primary font-bold'>Price : <span > ₹ 1,999</span></span>
-                
-              </p>
-              <MdOutlineDelete className='absolute right-[5px] top-[10px] text-[20px] cursor-pointer text-gray-500 link transition-all-'/>
-
-
-               
-             </div>
-             
-
-            </div>
-         
-          
-          
-          </div>
-     
-        <div className="bottomSection absolute bottom-0 left-0 w-full px-">
-            <div className="bottomInfo py-3 px-4 w-full border-t border-[rgba(0,0,0,0.1)] flex flex-col items-center justify-between">
-            <div className='flex items-center justify-between w-full'> 
-
-            <span className='text-[14px] font-[600]'>1 item</span>
-            <span className='text-primary font-bold' >₹ 1,999</span>
-            </div>
-            <div className='flex items-center justify-between w-full'> 
-
-            <span className='text-[14px] font-[600]'>Shipping</span>
-            <span className='text-primary font-bold' >₹ 50</span>
-            </div>
-          </div>
-          <div className="bottomInfo py-3 px-4 w-full border-t border-[rgba(0,0,0,0.1)] flex flex-col items-center justify-between">
-            <div className='flex items-center justify-between w-full'> 
-
-            <span className='text-[14px] font-[600]'>Total (tax excl.)</span>
-            <span className='text-primary font-bold' >₹ 1,999</span>
-            </div>
-            <div className='flex items-center justify-between w-full'> 
-
-            <span className='text-[14px] font-[600]'>Total (tax incl.)</span>
-            <span className='text-primary font-bold' >₹ 50</span>
-            </div>
-            <div className='flex items-center justify-between w-full'> 
-
-            <span className='text-[14px] font-[600]'>Taxes:</span>
-            <span className='text-primary font-bold' >₹ 50</span>
-            </div>
-
-            <div className="flex items-center justify-between w-full gap-5 mt-3">
-              <Button className='btn-org btn-lg w-[50%]'>
-                View Cart
-              </Button>
-              <Button className='btn-org btn-border  btn-lg w-[50%]' >
-                <Link to='/checkout'>
-                
-                Checkout
-                </Link>
-
-              </Button>
-            </div>
-          </div>
-
-        </div>
-      </Drawer>
     </BrowserRouter>
           <Toaster />
 

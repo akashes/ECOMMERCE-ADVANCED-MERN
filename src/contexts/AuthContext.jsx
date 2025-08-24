@@ -3,9 +3,12 @@ import { isTokenExpired, refreshAccessToken } from "../utils/auth";
 import { jwtDecode } from "jwt-decode";
 import { fetchDataFromApi, postData } from "../utils/api";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../features/cart/cartSlice";
 export const AuthContext = createContext()
 let refreshTimer;
 export const AuthContextProvider  = ({children})=>{
+  const dispatch = useDispatch()
     const[isLogin,setIsLogin]=useState(false)
     const[user,setUser]=useState(null)
     const[loading,setLoading]=useState(false)
@@ -17,6 +20,7 @@ export const AuthContextProvider  = ({children})=>{
       localStorage.removeItem('user')
       setIsLogin(false)
       setUser(null)
+      dispatch(clearCart())
       if(refreshTimer){
         clearTimeout(refreshTimer)
       }
@@ -39,7 +43,7 @@ export const AuthContextProvider  = ({children})=>{
           localStorage.setItem('accessToken',newToken)
           scheduleRefresh(newToken)
         }else{
-          // logout()
+          logout()
         }
       },refreshTime)
     }

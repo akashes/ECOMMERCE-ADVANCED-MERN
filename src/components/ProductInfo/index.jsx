@@ -1,13 +1,84 @@
-import React, { useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { Button, Rating } from '@mui/material'
 import QtyBox from '../QtyBox'
-import { BsCart3 } from 'react-icons/bs'
+import { BsCart3, BsCartDash } from 'react-icons/bs'
 import { FaRegHeart } from 'react-icons/fa6'
 import { IoGitCompareOutline } from 'react-icons/io5'
+import { MyContext } from '../../App'
+import { addToCart, removeCartItem, updateCart } from '../../features/cart/cartSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { showError, showSuccess } from '../../utils/toastUtils'
+import { AuthContext } from '../../contexts/AuthContext'
+import throttle from 'lodash.throttle'
+
 const ProductInfo = ({product,goToReviews}) => {
+    const context = useContext(AuthContext)
+    const{cart}=useSelector(state=>state.cart)
+    console.log(context)
+    const dispatch = useDispatch()
+              const isExistingCartItem = cart.find(i=>i.productId?._id===product?._id)
+              const isOutOfStock = product?.countInStock===0
+
 
     //    product size state
         const[productActionIndex,setProductActionIndex]=useState(null)
+
+           const handleAddToCart=async(id)=>{
+                if(!context.user){
+                  showError('You are not Logged in. Please Login before adding to Cart')
+                  return
+                }
+                const resultAction = await dispatch(addToCart(id))
+                console.log(resultAction)
+                        if(addToCart.fulfilled.match(resultAction)){
+                          showSuccess('Item added to Cart')
+                        }
+                        if(addToCart.rejected.match(resultAction)){
+                          showError(resultAction.payload || 'Failed to add item to Cart')
+                        }
+                
+              }
+
+    const handleRemoveCartItem=async(id)=>{
+      const resultAction = await dispatch(removeCartItem(id))
+      if(removeCartItem.fulfilled.match(resultAction)){
+        showSuccess('Item removed from Cart')
+      }
+      if(removeCartItem.rejected.match(resultAction)){
+        showError('Error removing item from Cart')
+      }
+      
+  
+    }
+     const handleUpdateQty = useMemo(() => 
+      throttle(async (newQty) => {
+        if (!isExistingCartItem) return;
+    
+        if (newQty < 1) {
+          const resultAction = await dispatch(removeCartItem(isExistingCartItem._id));
+    
+          if (removeCartItem.fulfilled.match(resultAction)) {
+            showSuccess(resultAction.payload.message || "Item removed from Cart");
+          } else {
+            showError(resultAction.payload || "Failed to remove item from Cart");
+          }
+          return;
+        }
+    
+        const resultAction = await dispatch(
+          updateCart({ cartItemId: isExistingCartItem._id, quantity: newQty })
+        );
+        console.log(resultAction)
+    
+        if (updateCart.fulfilled.match(resultAction)) {
+          showSuccess("Cart Updated");
+        } 
+        if(updateCart.rejected.match(resultAction)){
+          showError(resultAction.payload || 'Failed to update cart quantity')
+        }
+      }, 1000, { leading: true, trailing: true }),
+    [dispatch, isExistingCartItem]
+    );
     
   return (
     <>
@@ -52,14 +123,29 @@ const ProductInfo = ({product,goToReviews}) => {
 
             {/* qty update and addToCart  */}
             <div className="flex items-center  gap-4 py-4">
+                {
+                    isExistingCartItem && 
                 <div className="qtyBoxWrapper w-[70px]">
 
-                <QtyBox/>
+                <QtyBox handleUpdateQty={handleUpdateQty} quantity={isExistingCartItem.quantity} stock={product.countInStock} cartItemId={isExistingCartItem._id} />
                 </div>
-                <Button className="btn-org flex gap-2 items-center">
+                }
+                {
+                    !isExistingCartItem ? <>
+                     <Button disabled={isOutOfStock} onClick={()=>handleAddToCart(product._id)} className={`${isOutOfStock && 'opacity-50'} btn-org flex gap-2 items-center`}>
                     <BsCart3 className="text-[22px]"/>
                     Add to Cart
                 </Button>
+                {isOutOfStock &&                 <span className='text-primary'>Product Out Of Stock</span>
+}
+                    </>
+                :
+                <Button onClick={()=>handleRemoveCartItem(isExistingCartItem._id)} className="btn-org flex gap-2 items-center">
+                    <BsCartDash  className="text-[22px]"/>
+                    Remove from Cart
+                </Button>
+                }
+               
 
             </div>
               {/* add to Wishlist,compare  */}

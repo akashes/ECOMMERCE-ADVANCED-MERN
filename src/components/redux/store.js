@@ -10,6 +10,8 @@ import bannerV1Reducer from '../../features/bannerV1Slice.js'
 import blogReducer from '../../features/blog/blogSlice.js'
 import filterProductsReducer from '../../features/productsFilter/productsFilterSlice.js'
 import productReducer from '../../features/product/productSlice.js'
+import cartReducer from '../../features/cart/cartSlice.js'
+import wishlistReducer from '../../features/wishList/wishListSlice.js'
 export const store = configureStore({
   reducer: {
     user:userReducer,
@@ -21,6 +23,8 @@ export const store = configureStore({
     bannerV1:bannerV1Reducer,
     blog:blogReducer,
     filterProducts:filterProductsReducer,
-    product:productReducer
+    product:productReducer,
+    cart:cartReducer,
+    wishlist:wishlistReducer
   },
 });
