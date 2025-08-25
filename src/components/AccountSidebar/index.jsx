@@ -70,7 +70,7 @@ console.log(avatar)
 
 
   return (
-     <div className=" bg-gradient-to-tr from-[#ffffff] to-[#e9e9e9] card bg-white shadow-md rounded-md sticky top-[10px] ">
+     <div className=" bg-gradient-to-tr from-[#ffffff] to-[#e9e9e9] card bg-white shadow-md rounded-md sticky top-[170px] ">
 
                      <div className="w-full p-5 flex items-center justify-center flex-col">
                         {/* image */}

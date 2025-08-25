@@ -1,149 +1,162 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { isTokenExpired, refreshAccessToken } from "../utils/auth";
 import { jwtDecode } from "jwt-decode";
 import { fetchDataFromApi, postData } from "../utils/api";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../features/cart/cartSlice";
-export const AuthContext = createContext()
-let refreshTimer;
-export const AuthContextProvider  = ({children})=>{
-  const dispatch = useDispatch()
-    const[isLogin,setIsLogin]=useState(false)
-    const[user,setUser]=useState(null)
-    const[loading,setLoading]=useState(false)
-    const[resetPasswordToken,setResetPasswordToken]=useState(null)
-    const[authChecked,setAuthChecked]=useState(false)
+import { clearWishlistReducer } from "../features/wishList/wishListSlice";
 
-     const logout=()=>{
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('user')
-      setIsLogin(false)
-      setUser(null)
-      dispatch(clearCart())
-      if(refreshTimer){
-        clearTimeout(refreshTimer)
-      }
+export const AuthContext = createContext(null);
+
+export const AuthContextProvider = ({ children }) => {
+  const dispatch = useDispatch();
+
+  const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [resetPasswordToken, setResetPasswordToken] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  const refreshTimerRef = useRef(null);
+  const mountedRef = useRef(true);
+
+  const setAuthHeader = (token) => {
+    if (token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common.Authorization;
     }
+  };
 
-    const scheduleRefresh=(token)=>{
-      const {exp}=jwtDecode(token)
-      
-      if(!exp) throw new Error('Invalid token')
-      console.log('expiry',exp)
-      const refreshTime = (exp*1000)-Date.now()-30*1000 //30 seconds before expiry
-      
-      console.log('refresh time',refreshTime)
-      refreshTimer=setTimeout(async()=>{
-        console.log('timer reached calling refresh token')
-        const newToken = await refreshAccessToken()
-        console.log('new token from timer function',newToken)
-        if(newToken){
-          console.log('new token got from refresh',newToken)
-          localStorage.setItem('accessToken',newToken)
-          scheduleRefresh(newToken)
-        }else{
-          logout()
+  const clearRefreshTimer = () => {
+    if (refreshTimerRef.current) {
+      clearTimeout(refreshTimerRef.current);
+      refreshTimerRef.current = null;
+    }
+  };
+
+  const logout = () => {
+    clearRefreshTimer();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
+    setAuthHeader(null);
+    setIsLogin(false);
+    setUser(null);
+    dispatch(clearCart());
+    // dispatch(clearWishlistReducer());
+  };
+
+  const scheduleRefresh = (token) => {
+    try {
+      const { exp } = jwtDecode(token);
+      if (!exp) throw new Error("Invalid token: missing exp");
+
+      const msUntilRefresh = exp * 1000 - Date.now() - 30_000; // refresh 30s early
+      const delay = Math.max(msUntilRefresh, 5_000); // clamp to >= 5s
+
+      clearRefreshTimer();
+
+      refreshTimerRef.current = setTimeout(async () => {
+        try {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            localStorage.setItem("accessToken", newToken);
+            setAuthHeader(newToken);
+            scheduleRefresh(newToken);
+          } else {
+            logout();
+          }
+        } catch {
+          logout();
         }
-      },refreshTime)
+      }, delay);
+    } catch (e) {
+      console.error("scheduleRefresh error:", e);
+      logout();
     }
+  };
 
-    const login=(token,userData)=>{
-      console.log('inside login')
-      console.log(token,userData)
-      if(refreshTimer) clearTimeout(refreshTimer)
-      localStorage.setItem('accessToken',token)
-      localStorage.setItem('user',JSON.stringify(userData))
-      setIsLogin(true)
-      setUser(userData)
-      scheduleRefresh(token)
+  const login = (token, userData) => {
+    clearRefreshTimer();
+    localStorage.setItem("accessToken", token);
+    // Optional: store user; or skip if you always refetch details
+    localStorage.setItem("user", JSON.stringify(userData));
 
-    }
+    setAuthHeader(token);
+    setIsLogin(true);
+    setUser(userData);
+    scheduleRefresh(token);
+  };
 
-   
+  useEffect(() => {
+    mountedRef.current = true;
 
-
-      useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    console.log('token from localstroage',token)
-    //trying  to login user if token is present
-    const tryRefreshAndLoadUser = async () => {
-    setLoading(true);
-
-    let validToken = token;
-
-    // If no token or expired, try to refresh
-    if (!token || isTokenExpired(token)) {
+    const initAuth = async () => {
+      setLoading(true);
       try {
-        const result = await postData('/api/user/refresh-token'); // should hit /refresh and get new access token
-        console.log(result)
-        let newAccessToken = result.data.accessToken;
-        if (newAccessToken) {
-          localStorage.setItem('accessToken', newAccessToken);
-          validToken = newAccessToken;
+        let token = localStorage.getItem("accessToken");
+
+        // If absent/expired, try refresh
+        if (!token || isTokenExpired(token)) {
+          try {
+            const res = await postData("/api/user/refresh-token");
+            token = res?.data?.accessToken;
+            if (!token) throw new Error("No accessToken in refresh response");
+            localStorage.setItem("accessToken", token);
+          } catch (err) {
+            logout();
+            return;
+          }
+        }
+
+        setAuthHeader(token);
+
+        // Fetch fresh user details
+        const res = await fetchDataFromApi("/api/user/user-details");
+        if (res?.success) {
+          if (!mountedRef.current) return;
+          setIsLogin(true);
+          setUser(res.data);
+          scheduleRefresh(token);
         } else {
-          throw new Error("Refresh failed");
+          logout();
         }
       } catch (err) {
+        console.error("initAuth error:", err);
         logout();
-        setLoading(false);
-        setAuthChecked(true);
-        return;
-      }
-    }
-  }
-
-
-
-
-
-    //get userdetails on refresh if token is valid
-    if(token && !isTokenExpired(token)){
-      console.log('token is valid , calling user details')
-        setLoading(true)
-       fetchDataFromApi('/api/user/user-details')
-       .then((res)=>{
-        console.log(res)
-
-        if(res.success){
-          setIsLogin(true)
-          setUser(res.data) //fresh server data
-          scheduleRefresh(token)
+      } finally {
+        if (mountedRef.current) {
+          setLoading(false);
+          setAuthChecked(true);
         }
-      
-       })
-       .catch(()=>{
-        logout()
-       })
-       .finally(()=>{
-        setLoading(false)
-        setAuthChecked(true)
-       })
-    }else{
-      //absence or expired token
-      logout()
-      setLoading(false)
-      setAuthChecked(true)
+      }
+    };
 
-    }
-      tryRefreshAndLoadUser();
+    initAuth();
 
-    // const userInfo = localStorage.getItem('user');
-    // if (token && userInfo && !isTokenExpired(token)) {
-    //   setIsLogin(true);
-    //   setUser(JSON.parse(userInfo));
-    //   scheduleRefresh(token)
-    // }else{
-    //   logout()
-    // }
-
-    return()=>refreshTimer && clearTimeout(refreshTimer)
+    return () => {
+      mountedRef.current = false;
+      clearRefreshTimer();
+    };
   }, []);
-console.log(user)
-    return(
-        <AuthContext.Provider value={{isLogin,user,setUser,login,logout,resetPasswordToken,setResetPasswordToken,loading,setLoading,authChecked}}>
-            {children}
-        </AuthContext.Provider>
-    )
 
-}
+  return (
+    <AuthContext.Provider
+      value={{
+        isLogin,
+        user,
+        setUser,
+        login,
+        logout,
+        resetPasswordToken,
+        setResetPasswordToken,
+        loading,
+        setLoading,
+        authChecked,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};

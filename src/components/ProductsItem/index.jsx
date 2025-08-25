@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Rating from '@mui/material/Rating';
 import { Button } from '@mui/material';
 
-import { FaMinus, FaPlus, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaMinus, FaPlus, FaRegHeart } from "react-icons/fa";
 import { IoGitCompareOutline } from "react-icons/io5";
 import { MdZoomOutMap } from "react-icons/md";
 
@@ -20,7 +20,7 @@ import { showError, showSuccess } from '../../utils/toastUtils';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import throttle from 'lodash.throttle'
-import { addToWishlist } from '../../features/wishList/wishListSlice';
+import { addToWishlist, removeWishlistItem } from '../../features/wishList/wishListSlice';
 
 const ProductItem = ({item}) => {
   const context = useContext(AuthContext)
@@ -28,9 +28,16 @@ const ProductItem = ({item}) => {
   const {setOpenProductDetailsModal} = useContext(MyContext)
   const discount = item?.oldPrice && item?.price ? Math.round(((item.oldPrice - item.price)/item.oldPrice)*100):0;
  const {cart,cartUpdationLoading,cartUpdatingItem}=useSelector(state=>state.cart)
+ const{wishlist}=useSelector(state=>state.wishlist)
 
 
+ console.log(wishlist)
+
+
+
+   const isWishlisted = wishlist.find(i=>i.productId?._id===item._id || i._id===item._id)
  
+ console.log(isWishlisted)
 
    const existingCartItem = cart.find(cartItem=>cartItem.productId._id===item._id)
   
@@ -92,7 +99,7 @@ const ProductItem = ({item}) => {
 
 
   const handleAddToWishList=async(productId)=>{
-    const resultAction = await dispatch(addToWishlist(productId))
+    const resultAction = await dispatch(addToWishlist({productId,user:context.user}))
     console.log(resultAction)
     if(addToWishlist.fulfilled.match(resultAction)){
       showSuccess('Item added to WishList')
@@ -152,11 +159,18 @@ const ProductItem = ({item}) => {
 
                 <Tooltip title="Add To Wishlist" placement="left">
 
-            <Button onClick={()=>handleAddToWishList(item._id)} className='!w-[35px] !h-[35px] !min-w-[35px] group !rounded-full !bg-white hover:!bg-primary
-             hover:!text-white
-             '>
-                <FaRegHeart className=' action-icon text-[18px] text-black hover:text-white transition-colors'/>
-            </Button>
+         <Button
+  onClick={()=>{
+   handleAddToWishList(item._id)
+  }}
+  className={`!w-[35px] !h-[35px] !min-w-[35px] group !rounded-full !bg-white 
+    ${isWishlisted ? '!bg-primary !text-white' : 'hover:!bg-primary hover:!text-white'}`}>
+  {isWishlisted ? (
+    <FaHeart className="text-primary"/>
+  ) : (
+    <FaRegHeart className="action-icon text-[18px] text-black hover:text-white transition-colors"/>
+  )}
+</Button>
                 </Tooltip>
             
          </div>

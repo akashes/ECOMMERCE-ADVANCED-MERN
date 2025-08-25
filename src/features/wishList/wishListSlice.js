@@ -1,9 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 
-export const addToWishlist=createAsyncThunk('wishlist/addToWishlist',async(productId,{rejectWithValue})=>{
+export const addToWishlist=createAsyncThunk('wishlist/addToWishlist',async({productId,user},{rejectWithValue})=>{
+            if(!user){
+            //guest
+              let localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      if (!localWishlist.includes(productId)) {
+        localWishlist.push(productId);
+        localStorage.setItem("wishlist", JSON.stringify(localWishlist));
+
+    }
+    return {local:true,productId}
+    }
     try {
+
+
+
         const result = await axios.post(`/api/myList/add-to-mylist/${productId}`)
         if(!result.data.success){
             throw new Error(result.data.message || 'Failed to add item to Wishlist')
@@ -16,7 +30,29 @@ export const addToWishlist=createAsyncThunk('wishlist/addToWishlist',async(produ
     }
 })
 
-export const getWishlistItems = createAsyncThunk('cart/getWishlistItems',async(_,{rejectWithValue})=>{
+export const getWishlistItems = createAsyncThunk('cart/getWishlistItems',async(user,{rejectWithValue,dispatch})=>{
+        if (!user) {
+      const localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      console.log(localWishlist)
+      if(localWishlist.length>0){
+          const { data } = await axios.post("/api/myList/by-ids", { ids: localWishlist });
+          console.log(data)
+              const formatted = data.products.map(p => ({
+    _id: p._id,
+    productId: p // so it matches the server response shape
+  }));
+
+  console.log(formatted)
+
+  
+
+          return {local:true,items:formatted}
+//    dispatch(setWishlistReducer(formatted))
+      }
+    }
+
+
+
     try {
         const result = await axios.get(`/api/myList`)
         console.log(result)
@@ -30,7 +66,21 @@ export const getWishlistItems = createAsyncThunk('cart/getWishlistItems',async(_
     }
 })
 
-export const removeWishlistItem = createAsyncThunk('cart/removeWishlistItem',async(wishlistItemId,{rejectWithValue})=>{
+export const removeWishlistItem = createAsyncThunk('cart/removeWishlistItem',async({wishlistItemId,user},{rejectWithValue})=>{
+       if (!user) { 
+        console.log(wishlistItemId)
+      // Guest user 
+      let localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      console.log(localWishlist)
+      localWishlist = localWishlist.filter(id => id !== wishlistItemId);
+      console.log(localWishlist)
+      localStorage.setItem("wishlist", JSON.stringify(localWishlist));
+
+      // Update redux directly
+    //   dispatch(removeFromWishlistReducer(wishlistItemId));
+
+      return { local: true, itemId: wishlistItemId };
+    }
     try {
         const result = await axios.delete(`/api/myList/remove-wishlist-item/${wishlistItemId}`)
         console.log(result)
@@ -53,8 +103,26 @@ const wishList = createSlice({
         error:null
     },
     reducers:{
+            setWishlistReducer: (state, action) => {
+                console.log('inside setWishlistReducer')
+                console.log(action.payload)
+      state.wishlist = action.payload;
+    },
+    addToWishlistReducer: (state, action) => {
+      state.wishlist.push(action.payload);
+    },
+    removeFromWishlistReducer: (state, action) => {
+      state.wishlist = state.wishlist.filter(
+        item => item._id !== action.payload
+      );
 
     },
+    clearWishlistReducer:(state)=>{
+        state.wishlist=[],
+        state.loading=false,
+        state.error=null
+    }
+},
     extraReducers:(builder)=>{
         builder.addCase(addToWishlist.pending,(state)=>{
             state.loading=true,
@@ -64,7 +132,12 @@ const wishList = createSlice({
         builder.addCase(addToWishlist.fulfilled,(state,action)=>{
             state.loading=false
             state.error=null
-           state.wishlist.push(action.payload.item)
+            if(action.payload.local){
+                state.wishlist.push({_id:action.payload.productId,guest:true})
+            }else{
+
+                state.wishlist.push(action.payload.item)
+            }
 
 
         }),
@@ -81,6 +154,7 @@ const wishList = createSlice({
         builder.addCase(getWishlistItems.fulfilled,(state,action)=>{
             state.loading=false
             state.error=null
+        
            state.wishlist=action.payload.items
 
 
@@ -98,7 +172,7 @@ const wishList = createSlice({
         builder.addCase(removeWishlistItem.fulfilled,(state,action)=>{
             state.loading=false
             state.error=null
-           console.log(action.payload)
+
           state.wishlist= state.wishlist.filter(i=>i._id!==action.payload.itemId)
 
 
@@ -112,4 +186,5 @@ const wishList = createSlice({
     }
 })
 
+export const{setWishlistReducer,addToWishlistReducer,removeFromWishlistReducer,clearWishlistReducer}= wishList.actions
 export default wishList.reducer

@@ -31,7 +31,8 @@ import { IoLogOut } from "react-icons/io5";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 import {  postData } from "../../utils/api.js";
 import { showError, showSuccess } from "../../utils/toastUtils.js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearWishlistReducer, removeFromWishlistReducer } from "../../features/wishList/wishListSlice.js";
 
 
 
@@ -47,6 +48,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Header = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const{cart}=useSelector(state=>state.cart)
   const{wishlist}=useSelector(state=>state.wishlist)
 
@@ -70,6 +72,9 @@ const handleLogout=async()=>{
   }
   //logout success
   showSuccess(result.message||'Logout successful')
+ 
+      dispatch(clearWishlistReducer());
+
   authContext.logout()
   navigate('/')
 
