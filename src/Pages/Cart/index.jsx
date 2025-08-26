@@ -14,6 +14,7 @@ import CartItemSkeleton from "../../components/Skeltons/CartItemsSkelton";
 
 const CartPage = () => {
   const{cart,loading}=useSelector(state=>state.cart)
+  
 const navigate  = useNavigate()
 
   const subTotal =  cart?.reduce((acc, item) => acc + (item.quantity * item.productId.price), 0)
@@ -66,7 +67,7 @@ const navigate  = useNavigate()
            
           <>
           {
-          !loading && cart?.length===0 &&     <div className="flex items-center justify-center flex-col pt-[100px] pb-[100px] gap-5">
+          !loading  && cart?.length===0 &&     <div className="flex items-center justify-center flex-col pt-[100px] pb-[100px] gap-5">
                     
                     <img className="w-[150px]" src="https://res.cloudinary.com/dllelmzim/image/upload/v1755950175/delete_o3nlss.png" alt="" />
                     <h4>Your Cart is currently empty</h4>
@@ -96,7 +97,7 @@ const navigate  = useNavigate()
                       <>
                         <p className="flex items-center justify-between">
                   <span className="text-[14px] font-[500]">Subtotal</span>
-                  <span className="text-primary font-bold">₹ {subTotal} </span>
+                  <span className="text-primary font-bold"> {subTotal.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })} </span>
                 </p>
                 <p className="flex items-center justify-between">
                   <span className="text-[14px] font-[500]">Shipping</span>
@@ -105,7 +106,7 @@ const navigate  = useNavigate()
              
                 <p className="flex items-center justify-between">
                   <span className="text-[17px] font-[500]">Total</span>
-                  <span className="font-bold text-primary text-[18px]">₹ {total}</span>
+                  <span className="font-bold text-primary text-[18px]"> {total.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</span>
                 </p>
                 <br />
                 <Button className="w-full btn-org btn-lg flex gap-2">

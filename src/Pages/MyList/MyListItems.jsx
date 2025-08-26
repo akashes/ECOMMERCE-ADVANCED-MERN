@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import  Rating  from '@mui/material/Rating';
 import { Alert, Button } from '@mui/material';
 import { addToCart } from '../../features/cart/cartSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeFromWishlistReducer, removeWishlistItem } from '../../features/wishList/wishListSlice';
 import { showError, showSuccess, showWarning } from '../../utils/toastUtils';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -19,7 +19,11 @@ const MyListItems = ({item}) => {
 
   const[showAlert,setShowAlert]=useState(false)
   const context = useContext(AuthContext)
+  const{wishlist}=useSelector(state=>state.wishlist)
+  console.log(wishlist)
 
+  const wishlistItemId = wishlist.find(i=>i.productId?._id===item?._id)?._id
+  console.log(wishlistItemId)
   const dispatch = useDispatch()
   console.log(item)
 
@@ -29,8 +33,9 @@ const MyListItems = ({item}) => {
       return
     }
           const resultAction = await dispatch(addToCart(productId))
+          console.log(resultAction)
           if(addToCart.fulfilled.match(resultAction)){
-            const removeListItemResult = await dispatch(removeWishlistItem(itemId))
+            const removeListItemResult = await dispatch(removeWishlistItem({wishlistItemId:itemId,user:context.user}))
             if(removeWishlistItem.fulfilled.match(removeListItemResult)){
               showSuccess('Item moved to Cart')
               return

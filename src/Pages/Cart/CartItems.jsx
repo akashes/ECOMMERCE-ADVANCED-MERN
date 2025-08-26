@@ -218,8 +218,9 @@ const CartItems = ({item,size}) => {
                   <span className="oldPrice line-through text-gray-500 text-[14px] font-[500]">
                     ₹ {item.productId.oldPrice}
                   </span>
-                  <span className="price text-primary font-[600] text-[14px]">
-                    {item.productId.discount}% OFF
+                  <span className="price text-green-600 font-[600] text-[12px]">
+{item.productId?.discount!==0 && !isNaN(Number(item.productId.discount)) && 
+  Math.floor(Number(item.productId.discount)) + '% Off'}
                   </span>
                 </div>
 

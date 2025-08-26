@@ -18,6 +18,9 @@ import { firebaseApp } from "../../firebase";
 
 const auth = getAuth(firebaseApp)
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+    prompt: 'select_account'
+})
 
 
 const Login = () => {

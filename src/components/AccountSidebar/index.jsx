@@ -118,7 +118,7 @@ console.log(avatar)
 
                             <Button className='flex items-center !justify-start !px-5 gap-3 !capitalize !text-[rgba(0,0,0,0.8)] w-full '>
                                 <IoHeartSharp className='text-[17px]'/>
-                                Favorites
+                                Wishlist
                                 </Button>
                             </NavLink>
 

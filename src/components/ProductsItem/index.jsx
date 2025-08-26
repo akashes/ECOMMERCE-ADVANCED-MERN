@@ -128,7 +128,7 @@ const ProductItem = ({item}) => {
         </div>
         </Link>
         {
-          discount && discount>=3 && (
+          discount && discount>=5 && (
 
             <span className='discount flex items-center absolute top-[10px] left-[10px] z-50 bg-primary text-white rounded-md p-1 tex-[12px] font-[500]'>{discount}%</span>
           ) 
@@ -178,9 +178,13 @@ const ProductItem = ({item}) => {
       </div>
       <div className={`${isUpdating  && ''} info p-3 py-5 relative pb-[50px] h-[190px] `}>
         <h6 className='text-[13px] !font-[400]'>
+          <div className='flex justify-between items-center'>
+
         <span className='link'>
             {item?.brand}
             </span>
+            {isWishlisted && <FaHeart className='text-primary'/>}
+          </div>
         </h6>
         <h3 className='text-[13px] title mt-1 font-[500] text-[#000] mb-1'>
             <Link to={`/product/${item._id}`} className='link'>
@@ -200,7 +204,8 @@ const ProductItem = ({item}) => {
             </div>
                  <div className=" absolute bottom-[15px] !w-full left-0 pl-3 pr-3  ">
                {
-                isOutOfStock?<>
+                isOutOfStock?
+                <>
                 <p className='text-center text-primary font-bold text-[14px]'>Out Of Stock</p>
                 </>:
                 <>

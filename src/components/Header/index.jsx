@@ -271,7 +271,7 @@ const handleLogout=async()=>{
                               <IconButton onClick={()=>{
                                 navigate('/my-list')
                               }} aria-label="wishlist">
-                                <StyledBadge badgeContent={wishlist?.length} color="secondary">
+                                <StyledBadge  badgeContent={wishlist?.length} color="secondary">
                                     <FaRegHeart />
                                 </StyledBadge>
                                 </IconButton>

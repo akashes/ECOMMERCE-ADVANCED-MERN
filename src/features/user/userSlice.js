@@ -48,6 +48,23 @@ export const deleteAddress = createAsyncThunk('user/deleteAddress',async(address
     }
 })
 
+// userSlice.js
+export const updateAddress = createAsyncThunk(
+  'user/updateAddress',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const result = await axios.put(`/api/address/${formData._id}`, formData);
+      if (!result.data.success) {
+        throw new Error(result.data.message || "Failed to update address");
+      }
+      return result.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+
 const userSlice = createSlice({
     name: "user",
     initialState: {
@@ -79,6 +96,23 @@ const userSlice = createSlice({
             state.address.push(action.payload.address)
         })
         .addCase(addAddress.rejected,(state,action)=>{
+            state.loading = false
+            state.error = action.payload
+        })
+        .addCase(updateAddress.pending,(state)=>{
+            state.loading = true
+            state.error = null
+        })
+        .addCase(updateAddress.fulfilled,(state,action)=>{
+            console.log(action.payload)
+            state.loading = false
+            state.error = null
+            const filteredAddress = state.address.filter(i=>i._id!==action.payload.address._id)
+            const updatedAddress = [...filteredAddress,action.payload.address]
+            
+            state.address=updatedAddress
+        })
+        .addCase(updateAddress.rejected,(state,action)=>{
             state.loading = false
             state.error = action.payload
         })

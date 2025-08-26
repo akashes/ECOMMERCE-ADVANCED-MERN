@@ -17,6 +17,7 @@ const MyList = () => {
   const { wishlist } = useSelector((state) => state.wishlist);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [localWishlist, setLocalWishlist] = useState([]);
+  const[confirm,setConfirm]=useState(true)
 
   useEffect(() => {
     const run = async () => {
@@ -31,6 +32,7 @@ const MyList = () => {
       if (local.length === 0) {
         dispatch(getWishlistItems(context.user));
       } else {
+        confirm && 
         setConfirmOpen(true); //  show custom confirm dialog
       }
     };
@@ -64,12 +66,16 @@ const MyList = () => {
         <div className="col2 w-[70%]">
           <div className="shadow-md rounded-md bg-white">
             <div className="py-2 px-3 border-b border-[rgba(0,0,0,0.1)]">
-              <h2>My List</h2>
-              <p>
+              <h2>My Wishlist</h2>
+              {
+                wishlist?.length>0 ?      <p>
                 There are{" "}
                 <span className="font-bold text-primary">{wishlist?.length}</span> products in your
                 List
-              </p>
+              </p>:
+              <p className="font-[500]">Your Wishlist is currently Empty</p>
+              }
+         
             </div>
             {wishlist?.length > 0 ?
               wishlist.map((item) => <MyListItems key={item._id} item={item} />) : 

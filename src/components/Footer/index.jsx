@@ -5,7 +5,7 @@ import { LiaGiftSolid } from "react-icons/lia";
 import { RiCustomerService2Line } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { IoChatboxOutline, IoClose } from "react-icons/io5";
-import { Button, Drawer } from "@mui/material";
+import { Button, Drawer, Tooltip } from "@mui/material";
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -272,11 +272,13 @@ const Footer = () => {
               </Link>
              </div>
              <div className="info w-[75%] pr-6 relative">
-              <h4 className='text-[14px] font-[500]'>
+             <Tooltip title={item.productId.name}>
+                 <h4 className='text-[14px] font-[500]'>
                 <Link to={`/product/${item.productId._id}`} className='link '>
-                {item.productId.name.substr(0,40)+'...'}
+                {item.productId.name.substr(0,25)+'...'}
                 </Link>
               </h4>
+             </Tooltip>
               <p className="flex items-center gap-5 my-2">
                 <span>Qty : <span>{item?.quantity}</span></span>
                 <span className='text-primary font-bold'>Price : <span > ₹ {item.quantity*item.productId.price}</span></span>
@@ -337,15 +339,14 @@ const Footer = () => {
 
 
             <div className="flex items-center justify-between w-full gap-5 mt-3">
-              <Button onClick={()=>{toggleCartPanel(false)(); navigate('/cart')}}  className='btn-org btn-lg w-[50%]'>
+              <Button onClick={()=>{toggleCartPanel(false)(); navigate('/cart')}}  className='btn-org btn-border btn-lg w-[50%]'>
               
                 View Cart
               </Button>
-              <Link onClick={()=>toggleCartPanel(false)} className='btn-org btn-border  btn-lg w-[50%]' >
-                
+                     <Button onClick={()=>{toggleCartPanel(false)(); navigate('/checkout')}}  className='btn-org btn-lg w-[50%]'>
+              
                 Checkout
-
-              </Link>
+              </Button>
             </div>
           </div>
 

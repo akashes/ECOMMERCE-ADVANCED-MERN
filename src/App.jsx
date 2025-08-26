@@ -41,6 +41,7 @@ import { getCartItems, removeCartItem } from './features/cart/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { showSuccess } from './utils/toastUtils'
 import ScrollToTop from './utils/ScrollToTop'
+import { getWishlistItems } from './features/wishList/wishListSlice'
 
 
 
@@ -58,6 +59,9 @@ const App = () => {
 
   // const[isLogin,setIsLogin]=useState(false)
   const [openCartPanel,setOpenCartPanel]=useState(false)
+  const[confirm,setConfirm]=useState(false)
+    const [localWishlist, setLocalWishlist] = useState([]);
+  
   
 
   
@@ -65,6 +69,7 @@ const App = () => {
     open:false,
     product:null
    });
+   const[openAddressPanel,setOpenAddressPanel]=useState(false)
    console.log(openProductDetailsModal)
    const [maxWidth, setMaxWidth] = useState('lg');
        const [fullWidth, setFullWidth] = useState(true);
@@ -87,7 +92,9 @@ const App = () => {
         const values={
           setOpenProductDetailsModal,
           setOpenCartPanel,
-          openCartPanel
+          openCartPanel,
+          openAddressPanel,
+          setOpenAddressPanel
           // openAlertBox, //passing function for toast using context //may change later 
           // isLogin,
           // setIsLogin
@@ -120,6 +127,32 @@ const App = () => {
       }
   
     },[user])
+
+
+      useEffect(() => {
+         const run = async () => {
+          if (!user) {
+            dispatch(getWishlistItems(null));
+            return;
+          }
+    
+          const local = JSON.parse(localStorage.getItem("wishlist")) || [];
+          setLocalWishlist(local);
+    
+          if (local.length === 0) {
+            dispatch(getWishlistItems(user));
+          } else {
+            // confirm && 
+            // setConfirmOpen(true); 
+          }
+        };
+        if(user){
+
+            
+            run();
+        }
+       }
+      , [user, dispatch]);
   return (
     <>
     <BrowserRouter>
