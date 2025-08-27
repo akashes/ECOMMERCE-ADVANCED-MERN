@@ -17,8 +17,11 @@ const CartPage = () => {
   
 const navigate  = useNavigate()
 
-  const subTotal =  cart?.reduce((acc, item) => acc + (item.quantity * item.productId.price), 0)
-  const isshippingCharge = subTotal<249?true:false
+const subTotal = cart?.reduce((acc, item) => {
+  if (!item.productId) return acc; 
+  return acc + (item.quantity * (item.productId.price || 0));
+}, 0);  
+const isshippingCharge = subTotal<249?true:false
   let total 
   if(isshippingCharge){
    total = subTotal+50
@@ -56,9 +59,12 @@ const navigate  = useNavigate()
                 <CartItemSkeleton/>
                 </>
               ):(
-                  cart?.length>0 && cart.map((item)=>(
+                 !loading &&  cart?.length>0 && cart.map((item)=>(
 
-                <CartItems key={item._id} item={item} size="S"  />
+                  item.productId?(
+                                    <CartItems key={item._id} item={item} size="S"  />
+
+                  ):null
               ))
 
               )

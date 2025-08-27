@@ -4,18 +4,22 @@ import { Button, Radio, Tooltip } from '@mui/material';
 
 import { BsFillBagCheckFill } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { IoMdAdd } from 'react-icons/io';
+import { Link, useNavigate } from 'react-router-dom';
+import { IoIosCloseCircle, IoMdAdd } from 'react-icons/io';
 import AddAddress from '../MyAccount/AddAddress';
 import { MyContext } from '../../App';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getAddress } from '../../features/user/userSlice';
+import axios from 'axios';
+import { showError, showSuccess, showWarning } from '../../utils/toastUtils';
+import { clearCart, deleteCart, removeCartItem } from '../../features/cart/cartSlice';
 
 
 const Checkout = () => {
     const{cart}=useSelector(state=>state.cart)
       const{openAddressPanel,setOpenAddressPanel}=useContext(MyContext)
       const{user}=useContext(AuthContext)
+      const navigate = useNavigate()
       console.log(user)
       const { address,loading:addressLoading } = useSelector(state => state.user)
       console.log(address)
@@ -49,6 +53,7 @@ const Checkout = () => {
   const handleSelectedAddress=(e,id)=>{
     if(e.target.checked){
         setIsChecked(id)
+        setSelectedAddress(id)
     }
   }
   useEffect(() => {
@@ -65,6 +70,241 @@ const Checkout = () => {
       getAddressDetails()
     }
   }, [user])
+
+
+
+
+  //razorpay
+    const handlePayment=async(amount)=>{
+    if(!user){
+        showError('Please login to proceed')
+        return
+    }
+    if(cart?.length===0 || !cart){
+        showError('Your cart is empty')
+    }
+    if(!isChecked){
+        showError('Please select a delivery address to proceed')
+        return
+    }
+    const addressDetails=address.find(i=>i._id===isChecked)
+ 
+
+    console.log(cart)
+
+
+    let res;
+   try{
+     res = await axios.post('/api/payment/create-order', {
+        amount,name:user.name,
+      products: cart
+    .filter((i) => i?.productId)
+    .map((i) => ({
+      productId: i.productId._id,
+      name: i.productId.name,
+      image: i.productId.images?.[0]?.url || "", 
+      price: i.productId.price || 0,
+      quantity: i.quantity,
+      subtotal: i.quantity * (i.productId.price || 0),
+    })),
+    }
+)
+          console.log(res)
+        if(!res.data.success){
+            showError(res.data.message || 'Failed to initiate payment')
+            return
+        }
+   }catch(err){
+    console.log(err)
+    showError(err?.response?.data?.message || 'Failed to initiate payment')
+    return
+   }
+  
+ const {order} = res.data
+ console.log(order)
+
+   const options = {
+        key:import.meta.env.VITE_RAZORPAY_API_KEY, 
+        amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        currency: 'INR',
+        name: 'CLASSY SHOP',
+        description:'Ecommerce Website Payment',
+        order_receipt: user.name ,
+        order_id: order.id, // This is the order_id created in the backend
+        //send payment detail to backend for verification
+        handler:async function(response){
+            console.log(response)
+            let payload= {
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+        name:user.name,
+        email:user.email,
+       products: cart
+    .filter((i) => i?.productId)
+    .map((i) => ({
+      productId: i.productId._id,
+      name: i.productId.name,
+      image: i.productId.images?.[0]?.url || "", 
+      price: i.productId.price || 0,
+      quantity: i.quantity,
+      subtotal: i.quantity * (i.productId.price || 0),
+    })),
+        delivery_address:{
+            address_line:addressDetails.address_line,
+            city:addressDetails.city,
+            state:addressDetails.state,
+            country:addressDetails.country,
+            pincode:addressDetails.pincode,
+            mobile:addressDetails.mobile,
+            landmark:addressDetails?.landmark, 
+            address_type:addressDetails?.address_type, 
+        },
+        total:amount,
+        date:new Date().toLocaleString('en-US',{
+            month:'short',
+            day:'2-digit',
+            year:"numeric"
+        }),
+        payment_id:response.razorpay_payment_id,
+        payment_status:"paid",
+        payment_method:'razorpay'
+
+
+      }
+      console.log(payload)
+      const result =       await axios.post("/api/payment/verify",  payload
+        
+    );
+
+        console.log(result)
+        if(!result.data.success){
+            showError('Failed to Place Order')
+            return
+        }
+        if(result.data.success){
+            showSuccess( result?.data?.message || 'Order Placed Successfully')
+            await dispatch(deleteCart())
+            navigate('/my-orders')
+
+            return
+        }
+
+
+        },
+        prefill: {
+          name: user.name,
+          email: user.email,
+          contact: addressDetails.mobile || ''
+        },
+        theme: {
+          color: '#3399cc'
+        //   color: '#ff5252'
+        //   color: '#F37254'
+        },
+      }; 
+
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+
+    }
+
+
+
+    //cod
+
+    const handleCashOnDelivery=async(amount)=>{
+    if(!user){
+        showError('Please login to proceed')
+        return
+    }
+        if(cart?.length===0 || !cart){
+        showError('Your cart is empty')
+    }
+    if(!isChecked){
+        showError('Please select a delivery address to proceed')
+        return
+    }
+    const addressDetails=address.find(i=>i._id===isChecked)
+
+              let payload= {
+ 
+        name:user.name,
+        email:user.email,
+       products: cart
+    .filter((i) => i?.productId)
+    .map((i) => ({
+      productId: i.productId._id,
+      name: i.productId.name,
+      image: i.productId.images?.[0]?.url || "", 
+      price: i.productId.price || 0,
+      quantity: i.quantity,
+      subtotal: i.quantity * (i.productId.price || 0),
+    })),
+        delivery_address:{
+            address_line:addressDetails.address_line,
+            city:addressDetails.city,
+            state:addressDetails.state,
+            country:addressDetails.country,
+            pincode:addressDetails.pincode,
+            mobile:addressDetails.mobile,
+            landmark:addressDetails?.landmark, 
+            address_type:addressDetails?.address_type, 
+        },
+        total:amount,
+        date:new Date().toLocaleString('en-US',{
+            month:'short',
+            day:'2-digit',
+            year:"numeric"
+        }),
+        payment_status:"pending",
+        payment_method:'cod'
+
+
+      }
+        const result =       await axios.post("/api/payment/cash-on-delivery",  payload
+        
+    );
+
+        console.log(result)
+        if(!result.data.success){
+            showError('Failed to Place Order')
+            return
+        }
+        if(result.data.success){
+            showSuccess( result?.data?.message || 'Order Placed Successfully')
+            await dispatch(deleteCart())
+            navigate('/my-orders')
+
+            return
+        }
+   
+
+    }
+
+
+const subTotal = cart?.reduce((acc, item) => {
+  if (!item.productId) return acc; 
+  return acc + (item.quantity * (item.productId.price || 0));
+}, 0);    const isshippingCharge = subTotal < 249 && subTotal > 0 ? true : false;
+  const total = isshippingCharge ? subTotal + 50 : subTotal;
+
+
+useEffect(() => {
+  if (address && address.length > 0) {
+    const lastAddress = address[address.length - 1]; 
+    setIsChecked(lastAddress._id);
+    setSelectedAddress(lastAddress._id);
+  }
+}, [address]);
+
+
+  useEffect(()=>{
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+
+  },[])
   return (
     <>
     <section className="py-10 checkoutPage">
@@ -136,10 +376,25 @@ const Checkout = () => {
                     </div>
                             <div className="scroll max-h-[300px] overflow-y-scroll overflow-x-hidden pr-2 mb-5 ">
                                     {
-                                        cart?.length>0 && cart.map((item)=>(
+                                        cart?.length>0 && cart.map((item)=>{
+                                            console.log(item)
+                                         
+                                            if(item.productId!==null){
+                                                   const isGreaterThanStock = item.quantity>item.productId?.countInStock
+                                            const isOutOfStock = item.productId?.countInStock===0
 
-                                                <div className="flex items-center justify-between py-2">
-                                                    <div className="part1 flex items-center gap-3">
+                                             return(
+                                                      <div className={` ${isOutOfStock && 'bg-[#fff2f2] opacity-50 '}  relative flex flex-col gap-1 py-2 ${isGreaterThanStock && 'opacity-50'} ` }>
+
+                                                        <IoIosCloseCircle onClick={()=>{
+                                                            dispatch(removeCartItem(item._id))
+                                                        }}  size={18} className=' text-primary absolute  left-[-1px] top-[-1px]  ' />
+      
+
+                                                 <div className=' flex items-center justify-between '>
+                                                                  
+                                                       <div className="part1 flex items-center gap-3 ">
+                                     
                                                         <div className="img w-[50px] h-[50px] rounded-md overflow-hidden group cursor-pointer">
                                                             <img src={item.productId?.images[0]?.url} alt="" 
                                                             className='w-full object-cover group-hover:scale-105 transition-transform ' />
@@ -161,18 +416,60 @@ const Checkout = () => {
                                             ?.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}
                                                         </div>
                                                       
-                                                         <div className='text-[12px] font-bold'> ({item.quantity} X {item.productId.price})</div>  </div>
+                                                         <div className='text-[12px] font-bold'> ({item.quantity} X {item.productId.price})</div> 
+                                                          </div>
+                                                 </div>
+
+
+
+
+
+
+
+
+
+                                               <div>
+                                                            {item.productId.countInStock===0 && <p className='font-bold text-primary text-center'>Out Of Stock</p>  }
+                                                            {item.productId.countInStock>0 && item.quantity>item.productId.countInStock && <p className='font-bold text-primary text-center'>Not enough Stock available</p>  }
+                                                          </div>
+
+                                                        
 
                                                 </div>
-                                        ))
+                                            )
+                                        }
+                                            return null
+
+                                          
+})
                                     }
 
                                        
                             </div>
+                           <div>
+                            <div className="flex items-center justify-between">
+                                  <span className='text-[14px] font-[500]'>Subtotal</span>
+                                  <span className='text-primary font-bold'> {subTotal.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })} </span>
+                             </div>
+                             <div className="flex items-center justify-between">
+                                  <span className='text-[14px] font-[500]'>Shipping</span>
+                                  <span className='font-bold text-primary'>{isshippingCharge?'50':"Free"}</span>
+                             </div>
+                             
+                             <div className="flex items-center justify-between">
+                                  <span className='text-[17px] font-[500]'>Total</span>
+                                  <span className='font-bold text-primary text-[18px]'> {total.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</span>
+                           </div>
+                           </div>
+<div className='flex flex-col gap-3 mt-5'>
 
-                            <Button className='w-full btn-org btn-lg flex gap-2 items-center '>
+                            <Button onClick={()=>handlePayment(total)} className='w-full btn-org  flex gap-2 items-center '>
                                 <BsFillBagCheckFill className='text-[20px]'/>
                                 Checkout</Button>
+                            <Button onClick={()=>handleCashOnDelivery(total)} className='w-full !bg-black !text-white flex !py-3 gap-2 items-center '>
+                                <BsFillBagCheckFill className='text-[20px]'/>
+                                Cash on Delivery</Button>
+</div>
                 </div>
             </div>
             

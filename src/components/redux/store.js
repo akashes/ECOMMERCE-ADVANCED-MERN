@@ -12,6 +12,7 @@ import filterProductsReducer from '../../features/productsFilter/productsFilterS
 import productReducer from '../../features/product/productSlice.js'
 import cartReducer from '../../features/cart/cartSlice.js'
 import wishlistReducer from '../../features/wishList/wishListSlice.js'
+import orderReducer from '../../features/order/orderSlice.js'
 export const store = configureStore({
   reducer: {
     user:userReducer,
@@ -25,6 +26,7 @@ export const store = configureStore({
     filterProducts:filterProductsReducer,
     product:productReducer,
     cart:cartReducer,
-    wishlist:wishlistReducer
+    wishlist:wishlistReducer,
+    order:orderReducer
   },
 });

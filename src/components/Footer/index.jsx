@@ -261,12 +261,13 @@ const Footer = () => {
 
           <div  className="scroll w-full max-h-[500px] overflow-y-scroll overflow-x-hidden py-3 px-4 relative ">
             {
-             cart&&   cart?.length>0 ? cart.map((item)=>{
+             cart&&   cart?.length>0 ? cart.map((item)=>(
+                item.productId ? 
     
-              return(
+              (
                      <div className="cartItem w-full flex items-center gap-4 border-b border-gray-300 py-3 ">
              <div className="img w-[25%] group overflow-hidden h-[80px] rounded-md">
-              <Link className=' ' to={`/product/${item.productId._id}`}>
+              <Link className=' ' to={`/product/${item.productId?._id}`}>
               <img className='group-hover:scale-110 transition-all w-full' src={item?.productId?.images[0].url}
                alt="" />
               </Link>
@@ -293,7 +294,9 @@ const Footer = () => {
 
             </div>
                 
-               )}):(
+               ):null
+            
+            )):(
                 <div className="flex items-center justify-center flex-col pt-[100px] gap-5">
                     
                     <img className="w-[150px]" src="https://res.cloudinary.com/dllelmzim/image/upload/v1755950175/delete_o3nlss.png" alt="" />
@@ -315,12 +318,17 @@ const Footer = () => {
 
             <span className='text-[14px] font-[600]'>{cart?.length} item</span>
             <span className='text-primary font-bold' >
-  ₹ {cart?.reduce((acc, item) => acc + (item.quantity * item.productId.price), 0)}
+₹ {cart?.reduce((acc, item) => {
+    if (!item.productId) return acc;
+    return acc + (item.quantity * (item.productId.price || 0));
+}, 0)}
               </span>
             </div>
 
-             {cart?.reduce((acc, item) => acc + (item.quantity * item.productId.price), 0)<249 &&(
-            <div className='flex items-center justify-between w-full'> 
+{cart?.reduce((acc, item) => {
+   if (!item.productId) return acc
+   return acc + (item.quantity * (item.productId.price || 0));
+}, 0) < 249 && (            <div className='flex items-center justify-between w-full'> 
               
 
             <span className='text-[14px] font-[600]'>Shipping</span>
@@ -333,7 +341,12 @@ const Footer = () => {
             <div className='flex items-center justify-between w-full'> 
 
             <span className='text-[14px] font-[600]'>Total (tax excl.)</span>
-            <span className='text-primary font-bold' >  ₹ {cart?.reduce((acc, item) => acc + (item.quantity * item.productId.price), 0)}</span>
+<span className="text-primary font-bold">
+  ₹ {cart?.reduce((acc, item) => {
+    if (!item?.productId) return acc; 
+    return acc + (item.quantity * (item.productId.price || 0));
+  }, 0)}
+</span>
             </div>
          
 

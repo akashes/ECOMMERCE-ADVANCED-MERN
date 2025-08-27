@@ -39,7 +39,10 @@ const ProductItem = ({item}) => {
  
  console.log(isWishlisted)
 
-   const existingCartItem = cart.find(cartItem=>cartItem.productId._id===item._id)
+   const existingCartItem = cart.find(cartItem=>{
+    if(!cartItem.productId) return false
+   return cartItem.productId._id===item._id
+   })
   
 
 

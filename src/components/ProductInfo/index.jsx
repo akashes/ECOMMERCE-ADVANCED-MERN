@@ -12,6 +12,7 @@ import { AuthContext } from '../../contexts/AuthContext'
 import throttle from 'lodash.throttle'
 
 const ProductInfo = ({product,goToReviews}) => {
+    console.log(product)
     const context = useContext(AuthContext)
     const{cart}=useSelector(state=>state.cart)
     console.log(context)
@@ -123,11 +124,11 @@ const ProductInfo = ({product,goToReviews}) => {
 
             {/* qty update and addToCart  */}
             <div className="flex items-center  gap-4 py-4">
-                {
+                {/* {
                     isExistingCartItem && 
                 <div className="qtyBoxWrapper w-[70px]">
 
-                <QtyBox handleUpdateQty={handleUpdateQty} quantity={isExistingCartItem.quantity} stock={product.countInStock} cartItemId={isExistingCartItem._id} />
+                <QtyBox handleUpdateQty={handleUpdateQty} quantity={isExistingCartItem.quantity} stock={product?.countInStock} cartItemId={isExistingCartItem._id} />
                 </div>
                 }
                 {
@@ -144,8 +145,46 @@ const ProductInfo = ({product,goToReviews}) => {
                     <BsCartDash  className="text-[22px]"/>
                     Remove from Cart
                 </Button>
-                }
+                } */}
                
+
+               <div className="flex items-center  gap-4 py-4">
+  {isExistingCartItem && (
+    <div className="qtyBoxWrapper w-[70px]">
+      <QtyBox
+        handleUpdateQty={handleUpdateQty}
+        quantity={isExistingCartItem.quantity}
+        stock={product?.countInStock}
+        cartItemId={isExistingCartItem._id}
+      />
+    </div>
+  )}
+
+  {!isExistingCartItem ? (
+    <Button
+      disabled={isOutOfStock}
+      onClick={() => handleAddToCart(product._id)}
+      className={`${isOutOfStock && "opacity-50"} btn-org flex gap-2 items-center`}
+    >
+      <BsCart3 className="text-[22px]" />
+      Add to Cart
+    </Button>
+  ) : (
+    <Button
+      onClick={() => handleRemoveCartItem(isExistingCartItem._id)}
+      className="btn-org flex gap-2 items-center"
+    >
+      <BsCartDash className="text-[22px]" />
+      Remove from Cart
+    </Button>
+  )}
+</div>
+
+{/* Always show warning if out of stock */}
+{isOutOfStock && (
+  <span className="text-primary block mt-2">Product Out Of Stock</span>
+)}
+
 
             </div>
               {/* add to Wishlist,compare  */}

@@ -42,6 +42,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showSuccess } from './utils/toastUtils'
 import ScrollToTop from './utils/ScrollToTop'
 import { getWishlistItems } from './features/wishList/wishListSlice'
+import { getAddress } from './features/user/userSlice'
 
 
 
@@ -127,6 +128,13 @@ const App = () => {
       }
   
     },[user])
+    useEffect(()=>{
+      if(user){
+
+        dispatch(getAddress(user._id))
+      }
+  
+    },[user])
 
 
       useEffect(() => {
@@ -153,6 +161,8 @@ const App = () => {
         }
        }
       , [user, dispatch]);
+
+
   return (
     <>
     <BrowserRouter>
