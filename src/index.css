@@ -451,3 +451,10 @@ header{
 .css-1q72ply-MuiButtonBase-root-MuiSwitchBase-root-MuiRadio-root{
   color: var(--primary) !important;
 }
+
+
+#paypal-button-container iframe {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  display: block !important;
+}

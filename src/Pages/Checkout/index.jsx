@@ -13,6 +13,9 @@ import { getAddress } from '../../features/user/userSlice';
 import axios from 'axios';
 import { showError, showSuccess, showWarning } from '../../utils/toastUtils';
 import { clearCart, deleteCart, removeCartItem } from '../../features/cart/cartSlice';
+import { loadPaypalScript } from '../../utils/paypal';
+import { SiRazorpay } from "react-icons/si";
+
 
 
 const Checkout = () => {
@@ -25,7 +28,12 @@ const Checkout = () => {
       console.log(address)
       const [menu, setMenu] = useState(null);
       const[isChecked,setIsChecked]=useState(0)
+      const [convertedAmount, setConvertedAmount] = useState(0);
+
+      
       const [selectedAddress, setSelectedAddress] = useState(null);
+      console.log(isChecked)
+      console.log(selectedAddress)
       const [formData, setFormData] = useState({
         address_line: '',
         city: '',
@@ -56,20 +64,7 @@ const Checkout = () => {
         setSelectedAddress(id)
     }
   }
-  useEffect(() => {
-    if (localStorage.getItem('user')) {
-      
-      const userData = JSON.parse(localStorage.getItem('user'))
-      const userId = userData._id
-      console.log(userId)
-      async function getAddressDetails() {
-        if (userId) {
-          await dispatch(getAddress(userId))
-        }
-      }
-      getAddressDetails()
-    }
-  }, [user])
+
 
 
 
@@ -95,7 +90,8 @@ const Checkout = () => {
 
     let res;
    try{
-     res = await axios.post('/api/payment/create-order', {
+     res = await axios.post('/api/payment/create-order', 
+        {
         amount,name:user.name,
       products: cart
     .filter((i) => i?.productId)
@@ -106,16 +102,21 @@ const Checkout = () => {
       price: i.productId.price || 0,
       quantity: i.quantity,
       subtotal: i.quantity * (i.productId.price || 0),
-    })),
+    }
+)),
     }
 )
           console.log(res)
         if(!res.data.success){
+             navigate('/order-failed')
+
             showError(res.data.message || 'Failed to initiate payment')
             return
         }
    }catch(err){
     console.log(err)
+                navigate('/order-failed')
+
     showError(err?.response?.data?.message || 'Failed to initiate payment')
     return
    }
@@ -180,12 +181,13 @@ const Checkout = () => {
         console.log(result)
         if(!result.data.success){
             showError('Failed to Place Order')
+            navigate('/order-failed')
             return
         }
         if(result.data.success){
             showSuccess( result?.data?.message || 'Order Placed Successfully')
             await dispatch(deleteCart())
-            navigate('/my-orders')
+            navigate('/order-success')
 
             return
         }
@@ -263,22 +265,34 @@ const Checkout = () => {
 
 
       }
-        const result =       await axios.post("/api/payment/cash-on-delivery",  payload
+
+      try {
+          const result =       await axios.post("/api/payment/cash-on-delivery",  payload
         
     );
 
         console.log(result)
         if(!result.data.success){
-            showError('Failed to Place Order')
+            showError( result?.data?.message|| 'Failed to Place Order')
+                        navigate('/order-failed')
+
             return
         }
         if(result.data.success){
             showSuccess( result?.data?.message || 'Order Placed Successfully')
             await dispatch(deleteCart())
-            navigate('/my-orders')
+            navigate('/order-success')
 
             return
         }
+        
+      } catch (error) {
+        console.log(error)
+        showError(error?.response?.data?.message || 'Failed to Place Order using cash on Delivery')
+        navigate('/order-failed')
+        
+      }
+      
    
 
     }
@@ -287,8 +301,9 @@ const Checkout = () => {
 const subTotal = cart?.reduce((acc, item) => {
   if (!item.productId) return acc; 
   return acc + (item.quantity * (item.productId.price || 0));
-}, 0);    const isshippingCharge = subTotal < 249 && subTotal > 0 ? true : false;
-  const total = isshippingCharge ? subTotal + 50 : subTotal;
+}, 0);   
+ const isshippingCharge = subTotal < 249 && subTotal > 0 ? true : false;
+ const total = isshippingCharge ? subTotal + 50 : subTotal;
 
 
 useEffect(() => {
@@ -300,11 +315,154 @@ useEffect(() => {
 }, [address]);
 
 
+useEffect(() => {
+  const paypalPayment = async () => {
+    const result = await axios.get('/api/payment/get-paypal-client-key');
+    if (!result.data.success) return;
+
+    let clientId = result.data.clientId;
+
+    await loadPaypalScript(clientId);
+
+    if (window.paypal) {
+      // Clear old buttons to avoid duplicates
+      const container = document.getElementById("paypal-button-container");
+      if (container) container.innerHTML = "";
+
+ window.paypal.Buttons({
+  createOrder: async function () {
+    if (!isChecked) {
+      showError("Please select a delivery address to proceed");
+      throw new Error("No address selected");
+    }
+
+    if (!user) {
+      showError("User not logged in");
+      throw new Error("User not logged in");
+    }
+
+    if (!cart || cart.length === 0) {
+      showError("Cart is empty");
+      throw new Error("Cart is empty");
+    }
+
+    const resp = await fetch("https://v6.exchangerate-api.com/v6/8f85eea95dae9336b9ea3ce9/latest/INR");
+    const respData = await resp.json();
+    let usdAmt = 0;
+    if (respData.result === "success") {
+      const rate = respData.conversion_rates.USD;
+usdAmt = (total * rate).toFixed(2);
+      console.log(usdAmt)
+    }
+
+    // Call backend to create order
+    const res = await axios.post("/api/payment/create-paypal-order", {
+      amount: usdAmt,
+      products: cart
+        .filter((i) => i?.productId)
+        .map((i) => ({
+          productId: i.productId._id,
+          name: i.productId.name,
+          image: i.productId.images?.[0]?.url || "",
+          price: i.productId.price || 0,
+          quantity: i.quantity,
+          subtotal: i.quantity * (i.productId.price || 0),
+        })),
+    });
+
+    console.log("PayPal createOrder response", res.data);
+
+    return res.data.id;
+  },
+
+  onApprove: async function (data) {
+    try {
+      const addressDetails = address.find((i) => i._id === isChecked);
+      if (!addressDetails) {
+        showError("Invalid address selected");
+        return;
+      }
+
+      let payload = {
+        name: user.name,
+        email: user.email,
+        products: cart
+          .filter((i) => i?.productId)
+          .map((i) => ({
+            productId: i.productId._id,
+            name: i.productId.name,
+            image: i.productId.images?.[0]?.url || "",
+            price: i.productId.price || 0,
+            quantity: i.quantity,
+            subtotal: i.quantity * (i.productId.price || 0),
+          })),
+        delivery_address: {
+          address_line: addressDetails.address_line,
+          city: addressDetails.city,
+          state: addressDetails.state,
+          country: addressDetails.country,
+          pincode: addressDetails.pincode,
+          mobile: addressDetails.mobile,
+          landmark: addressDetails?.landmark,
+          address_type: addressDetails?.address_type,
+        },
+        total: total, // keep original INR total for DB
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
+        payment_status: "paid",
+        payment_method: "paypal",
+      };
+
+      const res = await axios.post(`/api/payment/capture-paypal-order/${data.orderID}`, payload);
+
+      if (res.data.success) {
+        showSuccess("Order placed successfully via PayPal");
+        dispatch(deleteCart());
+        navigate("/order-success");
+      } else {
+                    navigate('/order-failed')
+
+        showError(res.data.message || "Payment failed");
+      }
+    } catch (err) {
+      console.error("PayPal onApprove error:", err);
+                  navigate('/order-failed')
+
+      showError(err?.response?.data?.message || "Payment failed");
+    }
+  },
+}).render("#paypal-button-container");
+
+    }
+  };
+
+  paypalPayment();
+}, [isChecked, total, cart, user, address]);  
+
+
   useEffect(()=>{
       window.scrollTo({ top: 0, behavior: "smooth" });
 
 
+
   },[])
+    useEffect(() => {
+    if (localStorage.getItem('user')) {
+      
+      const userData = JSON.parse(localStorage.getItem('user'))
+      const userId = userData._id || user._id
+      console.log(userId)
+      async function getAddressDetails() {
+        if (userId) {
+          await dispatch(getAddress(userId))
+        }
+      }
+      getAddressDetails()
+    }
+  }, [user])
   return (
     <>
     <section className="py-10 checkoutPage">
@@ -464,11 +622,15 @@ useEffect(() => {
 <div className='flex flex-col gap-3 mt-5'>
 
                             <Button onClick={()=>handlePayment(total)} className='w-full btn-org  flex gap-2 items-center '>
-                                <BsFillBagCheckFill className='text-[20px]'/>
-                                Checkout</Button>
+                                <SiRazorpay className='text-[20px]'/>
+                                 Razorpay</Button>
                             <Button onClick={()=>handleCashOnDelivery(total)} className='w-full !bg-black !text-white flex !py-3 gap-2 items-center '>
                                 <BsFillBagCheckFill className='text-[20px]'/>
                                 Cash on Delivery</Button>
+                                                                        <div className="flex items-center">
+                                            <div id="paypal-button-container" className="w-full" />
+                                            </div>
+                                
 </div>
                 </div>
             </div>

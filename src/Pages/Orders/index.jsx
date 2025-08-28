@@ -45,13 +45,13 @@ const Orders = () => {
             <div className="py-2 px-3 border-b border-[rgba(0,0,0,0.1)]">
                  <h2>My Orders</h2>
           <p className="mt-0">
-            There are <span className="font-bold text-primary">3</span> Orders
+            There are <span className="font-bold text-primary">{orders?.length}</span> Orders
            
           </p>
           <div className="relative overflow-x-auto mt-5">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rtl:text-right">
+            <table className="w-full text-sm text-left text-gray-500  rtl:text-right">
             {/* order related heading */}
-              <thead className="text-xs text-gray-700 bg-gray-50 dark:bg-gray-400 ">
+              <thead className="text-xs text-gray-700 bg-gray-50  ">
                 <tr>
                   <th scope="col" className="py-3 px-6">
                     &nbsp;
@@ -111,7 +111,7 @@ const Orders = () => {
                     console.log(order)
                     return(
                       <>
-                                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                      <tr className="bg-white border-b ">
                   <td className="px-6 py-4 font-[500]">
                       <Button  className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#cfcdcd] !text-black"
                     onClick={()=>isShowOrderedProduct(0)}
@@ -184,8 +184,8 @@ const Orders = () => {
                      <tr  >
                   <td colSpan="6" className=" pl-20"  >
                      <div className="relative overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rtl:text-right">
-              <thead className="text-xs text-gray-700 bg-gray-50 dark:bg-gray-400 ">
+            <table className="w-full text-sm text-left text-gray-500  rtl:text-right">
+              <thead className="text-xs text-gray-700 bg-gray-50 ">
                 <tr>
                
                   <th scope="col" className="py-3 px-6 whitespace-nowrap">
@@ -219,7 +219,7 @@ const Orders = () => {
                 {
                   order?.products?.length>0 && order.products.map((order)=>{
                     return(
-                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                         <tr className="bg-white border-b ">
                   <td className="px-6 py-4 font-[500] text-gray-700 ">
                     123456789
 

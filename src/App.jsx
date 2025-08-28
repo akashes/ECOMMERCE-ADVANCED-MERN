@@ -43,6 +43,8 @@ import { showSuccess } from './utils/toastUtils'
 import ScrollToTop from './utils/ScrollToTop'
 import { getWishlistItems } from './features/wishList/wishListSlice'
 import { getAddress } from './features/user/userSlice'
+import OrderSuccess from './Pages/OrderSuccess'
+import OrderFail from './Pages/OrderFail'
 
 
 
@@ -181,6 +183,8 @@ const App = () => {
         <Route path='/verify-reset-password' element={<Verify resetPassword={true}/>}  />
         <Route path='/reset-password' element={<ResetPassword/>}  />
         <Route path='/checkout' element={<Checkout/>}  />
+        <Route path='/order-success' element={<OrderSuccess/>}  />
+        <Route path='/order-failed' element={<OrderFail/>}  />
         
 
 

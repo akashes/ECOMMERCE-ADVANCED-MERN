@@ -115,10 +115,12 @@ const isshippingCharge = subTotal<249?true:false
                   <span className="font-bold text-primary text-[18px]"> {total.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</span>
                 </p>
                 <br />
+                <Link to='/checkout'>
                 <Button className="w-full btn-org btn-lg flex gap-2">
                   <BsFillBagCheckFill className="text-[20px]" />
                   Checkout
                 </Button>
+                </Link>
                       </>
 
                     )
