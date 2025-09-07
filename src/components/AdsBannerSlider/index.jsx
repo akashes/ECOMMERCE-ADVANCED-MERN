@@ -2,11 +2,13 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/free-mode';
+
 
 
 
 // import required modules
-import { Navigation } from 'swiper/modules';
+import { FreeMode, Navigation } from 'swiper/modules';
 import BannerBox from '../BannerBox';
 
 
@@ -18,7 +20,16 @@ const AdsBannerSlider = ({itemsCount}) => {
            slidesPerView={itemsCount}
            spaceBetween={10}
            navigation={true}
-           modules={[Navigation]}
+           modules={[Navigation,FreeMode]}
+           freeMode={true}
+             breakpoints={{
+           0: { slidesPerView: 1 },
+           300:{slidesPerView:2},  
+    640: { slidesPerView: 3 },
+    1024: { slidesPerView: 4 },
+    1280: { slidesPerView: 4 },
+
+        }}
            className="ads-banner-slider"
    >
 

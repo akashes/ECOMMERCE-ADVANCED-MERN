@@ -116,8 +116,8 @@ const ProductsItemListView = ({item}) => {
 
   }
   return (
-    <div className="productItem  relative pb-15 rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)] flex items-center  ">
-      <div className="imaWrapper w-[25%]  rounded-t-md overflow-hidden relative group">
+    <div className="productItem  relative pb-15 rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)] flex flex-col lg:flex-row items-center  ">
+      <div className="imaWrapper w-[100%] lg:w-[25%]  rounded-t-md overflow-hidden relative group">
         <Link to="/">
           <div className="img  overflow-hidden">
             <img
@@ -181,7 +181,7 @@ const ProductsItemListView = ({item}) => {
           </Tooltip>
         </div>
       </div>
-      <div className="info p-3 py-5  w-[75%]  px-8 ">
+      <div className="info p-3 py-5  px-3  w-full  lg:w-[75%]  lg:px-8 ">
         <h6 className="text-[15px] !font-[400]">
           <Link to="/" className="link">
             {item?.brand}

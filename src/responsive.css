@@ -1,0 +1,147 @@
+@media only screen and (min-width:320px) and (max-width:992px){
+    html,body{
+        overflow-x: hidden;
+    }
+
+.mobileNav .active-tab .MuiButton-root {
+  color: #ff5252 !important;
+}
+.mobileNav .non-active-tab .MuiButton-root {
+  color: gray !important;
+}
+.navigation ul{
+  white-space: nowrap;
+  overflow-x: scroll;
+  display: block !important;
+  overflow-y: hidden;
+  text-align: center;
+
+}
+.navigation ul::-webkit-scrollbar{
+  display: none !important;
+}
+.navigation ul li{
+  display: inline-block;
+  /* vertical-align: top !important; */
+}
+.container{
+  width: 97% !important;
+  max-width: 97% !important;
+}
+.homeSlider .swiper-button-prev{
+  display: none !important;
+}
+.homeSlider .swiper-button-next{
+  display: none !important;
+}
+
+.homeCatSlider .swiper-button-prev{
+  display: none !important;
+}
+
+.homeCatSlider .swiper-button-next{
+  display: none !important;
+}
+
+  .productsSlider .swiper-button-prev{
+    display: none !important;
+  }
+  .productsSlider .swiper-button-next{
+    display: none !important;
+  }
+
+  .homeSliderV2 .swiper-button-prev{
+    display: none !important;
+  }
+
+  .homeSliderV2 .swiper-button-next{
+    display: none !important;
+  }
+
+  .scrollableBox{
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: block;
+  }
+  .scrollableBox::-webkit-scrollbar{
+    display: none !important;
+  }
+  .scrollableBox .box{
+    display: inline-block !important;
+    vertical-align: top !important;
+    margin-right: 12px !important;
+  }
+
+  .bannerBoxV2{
+    height: inherit;
+  }
+
+  .ads-banner-slider .swiper-button-prev{
+    display: none !important;
+  }
+
+  .ads-banner-slider .swiper-button-next{
+    display: none !important;
+  }
+
+  .blogSlider .swiper-button-prev{
+    display: none !important;
+  }
+  .blogSlider .swiper-button-next{
+    display: none !important;
+  }
+
+  .scrollableBox{
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: block !important;
+    margin-right: 20px;
+  }
+  .scrollableBox > *{
+    display: inline-block;
+    width: 180px;
+    padding-left: 20px;
+  }
+
+  .scrollableBox::-webkit-scrollbar{display: none !important;}
+  /* .scrollableBox .box{display: inline-block !important; vertical-align: top !important; } */
+
+
+  .sidebar{max-height: 50vh !important; overflow-y: scroll; overflow-x: hidden;}
+  .sidebar::-webkit-scrollbar{display: none !important;}
+  .sidebarWrapper.open{
+    bottom: 0px;
+    opacity: 1 !important;
+  }
+
+}
+
+
+
+
+
+@media only screen and (min-width:320px) and (max-width:767px){
+  .MuiTabs-flexContainer button{
+    font-size: 13px !important;
+  }
+  .section2-col1 .list-none  {
+    font-size: 13px !important;
+  }
+  .section2-col2 .list-none  {
+    font-size: 13px !important;
+  }
+
+
+}
+
+
+@media only screen and (min-width:993px) {
+  .productsSlider .swiper-button-prev,
+  .productsSlider .swiper-button-next {
+    display: flex !important;
+  }
+
+  
+}

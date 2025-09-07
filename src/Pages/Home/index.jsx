@@ -18,7 +18,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
+import 'swiper/css/free-mode';
+
+import { FreeMode, Navigation } from 'swiper/modules';
 import BlogItem from '../../components/BlogItem';
 import HomeSliderV2 from '../../components/HomeSliderV2';
 import BannerBoxV2 from '../../components/BannerBoxV2';
@@ -37,6 +39,26 @@ import { getCartItems } from '../../features/cart/cartSlice';
 
 
 
+const banner1Data=[
+  {
+    bannerImage:{
+      url:'https://res.cloudinary.com/dllelmzim/image/upload/v1752300372/1741664496923_1737020250515_New_Project_47_rsj6yc.jpg'
+    },
+    title:`Buy Apple Iphone`,
+    alignInfo:'left',
+    price:500
+
+  },
+  {
+    bannerImage:{
+      url:'https://res.cloudinary.com/dllelmzim/image/upload/v1752300372/1741664665391_1741497254110_New_Project_50_fwovj5.jpg'
+    },
+    title:`Buy Men's Footwear with low price`,
+    alignInfo:'right',
+    price:300
+
+  }
+]
 
 const Home = () => {
 
@@ -88,24 +110,30 @@ const handleChange = useCallback((event, newValue) => {
   console.log(popularProducts)
 
 
-    useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !latestTriggered) {
-            dispatch(fetchLatestProducts());
-            setLatestTriggered(true);
-          }
-        });
-      },
-      { threshold: 0.2 } // Trigger when 20% of section is visible
-    );
+//     useEffect(() => {
 
-    if (latestRef.current) observer.observe(latestRef.current);
-    return () => {
-  if (latestRef.current) observer.unobserve(latestRef.current);
-};
-  }, [dispatch, latestTriggered]);
+//     const observer = new IntersectionObserver(
+//       entries => {
+//         entries.forEach(entry => {
+//           if (entry.isIntersecting && !latestTriggered) {
+//             dispatch(fetchLatestProducts());
+//             setLatestTriggered(true);
+//           }
+//         });
+//       },
+//       { threshold: 0.2 } // Trigger when 20% of section is visible
+//     );
+
+//     if (latestRef.current) observer.observe(latestRef.current);
+//     return () => {
+//   if (latestRef.current) observer.unobserve(latestRef.current);
+// };
+//   }, [dispatch, latestTriggered]);
+
+useEffect(()=>{
+  dispatch(fetchLatestProducts())
+
+},[dispatch])
 
   // Observer for featured products
   useEffect(() => {
@@ -153,14 +181,14 @@ const handleChange = useCallback((event, newValue) => {
    <HomeCatSlider/>
 
    {/* shows products by category using tabs */}
-   <section className='bg-white py-8 '>
-    <div className="container">
-      <div className="flex items-center justify-between ">
-        <div className="leftSec">
-          <h2 className='text-[20px] font-[600]'>Popular Products</h2>
-          <p className='text-[14px] font-[400] mt-0 mb-0'>Do not miss out on our most popular products</p>
+   <section className='bg-white py-3 md:py-5 lg:py-8 '>
+    <div className="container ">
+      <div className="flex items-center justify-between flex-col lg:flex-row ">
+        <div className="leftSec w-full lg:w-[40%]">
+          <h2 className=' text-[14px] md:text-[16px] lg:text-[20px] font-[600]'>Popular Products</h2>
+          <p className=' text-[12px] sm:text-[14px] md:text-[16px]   lg:text-[14px] font-[400] mt-0 mb-0'>Do not miss out on our most popular products</p>
         </div>
-        <div className="rightSec w-[60%]">
+        <div className="rightSec w-full lg:w-[60%]">
       <Tabs
         value={value}
         onChange={handleChange}
@@ -197,7 +225,7 @@ const handleChange = useCallback((event, newValue) => {
         </div> */}
         {/* skelton when loading  */}
         {
-          popularProductsLoading &&  <ProductsSkelton count={6}/>
+          popularProductsLoading &&  <ProductsSkelton />
       
         }
         {
@@ -219,16 +247,20 @@ const handleChange = useCallback((event, newValue) => {
 
 
       {/* secondary banners */}
-   <section className='py-6'>
-    <div className="container flex   gap-5  ">
-      <div className="section1 w-[70%]    ">
+   <section className='py-2 lg:py-6 bg-white'>
+    <div className="container flex flex-col lg:flex-row   gap-2  lg:gap-5  ">
+      <div className="section1  w-full lg:w-[70%]    ">
 
       <HomeSliderV2  />
       </div>
-      <div className="section2 w-[30%] flex flex-col justify-between items-center gap-5  " 
+      <div className="section2 w-full lg:w-[30%]  flex flex-row lg:flex-col justify-between items-center gap-3 lg:gap-5   " 
       >
-        <BannerBoxV2 info="left" src={"https://res.cloudinary.com/dllelmzim/image/upload/v1752300372/1741664496923_1737020250515_New_Project_47_rsj6yc.jpg"}  />
-        <BannerBoxV2 info="right" src={"https://res.cloudinary.com/dllelmzim/image/upload/v1752300372/1741664665391_1741497254110_New_Project_50_fwovj5.jpg"} />
+        {
+          banner1Data.map((item)=>(
+
+            <BannerBoxV2 banner={item}  />
+          ))
+        }
       </div>
 
     </div>
@@ -240,17 +272,17 @@ const handleChange = useCallback((event, newValue) => {
 
 
   {/* ads banners section with multiple views */}
-   <section className='py-4 pt-2  bg-white '>
+   <section className='py-2  lg:py-4   bg-white '>
     <div className="container">
       {/* free shipping info section */}
-      <div className="freeShipping w-[80%] mx-auto  p-4 border-2 border-[var(--primary)] flex items-center justify-between rounded-md mb-5 cursor-pointer ">
+      <div className="freeShipping w-full  md:w-[80%] mx-auto  p-4 border-2 border-[var(--primary)] flex flex-col lg:flex-row items-center justify-center  lg:justify-between rounded-md  cursor-pointer ">
         <div className="col1 flex items-center gap-4">
-        <LiaShippingFastSolid className='text-[50px]'/>
-        <span className='text-[20px] font-[600]'>Free Shipping</span>
+        <LiaShippingFastSolid className=  ' text-[30px] md:text-[40px] lg:text-[50px]'/>
+        <span className=' text-[16px] lg:text-[20px] font-[600]'>Free Shipping</span>
 
         </div> 
         <div className="col2">
-          <p className='mb-0 font-[500]'>Free Delivery Now On Your First Order and Order over <span className='font-[600]'>₹249</span> </p>
+          <p className='mb-0 text-center lg:text-left font-[500]'>Free Delivery Now On Your First Order and Order over ₹249</p>
         </div>
         <p className='font-bold text-[20px]'>
           - ONLY ₹249
@@ -306,7 +338,7 @@ const handleChange = useCallback((event, newValue) => {
    </section>
 
   {/* Featured Products */}
-   <section ref={featuredRef} className="py-5 pt-0 bg-white">
+   <section ref={featuredRef} className=" py-2  md:py-3 lg:py-5 pt-0 bg-white">
     <div className="container">
       {featuredProductsLoading || featuredProducts.length>0 &&
       <h2 className='text-[20px] font-[600]'>Featured Products</h2>
@@ -328,7 +360,7 @@ const handleChange = useCallback((event, newValue) => {
     </div>
    </section>
 
-   <section className=' blogSection py-5 pt-0 pb-8 bg-white'>
+   <section className=' blogSection py-5 pt-0 pb-3 lg:pb-8 bg-white'>
     <div className="container">
       <h2 className='text-[20px] font-[600] mb-4'>From The Blog</h2>
        <Swiper
@@ -336,12 +368,22 @@ const handleChange = useCallback((event, newValue) => {
         slidesPerView={4}
         spaceBetween={30}
         navigation={true}
-        modules={[Navigation]}
+          freeMode={true}
+               modules={[Navigation,FreeMode]}
+                          breakpoints={{
+    0: { slidesPerView: 1,spaceBetween:10 },  
+           330:{slidesPerView:2,spaceBetween:20},
+           500:{slidesPerView:2,spaceBetween:30},
+    700: { slidesPerView: 3,spaceBetween:30 },
+
+        }}
         className="blogSlider "
       >
         {
           blogs?.length>0 && blogs.map((blog)=>(
-                   <SwiperSlide key={blog._id} >
+                   <SwiperSlide
+                   
+                   key={blog._id} >
           <BlogItem blog={blog} />
         </SwiperSlide>
 

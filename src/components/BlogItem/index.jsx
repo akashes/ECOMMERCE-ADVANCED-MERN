@@ -29,7 +29,7 @@ const BlogItem = ({blog}) => {
             <Link to='/' >
             <h2 className='text-[15px] font-[600] text-black mb-3'>{blog.title.substr(0,16)+'...'}</h2>
             </Link>
-            <p className='text-[13px] font-[400] text-[rgba(0,0,0,0.8)] mb-4'>
+            <p className='text-[14px] lg:text-[16px]  font-[400] text-[rgba(0,0,0,0.8)] mb-4'>
          <div dangerouslySetInnerHTML={{__html:blog?.description?.substr(0,200)+'...'}} >
 
                     </div>

@@ -8,20 +8,38 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/free-mode';
 import { Navigation } from 'swiper/modules';
-const ProductsSkelton = ({count,space=10}) => {
+import { FreeMode } from 'swiper/modules';
+
+
+const ProductsSkelton = () => {
   return (
      <div className='productsSlider py-3 '>
           <Swiper
                
-               slidesPerView={count}
-               spaceBetween={space}
+     
+
+
+
+
+                slidesPerView={6}
+               spaceBetween={10}
                navigation={true}
-               modules={[Navigation]}
+               freeMode={true}
+               modules={[Navigation,FreeMode]}
+                          breakpoints={{
+           250: { slidesPerView: 1,spaceBetween:10 },  
+           450:{slidesPerView:3,spaceBetween:10},
+    640: { slidesPerView: 3 },
+    1024: { slidesPerView: 4 },
+    1280: { slidesPerView: 6,spaceBetween:10 },
+
+        }}
                className="mySwiper"
              >
                {
-                  Array.from(new Array(count)).map((_,index)=>
+                  Array.from(new Array(6)).map((_,index)=>
                     (
                        <SwiperSlide key={index}>         
              <ProductItemSkeleton/>

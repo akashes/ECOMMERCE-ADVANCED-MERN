@@ -52,7 +52,7 @@ const Footer = () => {
     <>
     <footer className="py-6 bg-[#fafafa]">
         <div className="container">
-            <div className="flex items-center justify-center gap-2 py-8 ">
+            <div className="flex items-center justify-center gap-2 py-8 scrollableBox ">
                 <div className="col flex items-center justify-center flex-col group w-[15%]">
                     <LiaShippingFastSolid className="text-[40px] group-hover:text-primary
                      transition-all ease-in-out duration-300 group-hover:-translate-y-1 "/>
@@ -92,8 +92,8 @@ const Footer = () => {
             </div>
             <br />
   <hr />
-  <div className="footer flex  py-12 ">
-    <div className="section1 w-[25%] border-r-1 border-[rgba(0,0,0,.1)]">
+  <div className="footer flex flex-col lg:flex-row  py-12 ">
+    <div className="section1 w-full lg:w-[25%] border-r-1 border-[rgba(0,0,0,.1)]">
         <h2 className="text-[18px] font-[600] mb-4 ">Contact Us</h2>
         <p className="text-[13px] font-[400] pb-4">Classyshop - Mega Super Store <br />
 507-Union Trade Centre Frances Road , Kerala
@@ -106,7 +106,7 @@ const Footer = () => {
 
 </div>
     </div>
-    <div className="section2 w-[40%] flex pl-8 ">
+    <div className="section2 w-full  lg:w-[40%] flex pl-0 lg:pl-8  mt-5 lg:mt-0 ">
         <div className="section2-col1 flex flex-col justify-start w-[50%]">
             <h2 className="text-[18px] font-[600] mb-4">Products</h2>
             <ul className="list">
@@ -143,7 +143,7 @@ const Footer = () => {
                
             </ul>
         </div>
-        <div className="section2-col2 flex flex-col justify-start w-[50%]">
+        <div className="section2-col2 flex flex-col justify-start w-full lg:w-[50%]">
             <h2 className="text-[18px] font-[600] mb-4">Our Company</h2>
             <ul className="list">
                 <li className="list-none text-[14px] w-full mb-2">
@@ -181,8 +181,8 @@ const Footer = () => {
         </div>
 
     </div>
-    <div className="section3 w-[35%] flex pl-8 flex-col pr-8">
-        <h2 className="text-[18px] font-[600] mb-4">Subscribe to our newsletter</h2>
+    <div className="section3 w-full  lg:w-[35%] flex pl-0 lg:pl-8 flex-col pr-8 mt-5 lg:mt-0">
+        <h2 className="text-[18px] font-[600] mb-2  lg:mb-4">Subscribe to our newsletter</h2>
         <p className="text-[13px] ">Subscribe to our newsletter to get the latest news and offers .</p>
         <form className="mt-5">
             <input type="text" className="w-full h-[45px] outline-none border-1 border-[rgba(0,0,0,0.2)]  pl-4 pr-4 rounded-sm mb-4 focus:border-[rgba(0,0,0,0.8)] "placeholder="Your Email Address" />
@@ -190,7 +190,11 @@ const Footer = () => {
                 SUBSCRIBE
 
             </Button>
-                  <FormControlLabel required control={<Checkbox />} label="I agree the terms and conditions and the privacy policy" />
+                  <FormControlLabel
+                   className="mt-3 lg:mt-0"
+                  required
+                   control={<Checkbox />}
+                    label="I agree the terms and conditions and the privacy policy" />
 
 
         </form>
@@ -200,8 +204,8 @@ const Footer = () => {
         </div>
     </footer>
 
-    <div className="bottomStrip border-t-1  border-t-[rgba(204,175,175,0.8)] py-3 bg-white">
-        <div className="container flex items-center justify-between" >
+    <div className="bottomStrip border-t-1  border-t-[rgba(204,175,175,0.8)] pt-3 pb-[100px] lg:pb-3  bg-white">
+        <div className="container flex flex-col lg:flex-row gap-4 lg:gap-0 items-center justify-between " >
             <ul className="flex items-center gap-2">
                 <li className="list-none">
                     <Link to='/' target="_blank" className="
@@ -251,7 +255,7 @@ const Footer = () => {
 
     
          {/* cart drawer */}
-        <Drawer  open={openCartPanel} onClose={toggleCartPanel(false)} anchor='right' className='carPanel'>
+        <Drawer   open={openCartPanel} onClose={toggleCartPanel(false)} anchor='right' className='carPanel !w-[100px]'>
           <div className="flex items-center justify-between py-3 px-4 gap-3 border-b-[1px] border-gray-300">
           <h4>Shopping Cart ({cart?.length})</h4>
 

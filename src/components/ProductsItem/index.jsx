@@ -179,7 +179,7 @@ const ProductItem = ({item}) => {
          </div>
 
       </div>
-      <div className={`${isUpdating  && ''} info p-3 py-5 relative pb-[50px] h-[190px] `}>
+      <div className={`${isUpdating  && ''} info p-1 lg:p-3 py-5 relative pb-[50px] h-[190px] `}>
         <h6 className='text-[13px] !font-[400]'>
           <div className='flex justify-between items-center'>
 
@@ -189,7 +189,7 @@ const ProductItem = ({item}) => {
             {isWishlisted && <FaHeart className='text-primary'/>}
           </div>
         </h6>
-        <h3 className='text-[13px] title mt-1 font-[500] text-[#000] mb-1'>
+        <h3 className=' text-[12px] lg:text-[13px] title mt-1 font-[500] text-[#000] mb-1'>
             <Link to={`/product/${item._id}`} className='link'>
             {item?.name.substr(0,30)+'...'}
             </Link>
@@ -200,9 +200,9 @@ const ProductItem = ({item}) => {
 
             }
 
-            <div className="flex items-center gap-4">
-                <span className='oldPrice line-through text-gray-500 text-[15px] font-[500]'>&#x20b9; {item?.oldPrice}</span>
-                <span className="price text-primary font-[600]">&#x20b9; {item?.price}</span>
+            <div className="flex items-center justify-between gap-2 lg:gap-4">
+                <span className='oldPrice line-through text-gray-500 text-[12px] lg:text-[15px] font-[500]'>&#x20b9; {item?.oldPrice}</span>
+                <span className="price text-primary font-[600] text-[12px]  lg:text-[15px] ">&#x20b9; {item?.price}</span>
                 
             </div>
                  <div className=" absolute bottom-[15px] !w-full left-0 pl-3 pr-3  ">
@@ -221,11 +221,14 @@ const ProductItem = ({item}) => {
                     <Button
                     disabled={cartUpdationLoading}
                 onClick={()=>handleAddToCart(item._id)}
-                className="!border-1 !border-primary !text-primary flex gap-2 !py-1 !w-full items-center hover:!bg-black hover:!text-white hover:!border-black">
-                    <BsCart3 className={`text-[22px] ${isAddingNew && "cart-icon-loading"}` }/>
+                className="!border-1 !border-primary !text-primary flex gap-1 lg:gap-2 !py-1 w-full items-center hover:!bg-black hover:!text-white hover:!border-black !mx-auto">
+                    <BsCart3 className={`text-[17px] lg:text-[22px] ${isAddingNew && "cart-icon-loading"}` }/>
+                    <span className='text-[13px] lg:text-[15px]'>
+
                     {
                       isAddingNew?"Adding ...":"Add to Cart"
                     }
+                    </span>
                 </Button>
 
                 ):(
@@ -242,7 +245,7 @@ const ProductItem = ({item}) => {
                 </Button>
                 <span >{existingCartItem.quantity}</span>
                <Button
-                              className='!min-w-[30px] !w-[30px] !h-[30px] !text-white !rounded-sm !bg-black'
+                              className='  !min-w-[30px] !w-[30px] !h-[30px] !text-white !rounded-sm !bg-black'
 
               onClick={() => handleUpdateQty(existingCartItem.quantity + 1)}
             >

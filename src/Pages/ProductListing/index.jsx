@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import Sidebar from '../../components/Sidebar'
 import Typography from '@mui/material/Typography';
@@ -25,6 +25,7 @@ import ProductsItemListViewSkeleton from '../../components/Skeltons/ProductsItem
 import { useSearchParams } from 'react-router-dom';
 import { IoIosClose } from 'react-icons/io';
 import BreadCrumbs from '../../components/BreadCrumbs/BreadCrumbs';
+import { MyContext } from '../../App';
 
 const sortLabels = {
   relevance: "Relevance",
@@ -43,6 +44,7 @@ const ProductListing = () => {
   const dispatch = useDispatch()
   const[searchParams,setSearchParams]=useSearchParams()
   console.log(searchParams)
+  const context = useContext(MyContext)
 
 
   const{items,loading:filterProductsLoading,totalPages,page,filters,totalProducts}=useSelector(state=>state.filterProducts)
@@ -160,12 +162,23 @@ useEffect(() => {
    <div className="bg-white p-2 mt-4">
      <div className="container flex gap-3">
           {/* sidebar section for filtering  */}
-        <div className="sidebarWrapper  w-[20%] bg-white  ">
+
+{
+  context.windowWidth<992 &&
+          <div
+          onClick={()=>context.setOpenFilter(false)}
+          className=
+{          `filter_overlay w-full h-full bg-[rgba(0,0,0,0.5)] top-0 left-0   ${context.openFilter ? 'fixed':'hidden'}  z-[101]   `
+}          
+          ></div>
+}
+        <div className={`sidebarWrapper  opacity-0 lg:opacity-100  -bottom-[100%] left-0 w-full h-[60vh] lg:h-full lg:static  lg:w-[20%] bg-white z-[102] lg:z-[50] p-3 lg:p-0  transition-transform fixed ${context.openFilter && ' open'}   `}
+        >
             <Sidebar onChange={handleCategorySelect} handleSelectRating={handleSelectRating}  />
         </div>
 
         {/* products listing section */}
-        <div className='w-[80%] py-3 min-h-[80vh] '>
+        <div className=' w-full lg:w-[80%] py-3 min-h-[80vh] '>
             <div className='bg-[var(--tertiary)] p-2 w-full mb-4 rounded-md flex items-center justify-between
             sticky top-[141px] z-90
             '>
@@ -187,7 +200,7 @@ useEffect(() => {
                         <IoGrid className='w-full h-full text-[rgba(0,0,0,0.6)]'/>
                         </Button>
 
-                        <span className='text-[14px] font-[500] pl-3 text-[rgba(0,0,0,0.7)]'>There are {totalProducts} products</span>
+                        <span className='text-[14px] hidden sm:block font-[500] pl-3 text-[rgba(0,0,0,0.7)]'>There are {totalProducts} products</span>
                 </div>
                 <div className="col2 ml-auto flex items-center justify-end gap-3 pr-2">
                 <span className='text-[14px] font-[500] pl-3 text-[rgba(0,0,0,0.7)]'>Sort By</span>
@@ -256,7 +269,8 @@ useEffect(() => {
 
 
             </div>
-              <div className={`grid ${itemView==='grid'?'grid-cols-5 md:grid-cols-5':'grid-cols-1 md:grid-cols-1'}  gap-4  `}>
+              <div className={`grid
+                 ${itemView==='grid'?'grid-cols-2 sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-5':'grid-cols-1 md:grid-cols-1'}  gap-4  `}>
                 {
                     itemView === 'grid'?
                  <>

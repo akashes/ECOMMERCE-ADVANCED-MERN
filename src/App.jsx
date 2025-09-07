@@ -3,6 +3,7 @@ import Header from './components/Header'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import Home from './Pages/Home'
 import './App.css'
+import './responsive.css'
 import ProductListing from './Pages/ProductListing'
 import Footer from './components/Footer'
 import ProductDetails from './Pages/ProductDetails'
@@ -64,6 +65,10 @@ const App = () => {
   const [openCartPanel,setOpenCartPanel]=useState(false)
   const[confirm,setConfirm]=useState(false)
     const [localWishlist, setLocalWishlist] = useState([]);
+
+    const[windowWidth,setWindowWidth]=useState(window.innerWidth)
+
+    const[openFilter,setOpenFilter]=useState(false)
   
   
 
@@ -97,7 +102,10 @@ const App = () => {
           setOpenCartPanel,
           openCartPanel,
           openAddressPanel,
-          setOpenAddressPanel
+          setOpenAddressPanel,
+          windowWidth,
+          openFilter,
+          setOpenFilter
           // openAlertBox, //passing function for toast using context //may change later 
           // isLogin,
           // setIsLogin
@@ -163,6 +171,17 @@ const App = () => {
         }
        }
       , [user, dispatch]);
+
+      useEffect(()=>{
+        const handleResize=()=>{
+          setWindowWidth(window.innerWidth)
+        }
+        window.addEventListener('resize',handleResize)
+
+        return()=>{
+          window.removeEventListener('resize',handleResize)
+        }
+      },[dispatch])
 
 
   return (

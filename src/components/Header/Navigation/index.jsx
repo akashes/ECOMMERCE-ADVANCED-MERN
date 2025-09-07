@@ -6,27 +6,39 @@ import { GoRocket } from "react-icons/go";
 
 
 import CategoryPanel from "./CategoryPanel";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import './style.css'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMenuCategories } from "../../../features/category/categoryMenuSlice";
 import { resetFilters, setCategories, setSubCategories } from "../../../features/productsFilter/productsFilterSlice";
+import { MyContext } from "../../../App";
+import MobileNav from "./MobileNav";
 
-const Navigation = () => {
+import { IoMenu } from "react-icons/io5";
+
+
+const Navigation = (props) => {
 
     const navigate  = useNavigate()
+    const context  = useContext(MyContext)
 
     const{categories}=useSelector(state=>state.category)
 
     const dispatch = useDispatch()
-const[isOpenCategoryPanel,setIsOpenCategoryPanel]=useState(false)
+// const[isOpenCategoryPanel,setIsOpenCategoryPanel]=useState(false)
+
+// useEffect(()=>{
+
+//     setIsOpenCategoryPanel(true)
+
+// },[props.isOpenCategoryPanel])
 
 
 
-const openCategoryPanel=(val)=>{
-   setIsOpenCategoryPanel(val)
-}
+// const openCategoryPanel=(val)=>{
+//    setIsOpenCategoryPanel(val)
+// }
 
 
 
@@ -37,18 +49,21 @@ useEffect(()=>{
 
   return (  
     <>
-    <nav className="">
+    <nav className="navigation">
        
-        <div className="container flex items-center justify-end  gap-8">
+        <div className="container flex items-center justify-around  gap-8">
+            {
+                context.windowWidth>992 &&
             <div className="col_1 w-[20%]">
                 
-                <Button   className="!text-black gap-2 w-full " onClick={()=>setIsOpenCategoryPanel(true)}>
+                <Button   className="!text-black gap-2 w-full " onClick={()=>props.setIsOpenCategoryPanel(true)}>
                      <RiMenu2Fill className="text-[18px]" /> 
                        Shop By Categories
                        <LiaAngleDownSolid className="text-[14px] ml-auto font-bold"/>
                        </Button>
             </div>
-            <div className="col_2 w-[60%]">
+            }
+            <div className="col_2 w-full lg:w-[60%]">
                 <ul className="flex items-center gap-3 nav">
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
@@ -62,7 +77,7 @@ useEffect(()=>{
                     </li>
                     {
                         categories?.length>0  && categories.map((category)=>(
-                                 <li key={category._id} className="list-none relative">
+                                 <li key={category._id} className="list-none relative ">
                         <Button
                         onClick={()=>{
                             // dispatch(resetFilters())
@@ -82,7 +97,7 @@ useEffect(()=>{
                         </Button>
                        {
                         category?.children?.length!==0 && (
-                             <div className="submenu absolute top-[120%] opacity-0 transition-all  left-[0%] min-w-[150px] bg-white shadow-md rounded-md">
+                             <div className="submenu absolute top-[120%] opacity-0  transition-all  left-[0%] min-w-[150px] bg-white shadow-md rounded-md">
                             <ul>
                                 {
                                     category?.children?.length>0 && category.children.map((subCategory)=>(
@@ -140,7 +155,7 @@ useEffect(()=>{
                 </ul>
 
             </div>
-            <div className="col_3 w-[20%]">
+            <div className="col_3 w-[20%] hidden lg:block">
                 <p className="text-[14px] font-[500] flex items-center gap-3 mb-0 mt-0"> 
                     <GoRocket className="text-[18px]"/>
                      Free International Delivery</p>
@@ -151,8 +166,12 @@ useEffect(()=>{
     </nav>
     {
         categories?.length!==0 && 
-    <CategoryPanel categories={categories} openCategoryPanel={openCategoryPanel}  isOpenCategoryPanel={isOpenCategoryPanel} />
+    <CategoryPanel categories={categories} openCategoryPanel={props.openCategoryPanel}  isOpenCategoryPanel={props.isOpenCategoryPanel} />
 
+    }
+    {
+        context.windowWidth<992 && <MobileNav/>
+        
     }
     </>
 

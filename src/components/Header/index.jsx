@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import Search from "../Search"
 
@@ -35,6 +35,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearWishlistReducer, removeFromWishlistReducer } from "../../features/wishList/wishListSlice.js";
 
 
+import { IoMenu } from "react-icons/io5";
+import { fetchMenuCategories } from "../../features/category/categoryMenuSlice.js";
+import CategoryPanel from "./Navigation/CategoryPanel.jsx";
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -49,8 +52,26 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const context  = useContext(MyContext)
   const{cart}=useSelector(state=>state.cart)
   const{wishlist}=useSelector(state=>state.wishlist)
+
+      const{categories}=useSelector(state=>state.category)
+
+const[isOpenCategoryPanel,setIsOpenCategoryPanel]=useState(false)
+
+
+
+const openCategoryPanel=(val)=>{
+   setIsOpenCategoryPanel(val)
+}
+
+
+
+
+useEffect(()=>{
+    dispatch(fetchMenuCategories())
+},[])
 
     const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -88,11 +109,11 @@ const handleLogout=async()=>{
     const{setOpenCartPanel,isLogin}=useContext(MyContext)
   return (
     <header className="bg-white sticky top-[-50px] z-100 " >
-        <div className="top-strip py-2 border-t-[1px] border-gray-300 border-b-[1px] ">
+        <div className=" hidden lg:block top-strip py-2 border-t-[1px] border-gray-300 border-b-[1px] ">
 
         <div className="container">
             {/* top strip */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ">
                 <div className="col1 w-[50%]">
                     <p className="text-[12px] font-[500]  ">Get up to 50% off on new season styles, limited time only </p>
 
@@ -114,23 +135,32 @@ const handleLogout=async()=>{
             </div>
         </div>
         </div>
-        <div className="header py-4 border-b-[1px] border-gray-300 ">
+        <div className="header py-2  lg:py-4 border-b-[1px] border-gray-300 ">
             <div className="container flex items-center justify-between">
+              {
+                context.windowWidth<992 &&
+                <Button onClick={()=>setIsOpenCategoryPanel(true)} className='!w-[35px] !min-w-[35px] !h-[35px] !rounded-full !text-gray-800'>
+
+                  <IoMenu size={22} />
+                </Button>
+              }
                 {/* brand logo */}
-                <div className="col1 w-[25%]">
+                <div className="col1 w-[40%] lg:w-[50%] lg:w-[25%]">
                     <Link to={'/'}><img src="/logo.jpg" alt="logo" /></Link>
                 </div>
                 {/* search box */}
-                <div className="col2 w-[40%]" >
+                <div className="col2  fixed top-0 left-0 h-full w-full lg:w-[40%] lg:static p-2 lg:p-0 bg-white  z-[50]
+                hidden lg:block
+                " >
                     <Search/>
 
                   
                 </div>
-                <div className="col3 w-[35%] flex items-center pl-7 ">
+                <div className="col3 w-[10%]  lg:w-[35%] flex items-center pl-7 ">
                     
                     <ul className="flex items-center justify-end gap-3 w-full">
                         {
-                            authContext?.isLogin ===false ? (
+                            authContext?.isLogin ===false && context.windowWidth>992 ? (
                                        <li className="list-none">
                             <Link className="link transition ease-in-out duration-300 text-[15px] font-[500]" to='/login' >Login</Link>  | &nbsp;
                              <Link className="link transition ease-in-out duration-300 text-[15px] font-[500]" to='/register'>Register</Link>
@@ -139,6 +169,10 @@ const handleLogout=async()=>{
                             :
                             (
                                 <>
+                                {
+                                  context.windowWidth>992 && 
+                                                                         <li className="list-none">
+
                                 <Button onClick={handleClick} className="myAccountWrap !text-black  flex items-center gap-3 relative cursor-pointer">
                                     <Button className="!text-black !rounded-full !w-[40px] !h-[40px] !min-w-[40px] !bg-[#f1f1f1]  ">
                                         <FaRegUser className="text-[17px] text-[rgba(0,0,0,0.7)]"/>
@@ -152,6 +186,8 @@ const handleLogout=async()=>{
 
 
                                 </Button>
+                                </li>
+                                }
                                    <Menu
         anchorEl={anchorEl}
         id="account-menu"
@@ -252,7 +288,11 @@ const handleLogout=async()=>{
                         }
                         
                  
-                        <li>
+                    
+                        {
+                          context.windowWidth>992 && 
+                          <>
+                              <li>
        
                              
                              <Tooltip title='Compare'>
@@ -265,7 +305,7 @@ const handleLogout=async()=>{
                                 </IconButton>
                              </Tooltip>
                         </li>
-                        <li>
+                          <li>
                             <Tooltip title='Wishlist'>
 
                               <IconButton onClick={()=>{
@@ -277,6 +317,9 @@ const handleLogout=async()=>{
                                 </IconButton>
                             </Tooltip>
                         </li>
+                          </>
+                        }
+                    
                         <li>
                             <Tooltip title='Cart'>
 
@@ -292,7 +335,14 @@ const handleLogout=async()=>{
                 </div>
             </div>
         </div>
-        <Navigation/>
+        <Navigation isOpenCategoryPanel={isOpenCategoryPanel} openCategoryPanel={openCategoryPanel} setIsOpenCategoryPanel={setIsOpenCategoryPanel} />
+
+
+ {/* {
+        categories?.length!==0 && 
+    <CategoryPanel categories={categories} openCategoryPanel={openCategoryPanel}  isOpenCategoryPanel={isOpenCategoryPanel} />
+
+    } */}
 
 
 

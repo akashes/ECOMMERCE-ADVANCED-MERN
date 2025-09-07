@@ -13,6 +13,7 @@ const Orders = () => {
   const[showProducts,setShowProducts]=useState(null)
   const dispatch = useDispatch()
   const{orders}=useSelector(state=>state.order)
+  console.log(orders)
   const isShowOrderedProduct=(index)=>{
     if(showProducts===index){
       return setShowProducts(null)
@@ -107,17 +108,17 @@ const Orders = () => {
               {/* order related table body */}
               <tbody>
                 {
-                  orders?.length>0 && orders.map((order)=>{
+                  orders?.length>0 && orders.map((order,index)=>{
                     console.log(order)
                     return(
                       <>
                                       <tr className="bg-white border-b ">
                   <td className="px-6 py-4 font-[500]">
                       <Button  className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#cfcdcd] !text-black"
-                    onClick={()=>isShowOrderedProduct(0)}
+                    onClick={()=>isShowOrderedProduct(index)}
                     >
                       {
-                        showProducts ===0 ? <FaAngleDown className="text-[16px] rotate-180 "/>: <FaAngleDown className="text-[16px] "/> 
+                        showProducts ===index ? <FaAngleDown className="text-[16px] rotate-180 "/>: <FaAngleDown className="text-[16px] "/> 
                       }
                     </Button>
 
@@ -127,11 +128,11 @@ const Orders = () => {
 
                   </td>
                   <td className="px-6 py-4 font-[500] text-primary">
-                    {order.payment_id} 
+                    {order.payment_id?order.payment_id:'CASH ON DELIVERY'} 
 
                   </td>
                   <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                    {order.name} 
+                    {order.name.toUpperCase()} 
 
                   </td>
                   <td className="px-6 py-4 font-[500]">
@@ -140,38 +141,41 @@ const Orders = () => {
                   </td>
                   <td className="px-6 py-4 font-[500]">
                     <span className="block w-[400px]">
+                      {order.delivery_address?.address_line} {order.delivery_address?.city}    {order.delivery_address?.pincode}  {order.delivery_address?.state}  {order.delivery_address?.country}  {order.delivery_address?.landmark},
 
-                    sdaf asdf erwt asdf asdfasdf
                     </span>
  
 
                   </td>
                   <td className="px-6 py-4 font-[500]">
-                    344355 
+                    {order.delivery_address?.pincode} 
 
                   </td>
                   <td className="px-6 py-4 font-[500]">
-                    1850 
-
+{order.total.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}
                   </td>
                   <td className="px-6 py-4 font-[500]">
-                    akashes5753279@gmail.com	 
+                    {order.email}	 
 
                   </td>
                   <td className="px-6 py-4 font-[500]">
                     <span className="text-primary">
 
 
-                    6864d038228db479bb77c9a5 
+                   {order.userId}
                     </span>
 
                   </td>
                   <td className="px-6 py-4 font-[500]">
-                    <Badge status="confirm" />
+                    <Badge status={order.order_status} />
 
                   </td>
                   <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                    2025-07-20
+                {new Date(order.createdAt).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
  
 
                   </td>
@@ -180,7 +184,7 @@ const Orders = () => {
                 </tr>
 
                 {
-                  showProducts===0 && (
+                  showProducts===index && (
                      <tr  >
                   <td colSpan="6" className=" pl-20"  >
                      <div className="relative overflow-x-auto">
@@ -217,34 +221,35 @@ const Orders = () => {
               </thead>
               <tbody>
                 {
-                  order?.products?.length>0 && order.products.map((order)=>{
+                  order?.products?.length>0 && order.products.map((product)=>{
                     return(
-                         <tr className="bg-white border-b ">
+                         <tr key={product.productId} className="bg-white border-b ">
                   <td className="px-6 py-4 font-[500] text-gray-700 ">
-                    123456789
+                    {product.productId}
 
                   </td>
                   <td className="px-6 py-4 font-[500]">
-                    687cd457228db479bb93f3a6	 
+                    <div className="w-[200px]">
+
+                    {product.name}	 
+                    </div>
 
                   </td>
                   <td className="px-6 py-4 font-[500]">
-                    <img src={order.image[0]} alt="" className="w-[40px] h-[40px] object-cover rounded-md" />
+                    <img src={product.image[0]} alt="" className="w-[40px] h-[40px] object-cover rounded-md" />
 
                   </td>
                   <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                    2
+                    {product.quantity}
 
                   </td>
                   <td className="px-6 py-4 font-[500]">
-                    133 
-
+{product.price.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}
                   </td>
                   <td className="px-6 py-4 font-[500]">
                     <span className="block w-[400px]">
 
-                    675
-                    </span>
+{product.subtotal.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}                    </span>
  
 
                   </td>

@@ -6,7 +6,7 @@ import { Collapse } from 'react-collapse'
 import { FaAngleDown } from "react-icons/fa6";
 
 
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Button } from '@mui/material';
 
 import RangeSlider from 'react-range-slider-input';
@@ -19,7 +19,12 @@ import './style.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { resetFilters, setDiscount, setPriceFilter } from '../../features/productsFilter/productsFilterSlice';
 
+import { IoClose } from "react-icons/io5";
+import { MyContext } from '../../App';
+
+
 const Sidebar = (props) => {
+  const context = useContext(MyContext)
   const isFirstRender = useRef(true);
 
 
@@ -73,10 +78,14 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
   setPrice([filters.minPrice || 100, filters.maxPrice || 50000]);
 }, [filters.minPrice, filters.maxPrice]);
   return (
-  <aside className='sidebar py-5 sticky top-[140px] '>
+  <aside className='sidebar py-1 lg:py-5 static lg:sticky top-[140px]  !z-[103] '>
+    <div  className='flex justify-end lg:hidden'>
+     <IoClose onClick={()=>context.setOpenFilter(false)}  className='!text-primary !top-10 text-[22px] !right-10'/>
+
+    </div>
       <div className="box">
         <h3 className=' w-full mb-3 text-[16px]
-         font-[600] flex items-center pr-5'>
+         font-[600] flex items-center lg:pr-5'>
             Shop By Categories
 
 <Button className='!text-black !w-[30px] !h-[30px] !min-w-[30px] !rounded-full !ml-auto ' onClick={()=>setIsCategoryFilterOpen(!isCategoryFilterOpen)}>
@@ -90,7 +99,7 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
 
 
 
-        <div className="scroll px-4 relative -left-[13px] ">
+        <div className="scroll flex flex-wrap lg:relative   px-4 relative -left-[13px] ">
           {
             categories?.length>0 && categories.map((category)=>(
 
@@ -104,7 +113,7 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
                   />
                 }
                 label={category.name}
-                className="w-full"
+                className=' w-[100px] lg:w-full'
               />
             ))
           }
@@ -116,9 +125,9 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
         </Collapse>
 
       </div>
-      <div className="box mt-3">
+      <div className="box mt-2 lg:mt-3">
         <h3 className=' w-full mb-3 text-[16px]
-         font-[600] flex items-center pr-5'>
+         font-[600] flex items-center lg:pr-5'>
             Availability
 
 <Button className='!text-black !w-[30px] !h-[30px] !min-w-[30px] !rounded-full !ml-auto ' onClick={()=>setIsAvailabilityFilterOpen(!isAvailabilityFilterOpen)}>
@@ -132,10 +141,10 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
 
 
 
-        <div className="scroll px-4 relative -left-[13px] ">
-                  <FormControlLabel  control={<Checkbox size='small' />} label="Available  (17)" className='w-full' />
-                  <FormControlLabel  control={<Checkbox size='small' />} label="In Stock  (10)" className='w-full' />
-                  <FormControlLabel  control={<Checkbox size='small' />} label="Not Available  (17)" className='w-full' />
+        <div className="scroll flex flex-wrap  lg:block px-4 relative -left-[13px] ">
+                  <FormControlLabel  control={<Checkbox size='small' />} label="Available  (17)" className='w-[200px] lg:w-full' />
+                  <FormControlLabel  control={<Checkbox size='small' />} label="In Stock  (10)" className='w-[200px] lg:w-full' />
+                  <FormControlLabel  control={<Checkbox size='small' />} label="Not Available  (17)" className='w-[200px] lg:w-full' />
                   
 
 
@@ -143,40 +152,12 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
         </Collapse>
 
       </div>
-      <div className="box mt-3">
-        <h3 className=' w-full mb-3 text-[16px]
-         font-[600] flex items-center pr-5'>
-            Size
 
-<Button className='!text-black !w-[30px] !h-[30px] !min-w-[30px] !rounded-full !ml-auto ' onClick={()=>setIsSizeFilterOpen(!isSizeFilterOpen)}>
-
-            <FaAngleDown style={{transform:isSizeFilterOpen?'rotate(180deg)':'rotate(0deg)'}} className='transition-transform duration-300'  />
-</Button>
-
-            </h3>
-        <Collapse isOpened={isSizeFilterOpen}>
-
-
-
-
-        <div className="scroll px-4 relative -left-[13px] ">
-                  <FormControlLabel  control={<Checkbox size='small' />} label="Small  (17)" className='w-full' />
-                  <FormControlLabel  control={<Checkbox size='small' />} label="Medium  (10)" className='w-full' />
-                  <FormControlLabel  control={<Checkbox size='small' />} label="Large  (17)" className='w-full' />
-                  <FormControlLabel  control={<Checkbox size='small' />} label="XL  (17)" className='w-full' />
-                  <FormControlLabel  control={<Checkbox size='small' />} label="XXL  (17)" className='w-full' />
-                  
-
-
-        </div>
-        </Collapse>
-
-      </div>
-   <div className="box mt-4">
+   <div className="box mt-2 lg:mt-4">
   <h3 className='w-full mb-3 text-[16px] font-[600] flex items-center pr-5'>
     Discount
   </h3>
-  <div className="scroll px-4 relative -left-[13px]">
+  <div className="scroll px-4 flex flex-wrap lg:block relative -left-[13px]">
     {[10, 20, 30, 40, 50].map((percent) => (
       <FormControlLabel
         key={percent}
@@ -190,13 +171,13 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
           />
         }
         label={`${percent}% or more`}
-        className="w-full"
+        className="lg:w-full"
       />
     ))}
   </div>
 </div>
 
-      <div className="box mt-4 ">
+      <div className="box mt-2 lg:mt-4 ">
         <h3 className=' w-full mb-3 text-[16px]
          font-[600] flex items-center pr-5'>
            Filter By Price
@@ -221,7 +202,7 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
 
       </div>
       </div>
-      <div className="box mt-4 ">
+      <div className="box mt-2 lg:mt-4 ">
         <h3 className=' w-full mb-3 text-[16px]
          font-[600] flex items-center pr-5'>
            Filter By Rating
@@ -242,7 +223,8 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
 
 
         }
-        } className='!border-1 !border-primary !text-primary !mt-3'>Clear Filters</Button>
+        } className='!border-1 !border-primary !text-primary !mt-2 lg:!mt-3'>Clear Filters</Button>
+
 
   </aside>
   )
