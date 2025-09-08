@@ -135,6 +135,11 @@ const handleLogout=async()=>{
             </div>
         </div>
         </div>
+
+
+
+
+
         <div className="header py-2  lg:py-4 border-b-[1px] border-gray-300 ">
             <div className="container flex items-center justify-between">
               {
@@ -145,13 +150,12 @@ const handleLogout=async()=>{
                 </Button>
               }
                 {/* brand logo */}
-                <div className="col1 w-[40%] lg:w-[50%] lg:w-[25%]">
+                <div className="col1 w-[40%]  lg:w-[25%]">
                     <Link to={'/'}><img src="/logo.jpg" alt="logo" /></Link>
                 </div>
                 {/* search box */}
-                <div className="col2  fixed top-0 left-0 h-full w-full lg:w-[40%] lg:static p-2 lg:p-0 bg-white  z-[50]
-                hidden lg:block
-                " >
+                <div className={`col2   top-0 left-0 h-full w-full lg:w-[40%] lg:static p-2 lg:p-0 bg-white  z-[700]
+                hidden  lg:block`} >
                     <Search/>
 
                   

@@ -27,24 +27,25 @@ const BreadCrumbs = () => {
     return [];
   };
 
-  const breadcrumbItems = useMemo(() => {
+  const breadcrumbItems = useMemo(() => { 
     if (!currentCategoryId) return [];
     return findPath(categories, currentCategoryId);
   }, [categories, currentCategoryId]);
 
   return (
     <Breadcrumbs aria-label="breadcrumb">
-      <Link underline="hover" color="inherit" href="/">
+      <Link className="!text-[11px] sm:!text-[13px] lg:!text-[14px] " underline="hover" color="inherit" href="/">
         Home
       </Link>
 
       {breadcrumbItems.map((cat, idx) =>
         idx === breadcrumbItems.length - 1 ? (
-          <Typography key={cat._id} color="text.primary">
+          <p  className="!my-auto !text-[13px] sm:!text-[14px] lg:!text-[15px]  !flex !items-center !justify-center " key={cat._id} color="text.primary">
             {cat.name}
-          </Typography>
+          </p>
         ) : (
           <Link
+          className="!text-[11px] sm:!text-[13px] lg:!text-[14px]"
             key={cat._id}
             underline="hover"
             color="inherit"

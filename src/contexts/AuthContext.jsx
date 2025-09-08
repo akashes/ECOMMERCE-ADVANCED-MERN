@@ -206,8 +206,10 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async() => {
     log("🚪 Logging out...");
+   const res= await axios.post('/api/user/logout')
+   console.log(res)
     clearRefreshTimer();
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");

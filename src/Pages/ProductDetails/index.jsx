@@ -23,6 +23,7 @@ import { addToCart } from "../../features/cart/cartSlice";
 
 const ProductDetails = () => {
     const{user}=useContext(AuthContext)
+    const context = useContext(MyContext)
     const{user:contextUser}=useContext(MyContext)
     console.log(user)
     let reviewRef = useRef()
@@ -143,14 +144,14 @@ useEffect(()=>{
         loading ? <ProductDetailsSkeleton/> : (
             <section className="bg-white py-5">
        
-             <div className="container flex gap-8 items-center ">
+             <div className="container flex flex-col lg:flex-row gap-4 lg:gap-8 items-start lg:items-center ">
                 {/* product image section */}
-        <div className="productZoomContainer w-[40%]  ">
+        <div className="productZoomContainer w-full lg:w-[40%]  ">
             <ProductZoom images={product?.images} />
         </div>
 
         {/* product information section */}
-        <div className=" productContent w-[60%] pr-10 pl-10">
+        <div className=" productContent w-full  lg:w-[60%] pl-5  pr-10 lg:pl-10">
         <ProductInfo product={product} goToReviews={goToReviews} />
     
 
@@ -164,17 +165,18 @@ useEffect(()=>{
 
 
       <div className="container pt-10" ref={reviewRef}>
-        <div className="flex items-center gap-8 mb-5">
-            <span className={` text-[17px] cursor-pointer font-[500] transition-colors duration-300 ease-in-out px-3 py-1 rounded-full
+        
+        <div className="flex items-center gap-4 lg:gap-8  mb-3 lg:mb-5">
+            <span className={`  text-[15px] lg:ext-[17px] cursor-pointer font-[500] transition-colors duration-300 ease-in-out px-3 py-1 rounded-full
                  ${activeTab===0 && 'text-white bg-primary  '} `}  onClick={()=>setActiveTab(0)}>Description</span>
             {/* <span className={` text-[17px] cursor-pointer font-[500] transition-colors duration-300 ease-in-out px-3 py-1 rounded-full
                  ${activeTab===1 && 'text-white bg-primary  '} `}  onClick={()=>setActiveTab(1)}>Product Details</span> */}
-            <span className={` text-[17px] cursor-pointer font-[500] transition-colors duration-300 ease-in-out px-3 py-1 rounded-full
+            <span className={` text-[15px] lg:text-[17px] cursor-pointer font-[500] transition-colors duration-300 ease-in-out px-3 py-1 rounded-full
                  ${activeTab===2 && 'text-white bg-primary  '} `}  onClick={()=>setActiveTab(2)}>Reviews ({product?.numReviews})</span>
         </div>
       {
         activeTab===0 && (
-                 <div className="shadow-md w-full py-5 px-8 rounded-md">
+                 <div className="shadow-none  lg:shadow-md w-full py-2 lg:py-5 px-2 md:px-4 lg:px-8 rounded-md">
                     <p>
                         {product?.description}
                     </p>
@@ -248,16 +250,16 @@ useEffect(()=>{
       } */}
       {
         activeTab===2 && (
-                 <div className="shadow-md w-[80%] py-5 px-8 rounded-md">
+                 <div className="shadow-md w-full sm:w-[80%] py-2 lg:py-5 px-2 md:px-4 lg:px-8 rounded-md">
 
             <div  className="w-full productReviewContainer">
-                <h2 className="text-[18px]">Customer Reviews </h2>
-                <div className="reviewsContainer w-full max-h-[300px] overflow-y-scroll  overflow-x-hidden  mt-5 ">
+                <h2 className="text-[16px] lg:text-[18px]">Customer Reviews </h2>
+                <div className="reviewsContainer w-full max-h-[300px] overflow-y-scroll  overflow-x-hidden  mt-2 lg:mt-5 ">
 
                     {/* review */}
                     {
                         product?.reviews?.length>0 && [...product?.reviews].reverse().map((review)=>(
-                                  <div className="review py-5 pr-5 border-b border-[rgba(0,0,0,0.2)] w-full flex items-center justify-between">
+                                  <div className="review py-5 lg:pr-5 border-b border-[rgba(0,0,0,0.2)] w-full flex items-center justify-between">
                         <div className="info w-[60%] flex items-center gap-3 ">
                             <div className="img w-[80px] h-[80px] rounded-full overflow-hidden">
                                 {
@@ -282,7 +284,7 @@ useEffect(()=>{
                                 <p className="mt-0 mb-0">{review.comment}</p>
                             </div>
                         </div>
-            <Rating name="size-medium" value={review.rating} size="medium" precision={0.5} readOnly />
+            <Rating name="size-medium" value={review.rating} size={context.windowWidth>992? 'medium':'small'} precision={0.5} readOnly />
 
 
 
@@ -311,9 +313,9 @@ useEffect(()=>{
           multiline
           rows={5}
         />
-        <Rating size="medium" value={productRating} precision={0.5} onChange={(e)=>setProductRating(e.target.value)} />
+        <Rating  value={productRating} size={context.windowWidth>992? 'medium':'small'}  precision={0.5} onChange={(e)=>setProductRating(e.target.value)} />
         <div className="flex items-center mt-5">
-            <Button onClick={handleAddReview} className="btn-org min-w-[250px]">
+            <Button onClick={handleAddReview} className="!bg-orange-600 !text-white !text-[12px] md:!text-[15px]  min-w-[250px]">
                 
                     {reviewLoading?"Submitting Review" : "Submit Review"} 
                 

@@ -57,13 +57,19 @@ const MyList = () => {
     setConfirmOpen(false);
   };
 
+    useEffect(()=>{
+        window.scrollTo({ top: 0, behavior: "smooth" });
+  
+  
+    },[])
+
   return (
-    <section className="py-10 w-full">
-      <div className="container flex gap-5">
-        <div className="col1 w-[20%]">
+    <section className= "py-4 lg:py-10 w-full">
+      <div className="container flex flex-col md:flex-row gap-5">
+        <div className="col1 w-full md:w-[20%] hidden lg:block">
           <AccountSidebar />
         </div>
-        <div className="col2 w-[70%]">
+        <div className="col2 w-full md:w-[70%]">
           <div className="shadow-md rounded-md bg-white">
             <div className="py-2 px-3 border-b border-[rgba(0,0,0,0.1)]">
               <h2>My Wishlist</h2>
@@ -80,7 +86,7 @@ const MyList = () => {
             {wishlist?.length > 0 ?
               wishlist.map((item) => <MyListItems key={item._id} item={item} />) : 
               <div className="flex justify-center items-center flex-col py-10 px-3 gap-3">
-                <img className="w-[100px]" src="https://res.cloudinary.com/dllelmzim/image/upload/v1756095516/wishlist_ptugf5.png" alt="" />
+                <img className="  h-[150px]" src="https://res.cloudinary.com/dllelmzim/image/upload/v1756095516/wishlist_ptugf5.png" alt="" />
                 <h3>Wishlist is currently empty</h3>
                                     <Button onClick={()=>{ navigate('/products')}} className="btn-org btn-sm">Continue Shopping</Button>
                 

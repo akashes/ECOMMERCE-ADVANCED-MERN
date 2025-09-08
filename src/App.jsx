@@ -57,6 +57,7 @@ axios.defaults.baseURL=import.meta.env.VITE_API_URL
 const App = () => {
   const{loading}=useContext(AuthContext)
   const dispatch = useDispatch()
+  
 
   const{user}=useContext(AuthContext)
   const{cart}=useSelector(state=>state.cart)
@@ -69,6 +70,7 @@ const App = () => {
     const[windowWidth,setWindowWidth]=useState(window.innerWidth)
 
     const[openFilter,setOpenFilter]=useState(false)
+    const[isSearchOpen,setIsSearchOpen]=useState(false)
   
   
 
@@ -105,7 +107,9 @@ const App = () => {
           setOpenAddressPanel,
           windowWidth,
           openFilter,
-          setOpenFilter
+          setOpenFilter,
+          setIsSearchOpen,
+          isSearchOpen
           // openAlertBox, //passing function for toast using context //may change later 
           // isLogin,
           // setIsLogin
@@ -221,7 +225,6 @@ const App = () => {
        <Footer/>
 
     
-    </MyContext.Provider>
 
       {/* product details modal */}
       {
@@ -256,6 +259,8 @@ const App = () => {
        
       </Dialog>
       }
+    </MyContext.Provider>
+
     
 
     </BrowserRouter>

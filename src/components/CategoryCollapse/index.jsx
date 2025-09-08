@@ -3,13 +3,17 @@ import Button from '@mui/material/Button';
 
 
 import { FaRegSquarePlus } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaRegMinusSquare } from "react-icons/fa";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategories, setSubCategories, setThirdSubCategories } from '../../features/productsFilter/productsFilterSlice';
 
-const CategoryCollapse = () => {
+const CategoryCollapse = ({openCategoryPanel}) => {
     const{categories}=useSelector(state=>state.category)
+    const dispatch = useDispatch()
+
         const[submenuIndex,setSubmenuIndex]=useState(null)
+        const navigate = useNavigate()
     const[innerSubMenuIndex,setInnerSubMenuIndex]=useState(null)
 
     const[selectedCategoryId,setSelectedCategoryId]=useState(null)
@@ -38,9 +42,16 @@ const CategoryCollapse = () => {
                                     <li className='list-none flex items-center relative flex-col'
                                     onClick={()=>setSelectedCategoryId(category._id)}
                                     >
-                            <Link to='/hai' className='w-full'>
-                            <Button className={`w-full !text-left !justify-start !px-3 !text-[rgba(0,0,0,0.8)] ${selectedCategoryId===category._id && '!bg-gray-200'} `}>{category.name}</Button>
-                            </Link>
+                            {/* <Link to={`/products?category=${category._id}`} className='w-full'> */}
+                            <Button
+                             onClick={()=>{
+                         dispatch(setCategories([category._id]))
+                            navigate(`/products?category=${category._id}`)
+                                openCategoryPanel(false)
+                            }}
+                            
+                            className={`w-full !text-left !justify-start !px-3 !text-[rgba(0,0,0,0.8)] ${selectedCategoryId===category._id && '!bg-gray-200'} `}>{category.name}</Button>
+                            {/* </Link> */}
                            {
                                 category?.children?.length > 0 && (
                                     submenuIndex === index  
@@ -63,9 +74,15 @@ const CategoryCollapse = () => {
                                             category.children.length>0 && category.children.map((subCategory,index)=>(
 
                                             <li key={subCategory._id} className='list-none  relative'>
-                                                <Link className='w-full'>
-                                                <Button className='w-full !text-left !justify-start !px-3 !text-[rgba(0,0,0,0.8)] '>{subCategory.name}</Button>
-                                                </Link>
+                                                {/* <Link className='w-full'> */}
+                                                <Button 
+                                                      onClick={()=>{
+                         dispatch(setSubCategories(subCategory._id))
+                            navigate(`/products?subCat=${subCategory._id}`)
+                                openCategoryPanel(false)
+                            }}
+                                                className='w-full !text-left !justify-start !px-3 !text-[rgba(0,0,0,0.8)] '>{subCategory.name}</Button>
+                                                {/* </Link> */}
                                               {
                                     subCategory?.children?.length > 0 && (
                                         innerSubMenuIndex === index  
@@ -86,10 +103,12 @@ const CategoryCollapse = () => {
                                                 {
                                                     subCategory?.children?.length>0 && subCategory.children.map((thirdSubCategory)=>(
 
-                                                        <li className='list-none flex items-center relative my-1'>
-                                                            <Link to='/' className=' link w-full !text-left !justify-start !px-3 transition text-[14px]  '>
+                                                        <li onClick={()=>{
+                                                                                     dispatch(setThirdSubCategories(thirdSubCategory._id))
+                            navigate(`/products?thirdSubCatId=${thirdSubCategory._id}`)
+                                openCategoryPanel(false)
+                                                        }} className='list-none flex items-center relative my-1'>
                                                             {thirdSubCategory.name}
-                                                            </Link>
                                                         </li>
                                                     ))
                                                 }

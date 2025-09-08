@@ -77,7 +77,7 @@ useEffect(()=>{
                     </li>
                     {
                         categories?.length>0  && categories.map((category)=>(
-                                 <li key={category._id} className="list-none relative ">
+                                 <li key={category._id} className="list-none relative z-500 ">
                         <Button
                         onClick={()=>{
                             // dispatch(resetFilters())
@@ -97,7 +97,7 @@ useEffect(()=>{
                         </Button>
                        {
                         category?.children?.length!==0 && (
-                             <div className="submenu absolute top-[120%] opacity-0  transition-all  left-[0%] min-w-[150px] bg-white shadow-md rounded-md">
+                             <div className="submenu absolute  top-[120%] opacity-0  transition-all  left-[0%] min-w-[150px] bg-white shadow-md rounded-md">
                             <ul>
                                 {
                                     category?.children?.length>0 && category.children.map((subCategory)=>(

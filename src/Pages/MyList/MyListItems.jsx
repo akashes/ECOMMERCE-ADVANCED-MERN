@@ -66,9 +66,9 @@ const MyListItems = ({item}) => {
   }
 
   return (
-     <div className="cartItem w-full p-3 flex items-center gap-4 pb-5 border-b border-[rgba(0,0,0,0.1)]">
+     <div className="cartItem w-full p-2 sm:p-3 flex items-center gap-4 pb-2 sm:pb-5 border-b border-[rgba(0,0,0,0.1)]">
               {/* product image */}
-              <div className="img w-[15%] h-[150px] rounded-md overflow-hidden">
+              <div className="img w-[30%] sm:w-[15%] max-h-[150px] flex justify-center items-center rounded-md overflow-hidden">
                 <Link className="group">
                   <img
                     src={item.productId?.images[0]?.url}
@@ -78,14 +78,14 @@ const MyListItems = ({item}) => {
                 </Link>
               </div>
               {/* product info */}
-              <div className="info w-[85%] relative">
+              <div className="info w-[70%] sm:w-[85%] relative">
                 <IoIosClose onClick={()=>{
                
                     handleRemoveFromWishlist(item._id)
                   
                 }} className="text-[25px] bg-gray-100 rounded-full text-gray-500 cursor-pointer absolute top-[0px] right-[0px] link transition-colors" />
-                <span className="text-[13px]">{item.productId?.brand}</span>
-                <h3 className="text-[15px]">
+                <span className=" text-[11px] sm:text-[13px]">{item.productId?.brand}</span>
+                <h3 className=" text-[13px] sm:text-[15px]">
                   <Link to={`/product/${item.productId?._id ||item.productId}`} className="link">
                     {item.productId?.name.substr(0,50)+'...'}
                   </Link>
@@ -103,7 +103,7 @@ const MyListItems = ({item}) => {
                   <span className="oldPrice line-through text-gray-500 text-[14px] font-[500]">
                     ₹{item.productId?.oldPrice}
                   </span>
-                  <span className="price text-primary font-[600] text-[14px]">
+                  <span className="price text-primary font-[600] text-[12px] sm:text-[14px]">
                     {item.productId?.discount>0 ? item.productId?.discount+'% OFF':''}
                   </span>
                 </div>{

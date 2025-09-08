@@ -37,15 +37,16 @@ const isshippingCharge = subTotal<249?true:false
     },[])
 
   return (
-    <section className="section py-10 ">
-      <div className="container w-[80%] max-w-[80%] flex gap-5 ">
-        <div className="leftSection w-[70%]">
+    <section className="section py-4 md:py-10 ">
+      <div className="container w-[80%] max-w-[80%] flex flex-col md:flex-row gap-5 ">
+        
+        <div className="leftSection w-full md:w-[70% ] ">
          
-          <div className="shadow-md rounded-md bg-white">
-            <div className="py-2 px-3 border-b border-[rgba(0,0,0,0.1)]">
-                 <h2>Your Cart</h2>
+          <div className={`shadow-md ${cart?.length>0 && 'max-h-[50vh] overflow-y-scroll'}  rounded-md bg-white`}  >
+            <div className=" py-1 md:py-2 px-3 border-b border-[rgba(0,0,0,0.1)]">
+                 <h2 className="text-[14px] sm:text-[15px]">Your Cart</h2>
           <p className="mt-0">
-            There are <span className="font-bold text-primary">{cart?.length}</span> products
+            There are <span className=" text-[12px] sm:text-[13px] font-bold text-primary">{cart?.length}</span> products
             in your Cart
           </p>
 
@@ -59,11 +60,11 @@ const isshippingCharge = subTotal<249?true:false
                 <CartItemSkeleton/>
                 </>
               ):(
-                 !loading &&  cart?.length>0 && cart.map((item)=>(
-
+                !loading &&  cart?.length>0 && cart.map((item)=>(
+                  
                   item.productId?(
-                                    <CartItems key={item._id} item={item} size="S"  />
-
+                    <CartItems key={item._id} item={item} size="S"  />
+                    
                   ):null
               ))
 
@@ -84,8 +85,10 @@ const isshippingCharge = subTotal<249?true:false
            
           </div>
         </div>
-        <div className="rightSection w-[30%] p-5">
-            <div className="shadow-md rounded-md bg-white p-5  sticky top-[160px] z-[90]">
+        {
+          !loading && cart?.length>0 &&
+        <div className="rightSection w-full h-full md:w-[30%] pb-5 lg:pb-0 ">
+            <div className="shadow-md rounded-md bg-white p-2  px-4  md:p-5  lg:sticky lg:top-[160px] z-[90]">
                    <h3 className="pb-3 ">Cart Total</h3>
                    <hr />
                    {
@@ -102,22 +105,21 @@ const isshippingCharge = subTotal<249?true:false
                     (
                       <>
                         <p className="flex items-center justify-between">
-                  <span className="text-[14px] font-[500]">Subtotal</span>
-                  <span className="text-primary font-bold"> {subTotal.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })} </span>
+                  <span className="text-[13px] md:text-[14px] font-[500]">Subtotal</span>
+                  <span className="text-primary font-bold text-[14px] md:text-[15px]"> {subTotal.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })} </span>
                 </p>
                 <p className="flex items-center justify-between">
-                  <span className="text-[14px] font-[500]">Shipping</span>
-                  <span className="font-bold text-primary">{isshippingCharge?'50':"Free"}</span>
+                  <span className="text-[13px] md:text-[14px] font-[500]">Shipping</span>
+                  <span className="font-bold text-primary text-[14px] md:text-[15px]">{isshippingCharge?'50':"Free"}</span>
                 </p>
              
                 <p className="flex items-center justify-between">
-                  <span className="text-[17px] font-[500]">Total</span>
-                  <span className="font-bold text-primary text-[18px]"> {total.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</span>
+                  <span className="text-[15px] md:text-[17px] font-[500]">Total</span>
+                  <span className="font-bold text-primary text-[16px] md:text-[17px]"> {total.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</span>
                 </p>
-                <br />
                 <Link to='/checkout'>
-                <Button className="w-full btn-org btn-lg flex gap-2">
-                  <BsFillBagCheckFill className="text-[20px]" />
+                <Button className="w-full btn-org md:btn-lg flex gap-2">
+                  <BsFillBagCheckFill className=" text-[18px] md:text-[20px]" />
                   Checkout
                 </Button>
                 </Link>
@@ -129,6 +131,7 @@ const isshippingCharge = subTotal<249?true:false
 
             </div>
         </div>
+        }
       </div>
     </section>
   );

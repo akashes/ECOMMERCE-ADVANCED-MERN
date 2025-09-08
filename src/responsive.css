@@ -13,7 +13,7 @@
   white-space: nowrap;
   overflow-x: scroll;
   display: block !important;
-  overflow-y: hidden;
+  overflow-y: auto;
   text-align: center;
 
 }
@@ -116,6 +116,25 @@
     opacity: 1 !important;
   }
 
+  /* .productZoomContainer .swiper-slide{
+    display: flex !important;
+   justify-content: center !important;
+   align-items: center !important
+  } */
+
+  .zoomProductSliderThumbs.space .swiper-wrapper{
+    padding-top: 0px !important ;
+  }
+
+  .cartPanel .MuiPaper-root{
+    width: 60% !important;
+  }
+    .MuiPaper-root.MuiPaper-elevation{
+  width: 70%;
+}
+
+
+
 }
 
 
@@ -132,6 +151,7 @@
   .section2-col2 .list-none  {
     font-size: 13px !important;
   }
+
 
 
 }

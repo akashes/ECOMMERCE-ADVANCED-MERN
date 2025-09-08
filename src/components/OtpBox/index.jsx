@@ -38,7 +38,7 @@ return(
                 maxLength="1"
                 value={otp[index]}
                 onChange={(e)=>handleChange(e.target,index)}
-                className='w-[45px] h-[45px] text-center text-[17px] border border-gray-300 rounded-md'
+                className=' w-[35px] h-[35px] sm:w-[45px] sm:h-[45px] text-center text-[15px] sm:text-[17px] border border-gray-300 rounded-md'
                 // onKeyDown={(e)=>e.key === 'Backspace' && handleChange(e.target,index-1)}
                 onKeyDown={(e)=>handleKeyDown(e,index)}
                 style={{

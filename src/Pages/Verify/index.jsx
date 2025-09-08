@@ -94,13 +94,13 @@ const Verify = ({resetPassword}) => {
 
 
   return (
-   <section className='section py-10'>
+   <section className='section py-5  sm:py-10 '>
         <div className="container">
-            <div className="card shadow-md w-[400px] m-auto rounded-md bg-white p-5 px-10">
+            <div className="card shadow-md w-full sm:w-[400px] m-auto rounded-md bg-white p-5 px-10">
                 <div className="text-center flex items-center justify-center ">
                     <img src="/shield6.png" alt="" width={80} />
                 </div>
-                <h3 className="text-center text-[18px] text-black mt-4 "> Verify OTP</h3>
+                <h3 className="text-center text-[16px] sm:text-[18px] text-gray-700 mt-4 "> Verify OTP</h3>
                 <h1 className='text-center text-[22px]'>{resetPassword ? 'Reset Password' : 'Verify Email'}</h1>
 
                 {
@@ -120,8 +120,8 @@ const Verify = ({resetPassword}) => {
                 
 
                 <OtpInput length={6} onChange={handleOtpChange} />
-                <div className="flex flex-col  mt-5 px-3">
-                    <Button disabled={authContext.loading} type='submit' className='w-full  btn-org btn-lg'>Verify OTP</Button>
+                <div className="flex flex-col  mt-3 sm:mt-5 px-3">
+                    <Button disabled={authContext.loading} type='submit' className='w-full  btn-org sm:btn-lg'>Verify OTP</Button>
                     <div className=' mt-3 '>
                    <Link to={'/login'} className='flex gap-1 items-center'>
                     <FaLongArrowAltLeft className='text-[18px]' />

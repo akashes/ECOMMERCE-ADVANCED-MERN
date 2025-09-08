@@ -57,9 +57,9 @@ const ResetPassword = () => {
     }
 
   return (
-    <section className='section py-10'>
+    <section className='section py-5 lg:py-10'>
         <div className="container">
-            <div className="card shadow-md w-[400px] m-auto rounded-md bg-white p-5 px-10">
+            <div className="card shadow-md w-full lg:w-[400px] m-auto rounded-md bg-white p-5 px-5 lg:px-10">
                 <h3 className="text-center text-[18px] text-black flex items-baseline justify-center gap-2">
                     <img src="/fp1.png" alt="" width={30} />
                     Reset Password</h3>
@@ -134,7 +134,7 @@ const ResetPassword = () => {
                     
                     </div>
                  <div className="flex items-center w-full mt-3 mb-3">
-                        <Button disabled={loading} type='submit' className='!w-full  btn-org btn-lg'>
+                        <Button disabled={loading} type='submit' className='!w-full  btn-org lg:btn-lg'>
                             {loading ? <CircularProgress size={25} className='!text-white' /> : 'Reset Password'}
                         </Button>
                       

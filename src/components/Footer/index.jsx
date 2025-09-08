@@ -50,9 +50,9 @@ const Footer = () => {
   };
   return (
     <>
-    <footer className="py-6 bg-[#fafafa]">
+    <footer className="py-6 px-2 lg:px-0 bg-[#fafafa]">
         <div className="container">
-            <div className="flex items-center justify-center gap-2 py-8 scrollableBox ">
+            <div className="flex items-center justify-center gap-2  py-2 sm:py-4 lg:py-8 scrollableBox ">
                 <div className="col flex items-center justify-center flex-col group w-[15%]">
                     <LiaShippingFastSolid className="text-[40px] group-hover:text-primary
                      transition-all ease-in-out duration-300 group-hover:-translate-y-1 "/>
@@ -90,23 +90,24 @@ const Footer = () => {
                 </div>
            
             </div>
+
             <br />
-  <hr />
-  <div className="footer flex flex-col lg:flex-row  py-12 ">
+  <hr className="text-gray-400" />
+  <div className="footer flex flex-col lg:flex-row py-4 md:py-8 lg:py-12 ">
     <div className="section1 w-full lg:w-[25%] border-r-1 border-[rgba(0,0,0,.1)]">
-        <h2 className="text-[18px] font-[600] mb-4 ">Contact Us</h2>
-        <p className="text-[13px] font-[400] pb-4">Classyshop - Mega Super Store <br />
+        <h2 className="text-[18px] font-[600] mb-1 md:mb-4 ">Contact Us</h2>
+        <p className="!text-[12px] md:!text-[13px] font-[400] pb-1 md:pb-4">Classyshop - Mega Super Store 
 507-Union Trade Centre Frances Road , Kerala
 </p>
 <Link className='link text-[13px]' to='mailto:some@example.com' >sales@yourCompany.com</Link>
-<span className="text-[22px] font-[600] block w-full mt-3 text-primary mb-5"> (+91) 9876-543-210</span>
-<div className="flex items-center gap-2">
+<span className="text-[14px]  md:text-[16px] lg:text-[20px] font-[600] block w-full mt-3 text-primary mb-5"> (+91) 9876-543-210</span>
+<div className="flex items-center gap-1 md:gap-2">
     <IoChatboxOutline className="text-[40px] text-primary"/>
-    <span className="text-[16px] font-[600] pl-5 ">Online Chat <br /> Get Expert Help</span>
+    <span className="text-[16px] font-[600] pl-2 md:pl-5 ">Online Chat <br /> Get Expert Help</span>
 
 </div>
     </div>
-    <div className="section2 w-full  lg:w-[40%] flex pl-0 lg:pl-8  mt-5 lg:mt-0 ">
+    <div className="section2 w-full  lg:w-[40%] flex pl-0 lg:pl-8 mt-3  md:mt-5 lg:mt-0 ">
         <div className="section2-col1 flex flex-col justify-start w-[50%]">
             <h2 className="text-[18px] font-[600] mb-4">Products</h2>
             <ul className="list">
@@ -184,8 +185,8 @@ const Footer = () => {
     <div className="section3 w-full  lg:w-[35%] flex pl-0 lg:pl-8 flex-col pr-8 mt-5 lg:mt-0">
         <h2 className="text-[18px] font-[600] mb-2  lg:mb-4">Subscribe to our newsletter</h2>
         <p className="text-[13px] ">Subscribe to our newsletter to get the latest news and offers .</p>
-        <form className="mt-5">
-            <input type="text" className="w-full h-[45px] outline-none border-1 border-[rgba(0,0,0,0.2)]  pl-4 pr-4 rounded-sm mb-4 focus:border-[rgba(0,0,0,0.8)] "placeholder="Your Email Address" />
+        <form className=" mt-1 md:mt-5">
+            <input type="text" className="w-full h-[35px] md:h-[45px] outline-none border-1 border-[rgba(0,0,0,0.2)]  pl-4 pr-4 rounded-sm mb-4 focus:border-[rgba(0,0,0,0.8)] "placeholder="Your Email Address" />
             <Button className="btn-org">
                 SUBSCRIBE
 
@@ -204,8 +205,8 @@ const Footer = () => {
         </div>
     </footer>
 
-    <div className="bottomStrip border-t-1  border-t-[rgba(204,175,175,0.8)] pt-3 pb-[100px] lg:pb-3  bg-white">
-        <div className="container flex flex-col lg:flex-row gap-4 lg:gap-0 items-center justify-between " >
+    <div className="bottomStrip border-t-1  border-t-[rgba(204,175,175,0.8)] pt-1 md:pt-3 pb-[80px] lg:pb-3  bg-white">
+        <div className="container flex flex-col lg:flex-row gap-2 md:gap-4 lg:gap-0 items-center justify-between " >
             <ul className="flex items-center gap-2">
                 <li className="list-none">
                     <Link to='/' target="_blank" className="
@@ -242,7 +243,7 @@ const Footer = () => {
             </ul>
 
        <p className="text-[13px] text-center mb-0">Copyright © 2025. All Rights Reserved</p>
-       <div className="flex items-center">
+       <div className="flex items-center gap-1">
         <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752246118/carte_bleue_abx9gx.png" alt="carte bleue card" />
         <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752246118/visa_krt4cu.png" alt="visa card" />
         <img src="https://res.cloudinary.com/dllelmzim/image/upload/v1752246118/master_card_cm3vzm.png" alt="master card" />
@@ -255,7 +256,7 @@ const Footer = () => {
 
     
          {/* cart drawer */}
-        <Drawer   open={openCartPanel} onClose={toggleCartPanel(false)} anchor='right' className='carPanel !w-[100px]'>
+        <Drawer   open={openCartPanel} onClose={toggleCartPanel(false)} anchor='right' className='cartPanel !w-[100px]'>
           <div className="flex items-center justify-between py-3 px-4 gap-3 border-b-[1px] border-gray-300">
           <h4>Shopping Cart ({cart?.length})</h4>
 
@@ -263,7 +264,7 @@ const Footer = () => {
           </div>
 
 
-          <div  className="scroll w-full max-h-[500px] overflow-y-scroll overflow-x-hidden py-3 px-4 relative ">
+          <div  className="scroll w-full max-h-[400px] sm:max-h-[500px] overflow-y-scroll overflow-x-hidden py-3 px-4 relative ">
             {
              cart&&   cart?.length>0 ? cart.map((item)=>(
                 item.productId ? 
@@ -278,18 +279,18 @@ const Footer = () => {
              </div>
              <div className="info w-[75%] pr-6 relative">
              <Tooltip title={item.productId.name}>
-                 <h4 className='text-[14px] font-[500]'>
+                 <h4 className=' text-[12px] md:text-[14px] font-[500]'>
                 <Link to={`/product/${item.productId._id}`} className='link '>
                 {item.productId.name.substr(0,25)+'...'}
                 </Link>
               </h4>
              </Tooltip>
-              <p className="flex items-center gap-5 my-2">
-                <span>Qty : <span>{item?.quantity}</span></span>
-                <span className='text-primary font-bold'>Price : <span > ₹ {item.quantity*item.productId.price}</span></span>
+              <p className="flex  !text-[12px] lg:!text-[15px] items-center gap-3 md:gap-5 my-2">
+                <span className="!text-[13px] sm:!text-[14px]">Qty : <span>{item?.quantity}</span></span>
+                <span className='text-primary font-bold'> <span > ₹ {item.quantity*item.productId.price}</span></span>
                 
               </p>
-              <MdOutlineDelete onClick={()=>handleRemoveCartItem(item._id)} className='absolute right-[5px] top-[10px] text-[20px] cursor-pointer text-gray-500 link transition-all-'/>
+              <MdOutlineDelete onClick={()=>handleRemoveCartItem(item._id)} className='absolute right-[5px] top-[10px] !text-[16px] md:!text-[20px] cursor-pointer text-gray-500 link transition-all-'/>
 
 
                
@@ -321,7 +322,7 @@ const Footer = () => {
             <div className='flex items-center justify-between w-full'> 
 
             <span className='text-[14px] font-[600]'>{cart?.length} item</span>
-            <span className='text-primary font-bold' >
+            <span className='text-primary font-bold text-[14px] sm:text-[15px]' >
 ₹ {cart?.reduce((acc, item) => {
     if (!item.productId) return acc;
     return acc + (item.quantity * (item.productId.price || 0));
@@ -335,7 +336,8 @@ const Footer = () => {
 }, 0) < 249 && (            <div className='flex items-center justify-between w-full'> 
               
 
-            <span className='text-[14px] font-[600]'>Shipping</span>
+            <span className=' 
+            !text-[12px] sm:!text-[14px] font-[600]'>Shipping</span>
             <span className='text-primary font-bold' >₹ 50</span>
             </div>
 
@@ -344,8 +346,8 @@ const Footer = () => {
           <div className="bottomInfo py-3 px-4 w-full border-t border-[rgba(0,0,0,0.1)] flex flex-col items-center justify-between">
             <div className='flex items-center justify-between w-full'> 
 
-            <span className='text-[14px] font-[600]'>Total (tax excl.)</span>
-<span className="text-primary font-bold">
+            <span className='!text-[13px] sm:!text-[14px] font-[600]'>Total (tax excl.)</span>
+<span className="text-primary font-bold text-[15px] sm:text-[16px]">
   ₹ {cart?.reduce((acc, item) => {
     if (!item?.productId) return acc; 
     return acc + (item.quantity * (item.productId.price || 0));
@@ -355,12 +357,12 @@ const Footer = () => {
          
 
 
-            <div className="flex items-center justify-between w-full gap-5 mt-3">
-              <Button onClick={()=>{toggleCartPanel(false)(); navigate('/cart')}}  className='btn-org btn-border btn-lg w-[50%]'>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between w-full gap-2 sm:gap-5 mt-3">
+              <Button onClick={()=>{toggleCartPanel(false)(); navigate('/cart')}}  className='btn-org btn-border btn-lg w-full '>
               
                 View Cart
               </Button>
-                     <Button onClick={()=>{toggleCartPanel(false)(); navigate('/checkout')}}  className='btn-org btn-lg w-[50%]'>
+                     <Button onClick={()=>{toggleCartPanel(false)(); navigate('/checkout')}}  className='btn-org btn-lg w-full'>
               
                 Checkout
               </Button>

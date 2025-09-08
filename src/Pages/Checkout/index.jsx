@@ -465,33 +465,32 @@ usdAmt = (total * rate).toFixed(2);
   }, [user])
   return (
     <>
-    <section className="py-10 checkoutPage">
-        <div className="w-[70%] m-auto flex  gap-5">
-            <div className="leftCol w-[50%]">
+    <section className=" py-5 px-3 md:px-auto md:py-10 checkoutPage">
+        <div className="w-full md:w-[70%] m-auto flex flex-col md:flex-row gap-2 md:gap-5">
+            <div className="leftCol w-full md:w-[50%]">
                 <div className="card bg-white shadow-md p-5 rounded-md w-full">
                     <div className="flex items-center justify-between gap-2">
 
-                    <h2>Select Delivery Address</h2>
-                    <Button onClick={()=>setOpenAddressPanel(true)} className='!border-1 !border-black !text-gray-600 text-capitalize !py-1'>
+                    <h2 className='text-[15px] md:text-[16px]'>Select Delivery Address</h2>
+                    <Button onClick={()=>setOpenAddressPanel(true)} className='!border-1 !text-[12px] md:text-[14px] !border-black !text-gray-600 text-capitalize !py-1 text-nowrap'>
                         <IoMdAdd className='mr-1 '/>
-                        Add New Address
+                          Add  Address
                     </Button>
                     </div>
-                    <br />
-                    <div className="flex flex-col gap-4 ">
+                    <div className=" mt-3 md:mt-5 flex flex-col  gap-2  md:gap-4 ">
                         {
                             address?.length>0 ? [...address].reverse().map((item,index)=>(
 
-                        <label key={item._id} className={`relative flex gap-3 p-4 border-1 border-[rgba(0,0,0,0.1)] rounded-md ${isChecked===item._id && 'bg-[#fff2f2]'}`}>
+                        <label key={item._id} className={`relative flex gap-2 md:gap-3 p-1 md:p-4 border-1 border-[rgba(0,0,0,0.1)] rounded-md ${isChecked===item._id && 'bg-[#fff2f2]'}`}>
                             <div>
 
                          <Radio onChange={(e)=>handleSelectedAddress(e,item._id)} size='small' checked={isChecked===item._id}/>
                             </div>
                          <div className="info">
-                            <span className='inline-block rounded-md p-1  bg-[#f1f1f1] text-[13px] font-[500]'>{item.address_type}</span>
-                            <h3 className='capitalize'>{user?.name}</h3>
-                            <p className='!my-0'> <span className='font-[600]'> {item.address_line}</span>,{item.city}, {item.state} -  {item.landmark}  </p>
-                            <p className='!mb-0 font-[500] '>{item.mobile}</p>
+                            <span className='inline-block rounded-md p-1  bg-[#f1f1f1] text-[12px] md:text-[13px] font-[500]'>{item.address_type}</span>
+                            <h3 className='capitalize text-[13px] md:text-[14px]'>{user?.name}</h3>
+                            <p className='!my-0 !text-[12px] md:!text-[13px]'> <span className='font-[500]'> {item.address_line}</span>,{item.city}, {item.state} -  {item.landmark}  </p>
+                            <p className='!mb-0 font-[500] !text-[12px] md:!text-[13px] '>{item.mobile}</p>
                          </div>
 
                          <Button onClick={()=>{
@@ -525,7 +524,7 @@ usdAmt = (total * rate).toFixed(2);
                 </div>
 
             </div>
-            <div className="rightCol w-[50%]">
+            <div className="rightCol w-full md:w-[50%]">
                 <div className='card shadow-md bg-white p-5 rounded-md'>
                     <h2 className='mb-4'>Your Order</h2>
                     <div className="flex items-center justify-between py-3 border-t border-b border-[rgba(0,0,0,0.2)]">

@@ -386,7 +386,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
 
 /* cart drawer/panel */
-.carPanel .MuiPaper-root{
+.cartPanel .MuiPaper-root{
   width:400px
 }
 
@@ -435,7 +435,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
 
 .MuiPaper-root.MuiPaper-elevation{
-  width: 400px;
+  width: 30%;
 }
 
 .productDetailsModal .MuiDialog-paper{

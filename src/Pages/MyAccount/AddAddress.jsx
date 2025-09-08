@@ -82,7 +82,7 @@ const AddAddress = ({openAddressPanel,toggleDrawer,formData,setFormData}) => {
   {formData._id ? 'Edit Address' : 'Add Address'}
   <IoCloseSharp onClick={()=>toggleDrawer(false)} className='cursor-pointer text-[22px]' />
 </h3>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-2 px-4 min-w-[300px]'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-2 px-4'>
           <TextField label="Address (Area and Street)" variant="outlined" value={formData.address_line} onChange={(e) => setFormData({ ...formData, address_line: e.target.value })} />
           <TextField label="City" variant="outlined" value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} />
           <TextField label="State" variant="outlined" value={formData.state} onChange={(e) => setFormData({ ...formData, state: e.target.value })} />

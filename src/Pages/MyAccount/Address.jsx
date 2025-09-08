@@ -102,6 +102,13 @@ const Address = () => {
     setOpenAddressPanel(newOpen);
   };
 
+
+      useEffect(()=>{
+        window.scrollTo({ top: 0, behavior: "smooth" });
+  
+  
+    },[])
+
   useEffect(() => {
     if (localStorage.getItem('user')) {
       
@@ -119,12 +126,12 @@ const Address = () => {
 
   return (
     <>
-      <section className="py-10 w-full ">
+      <section className=" py-5 lg:py-10 w-full ">
         <div className="container flex gap-5">
-          <div className="col1 w-[20%] ">
+          <div className="col1 w-[20%] hidden lg:block ">
             <AccountSidebar />
           </div>
-          <div className="col2 w-[50%]">
+          <div className="col2 w-full lg:w-[50%]">
             <div className="card bg-white p-5 mb-5 shadow-md rounded-md relative">
               <div className="flex items-center justify-between pb-2">
                 <h2 className="text-[20px]">Address</h2>

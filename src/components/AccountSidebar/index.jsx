@@ -12,9 +12,11 @@ import axios from 'axios';
 import { showError, showSuccess } from '../../utils/toastUtils';
 import { AuthContext } from '../../contexts/AuthContext';
 import { uploadImage } from '../../utils/api';
+import { MyContext } from '../../App';
+import { useDispatch } from 'react-redux';
 
 const AccountSidebar = () => {
-    const{user,setUser}=useContext(AuthContext)
+    const{user,setUser,logout}=useContext(AuthContext)
     const[avatar,setAvatar]=useState(user?.avatar?.url || 'https://res.cloudinary.com/dllelmzim/image/upload/v1753808261/user_dhgqbt.png')
 console.log(avatar)
     const [isUploading,setIsUploading]=useState(false)
@@ -61,6 +63,10 @@ console.log(avatar)
      
     }
 
+    const handleLogout=()=>{
+        logout()
+    }
+
     // useEffect(()=>{
     //     if(localStorage.getItem('user')){
     //         const userDetails = JSON.parse(localStorage.getItem('user'))
@@ -70,9 +76,9 @@ console.log(avatar)
 
 
   return (
-     <div className=" bg-gradient-to-tr from-[#ffffff] to-[#e9e9e9] card bg-white shadow-md rounded-md sticky top-[170px] ">
+     <div className="    bg-gradient-to-tr from-[#ffffff] to-[#e9e9e9]  card bg-white shadow-md rounded-md sticky top-[170px] ">
 
-                     <div className="w-full p-5 flex items-center justify-center flex-col">
+                     <div className= "  w-full p-5 flex items-center justify-center flex-col">
                         {/* image */}
          <div className={`w-[110px] h-[110px] rounded-full overflow-hidden mb-4 relative group ${isUploading ? 'ring-4 ring-primary animate-pulse' : 'ring-4 ring-gray-300'}`}>
   <img src={avatar}  alt="avatar" className="w-full h-full object-cover" />
@@ -144,7 +150,7 @@ console.log(avatar)
 
                         </li>
                         <li className='w-full '>
-                            <Button className='flex !bg-primary !text-white !rounded-none   items-center !justify-start !px-5 gap-3 !capitalize w-full '>
+                            <Button onClick={handleLogout} className='flex !bg-primary !text-white !rounded-none   items-center !justify-start !px-5 gap-3 !capitalize w-full '>
                                 <IoLogOut className='text-[18px]'/>
                                 Logout
                                 </Button>

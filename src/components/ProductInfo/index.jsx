@@ -83,25 +83,33 @@ const ProductInfo = ({product,goToReviews}) => {
     
   return (
     <>
-                  <h1 className="text-[24px] font-[600] mb-2">{product?.name}</h1>
-            <div className="flex items-center gap-3">
+                  <h1 className="text-[18px] lg:text-[24px] font-[600] mb-2">{product?.name}</h1>
+            <div className="flex flex-col lg:flex-row items-start  lg:items-center gap-1 lg:gap-3">
                 <span className="text-gray-400 text-[13px]">Brands : 
                     <span className="font-[500] text-black opacity-75 ">{product?.brand}</span>
                     </span>
+             {
+              product?.rating===0 ? <p className='text-[12px] lg:text-[16px]'>No Ratings Yet</p> :             <Rating name="size-small" value={product?.rating} size="small" readOnly />
 
-            <Rating name="size-small" value={product?.rating} size="small" readOnly />
+             }
             <span onClick={goToReviews} className="text-[13px] cursor-pointer ">Review ({product?.reviews?.length})</span>
 
             </div>
             {/* price and availablity */}
-         <div className="flex items-center gap-4 mt-4">
-                <span className='oldPrice line-through text-gray-500 text-[20px] font-[500]'>₹ {product?.oldPrice}</span>
-                <span className="price text-primary font-[600] text-[20px]">₹ {product?.price}</span>
+         <div className="flex  flex-col sm:flex-row items-start lg:items-center gap-1 lg:gap-4 mt-4">
+          <div className='flex gap-2 '>
+                       <span className='oldPrice line-through text-gray-500 text-[16px] lg:text-[20px] font-[500]'>₹{product?.oldPrice}</span>
+                <span className="price text-primary font-[600] text-[16px] lg:text-[20px]">₹{product?.price}</span>
+          </div>
+     
+                <div>
+
                 <span className="text-[14px]">Available In Stock : <span className="inline-block bg-green-100 text-green-800 text-sm font-semibold px-3 py-1 rounded-full">
   {product?.countInStock} available
 </span>
 
                     </span>
+                </div>
                 
             </div>
             {/* product description */}
@@ -188,9 +196,9 @@ const ProductInfo = ({product,goToReviews}) => {
 
             </div>
               {/* add to Wishlist,compare  */}
-            <div className="flex items-center gap-4 mt-4">
-        <span className="flex items-center gap-2 text-[15px] link cursor-pointer font-[500]"> <FaRegHeart className="text-[18px]" /> Add to Wishlist</span>
-        <span className="flex items-center gap-2 text-[15px] link cursor-pointer font-[500]"> <IoGitCompareOutline className="text-[18px]"  /> Add to Compare</span>
+            <div className="flex items-center gap-2 md:gap-4 mt-2 md:mt-4">
+        <span className="flex items-center gap-2 text-[13px] lg:text-[15px] link cursor-pointer font-[500]"> <FaRegHeart className="text-[18px]" /> Add to Wishlist</span>
+        <span className="flex items-center gap-2 text-[13px] lg:text-[15px] link cursor-pointer font-[500]"> <IoGitCompareOutline className="text-[18px]"  /> Add to Compare</span>
     </div>
     
     </>

@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 
 import TextField from "@mui/material/TextField";
 import AccountSidebar from "../../components/AccountSidebar";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import { putData } from "../../utils/api";
@@ -89,17 +89,23 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
   
   }
 
+      useEffect(()=>{
+          window.scrollTo({ top: 0, behavior: "smooth" });
+    
+    
+      },[])
+
   if (!authContext.isLogin) return <Navigate to="/login" />;
   return (
-    <section className="py-10 w-full ">
+    <section className=" px-2 lg:px-0 py-5 lg:py-10 w-full ">
       <div
-        className="container flex  gap-5
+        className="container flex flex-col lg:flex-row  gap-5
      "
       >
-        <div className="col1 w-[20%] ">
+        <div className="col1 w-full  lg:w-[20%]  ">
           <AccountSidebar />
         </div>
-        <div className="col2 w-[50%]">
+        <div className="col2 w-full lg:w-[50%]">
             
           <div className="card bg-white p-5  mb-5 shadow-md rounded-md relative">
             {/* <CircularProgress size={20} className="absolute right-5 !text-black "/> */}
@@ -195,18 +201,18 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
                 value={oldPassword}
                 onChange={(e)=>setOldPassword(e.target.value)}
                 />
-                    <Button type='button' className='!absolute right-3 top-[50%] -translate-y-[50%] !text-black !w-[35px] !min-w-[35px] !rounded-full opacity-75'
+                    <Button type='button' className='!absolute !right-1 top-[50%] -translate-y-[50%] !text-black !w-[35px] !min-w-[35px] !rounded-full opacity-75'
                     onClick={()=>setShowOldPassword(!showOldPassword)}
                     >
                         {
                             showOldPassword ?
                             (
-                             <IoEye className=' text-[20px]' />
+                             <IoEye className='  text-[16px] md:text-[20px]' />
 
                             )
                             :
                             (
-                            <IoMdEyeOff className=' text-[20px]' />
+                            <IoMdEyeOff className='  text-[16px] md:text-[20px]' />
 
                             )
                         }
@@ -227,18 +233,18 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
                 value={newPassword}
                 onChange={(e)=>setNewPassword(e.target.value)}
                 />
-                    <Button type='button' className='!absolute right-3 top-[50%] -translate-y-[50%] !text-black !w-[35px] !min-w-[35px] !rounded-full opacity-75'
+                    <Button type='button' className='!absolute !right-1 top-[50%] -translate-y-[50%] !text-black !w-[35px] !min-w-[35px] !rounded-full opacity-75'
                     onClick={()=>setShowNewPassword(!showNewPassword)}
                     >
                         {
                             showNewPassword ?
                             (
-                             <IoEye className=' text-[20px]' />
+                             <IoEye className='  text-[16px] md:text-[20px]' />
 
                             )
                             :
                             (
-                            <IoMdEyeOff className=' text-[20px]' />
+                            <IoMdEyeOff className='  text-[16px] md:text-[20px]' />
 
                             )
                         }
@@ -257,18 +263,18 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
                 value={confirmPassword}
                 onChange={(e)=>setConfirmPassword(e.target.value)}
                 />
-                    <Button type='button' className='!absolute right-3 top-[50%] -translate-y-[50%] !text-black !w-[35px] !min-w-[35px] !rounded-full opacity-75'
+                    <Button type='button' className='!absolute !right-1 top-[50%] -translate-y-[50%] !text-black !w-[35px] !min-w-[35px] !rounded-full opacity-75'
                     onClick={()=>setShowConfirmPassword(!showConfirmPassword)}
                     >
                         {
                             showConfirmPassword ?
                             (
-                             <IoEye className=' text-[20px]' />
+                             <IoEye className='  text-[16px] md:text-[20px]' />
 
                             )
                             :
                             (
-                            <IoMdEyeOff className=' text-[20px]' />
+                            <IoMdEyeOff className='  text-[16px] md:text-[20px]' />
 
                             )
                         }
@@ -284,7 +290,7 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
               <div className="flex items-center gap-4">
                 <Button
                   className={`w-[200px] px-4 py-2 rounded  font-semibold 
-                   bg-gradient-to-tr from-[#ff7a7a] to-[#ec1616] !text-white hover:bg-gradient-to-tr hover:from-[#535353] hover:to-[#030202] hover:!text-white ${passwordLoading && 'pointer-events-none opacity-80'}`}
+                   bg-gradient-to-tr from-[#ff7a7a] to-[#ec1616] !text-white hover:bg-gradient-to-tr hover:from-[#535353] hover:to-[#030202] hover:!text-white text-nowrap ${passwordLoading && 'pointer-events-none opacity-80'}`}
                    type="submit"
                    disabled={passwordLoading || isPasswordDisabled}
                   

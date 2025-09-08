@@ -1,6 +1,6 @@
 
 
-import React,{useState} from 'react'
+import React,{useContext, useState} from 'react'
 import { IoIosClose } from 'react-icons/io';
 import { VscTriangleDown } from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
@@ -10,9 +10,11 @@ import  Rating  from '@mui/material/Rating';
 import { useDispatch } from 'react-redux';
 import { removeCartItem, updateCart } from '../../features/cart/cartSlice';
 import { showError, showSuccess } from '../../utils/toastUtils';
+import { MyContext } from '../../App';
 
 
 const CartItems = ({item,size}) => {
+  const context = useContext(MyContext)
   const dispatch = useDispatch()
   console.log(item)
         // menu component related 
@@ -81,10 +83,10 @@ const CartItems = ({item,size}) => {
     }
 
   return (
-<div className='border-b border-[rgba(0,0,0,0.1)]'>
-     <div className={`cartItem w-full p-3 flex items-center gap-4 pb-5  ${isOutOfStock || exceedsStock ? 'opacity-50':""}`}>
+<div className='border-b border-[rgba(0,0,0,0.1)] '>
+     <div className={`cartItem w-full p-1 md:p-3 flex items-center gap-2 md:gap-4 pb-2 md:pb-5  ${isOutOfStock || exceedsStock ? 'opacity-50':""}`}>
               {/* product image */}
-              <div className="img w-[15%] rounded-md overflow-hidden">
+              <div className="img w-[30%] sm:w-[20%] lg:w-[15%] rounded-md overflow-hidden">
                 <Link className="group">
                   <img
                     src={item.productId.images[0].url}
@@ -94,14 +96,16 @@ const CartItems = ({item,size}) => {
                 </Link>
               </div>
               {/* product info */}
-              <div className="info w-[85%] relative">
+              <div className="info w-[70%] sm:w-[80%] lg:w-[85%] relative">
                 <IoIosClose 
                 onClick={()=>handleRemoveCartItem(item._id)}
                 className={` ${isOutOfStock || exceedsStock ? 'text-primary text-[30px]  ':''} text-[25px] bg-gray-100 rounded-full text-gray-500 cursor-pointer absolute top-[0px] right-[0px] link transition-colors`} />
                 <span className="text-[13px]">{item.productId.brand}</span>
-                <h3 className="text-[15px]">
+                <h3 className=" text-[13px] sm:text-[15px]">
                   <Link to="/sdf" className="link">
-                    {item.productId.name}
+                  {
+                    context.windowWidth<992 ? item.productId.name.substr(0,30)+'...':item.productId.name.substr(0,120)+'...'
+                  }
                   </Link>
                 </h3>
                 <Rating
@@ -110,39 +114,9 @@ const CartItems = ({item,size}) => {
                   value={item.productId.rating}
                   size="small"
                 />
-                <div className="flex items-center gap-4 mt-2">
+                <div className="flex items-center gap-1 md:gap-4 mt-1 md:mt-2">
 
 
-                <div className="relative ">
-
-                  <span
-                    className="flex items-center justify-center bg-[#f1f1f1] text-[11px] font-[600] py-1 px-2 rounded-md cursor-pointer"
-                    onClick={handleClickSize}
-                    >
-                    Size : {selectedSize}
-                    <VscTriangleDown />
-                  </span>
-            {/* menu */}
-                <Menu
-                  id="size-menu"
-                  anchorEl={sizeAnchorEl}
-                  open={openSize}
-                  onClose={()=>handleClickSize(null)}
-                  slotProps={{
-                    list: {
-                      "aria-labelledby": "basic-button",
-                    },
-                  }}
-                >
-                  <MenuItem onClick={()=>handleCloseSize('S')}>S</MenuItem>
-                  <MenuItem  onClick={()=>handleCloseSize('M')}>M</MenuItem>
-                  <MenuItem onClick={()=>handleCloseSize('L')}>L</MenuItem>
-                  <MenuItem onClick={()=>handleCloseSize('XL')}>XL</MenuItem>
-                  <MenuItem onClick={()=>handleCloseSize('XXL')}>XXL</MenuItem>
-                </Menu>
-
-
-                      </div>
 
 
                   <div className="relative">
@@ -212,13 +186,13 @@ const CartItems = ({item,size}) => {
                   </div>
 
                 </div>
-                <div className="flex items-center gap-4 mt-2">
-                  <span className="price  font-[600] text-[14px]"> ₹ {item.productId.price}</span>
+                <div className="flex items-center gap-2 md:gap-4  mt-1 md:mt-2">
+                  <span className="price   text-[13px] md:text-[14px] font-bold"> ₹ {item.productId.price}</span>
 
-                  <span className="oldPrice line-through text-gray-500 text-[14px] font-[500]">
+                  <span className="oldPrice line-through text-gray-500 text-[12px] md:text-[14px] font-[500]">
                     ₹ {item.productId.oldPrice}
                   </span>
-                  <span className="price text-green-600 font-[600] text-[12px]">
+                  <span className="price text-green-600 font-[600] text-[12px] md:text-[14px]">
 {item.productId?.discount!==0 && !isNaN(Number(item.productId.discount)) && 
   Math.floor(Number(item.productId.discount)) + '% Off'}
                   </span>

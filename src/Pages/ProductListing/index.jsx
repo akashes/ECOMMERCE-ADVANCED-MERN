@@ -152,14 +152,14 @@ useEffect(() => {
   };
 }, [dispatch]);
   return (
-  <section className='py-5 pb-0'>
+  <section className='py-2  lg:py-5 pb-0'>
     <div className="container">
         
       <BreadCrumbs/>
 
     </div>
  
-   <div className="bg-white p-2 mt-4">
+   <div className="bg-white p-2 mt-2 lg:mt-4">
      <div className="container flex gap-3">
           {/* sidebar section for filtering  */}
 
