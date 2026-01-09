@@ -20,6 +20,21 @@ export const getAllBlogs=createAsyncThunk('blog/getAllBlogs',async(_,{rejectWith
 
     }
 })
+export const fetchBlogById=createAsyncThunk('blog/fetchBlogById',async(id,{rejectWithValue})=>{
+    try {
+         const result=await axios.get(`/api/blog/${id}`)
+        if(!result.data.success){
+            
+            throw new Error(result.data.message || 'Failed to get Blogs ')
+        }
+        return result.data
+
+        
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message || 'Category image add failed')
+
+    }
+})
 
 
 
@@ -31,6 +46,7 @@ const blogSlice = createSlice({
         loading:false,
         error:null,
         blogs:[],
+        blog:null
     },
     reducers:{},
     extraReducers:(builder)=>{
@@ -45,6 +61,19 @@ const blogSlice = createSlice({
                    state.blogs = action.payload.blogs.slice(0,4)
                })
             builder.addCase(getAllBlogs.rejected,(state)=>{
+                   state.loading = true
+                   state.error = null
+               })
+            builder.addCase(fetchBlogById.pending,(state)=>{
+                   state.loading = true
+                   state.error = null
+               })
+            builder.addCase(fetchBlogById.fulfilled,(state,action)=>{
+                   state.loading = false
+                   state.error = null
+                   state.blog = action.payload.blog
+               })
+            builder.addCase(fetchBlogById.rejected,(state)=>{
                    state.loading = true
                    state.error = null
                })

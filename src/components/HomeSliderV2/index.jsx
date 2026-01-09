@@ -13,8 +13,7 @@ import './style.css'
 import { EffectFade, Navigation, Pagination ,Autoplay} from 'swiper/modules';
 
 import { Button } from '@mui/material';
-import { MyContext } from '../../App';
-
+import { MyContext } from '../../contexts/MyContext';
 const data = [
   {
     description:'Big Saving Days Sale',

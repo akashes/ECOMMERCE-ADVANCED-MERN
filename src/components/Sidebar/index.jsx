@@ -20,8 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { resetFilters, setDiscount, setPriceFilter } from '../../features/productsFilter/productsFilterSlice';
 
 import { IoClose } from "react-icons/io5";
-import { MyContext } from '../../App';
-
+import { MyContext } from '../../contexts/MyContext';
 
 const Sidebar = (props) => {
   const context = useContext(MyContext)

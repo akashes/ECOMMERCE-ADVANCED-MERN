@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Navigation from "./Navigation";
 
 import { useContext } from "react";
-import { MyContext } from "../../App";
+import { MyContext } from "../../contexts/MyContext.jsx";
 import { Button } from "@mui/material";
 import { FaRegUser } from "react-icons/fa";
 
@@ -38,6 +38,7 @@ import { clearWishlistReducer, removeFromWishlistReducer } from "../../features/
 import { IoMenu } from "react-icons/io5";
 import { fetchMenuCategories } from "../../features/category/categoryMenuSlice.js";
 import CategoryPanel from "./Navigation/CategoryPanel.jsx";
+import { Clickable } from "../../utils/Clickable.jsx";
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -121,12 +122,15 @@ const handleLogout=async()=>{
                 <div className=" col2 flex items-center justify-end ">
                     <ul className="flex items-center gap-3">
                         <li className="list-none">
-                            <Link to='/help-center' className="text-[13px] link font-[500] transition ease-in-out duration-300 " >Help Center</Link>
+                            <Link to='/' className="text-[13px] link font-[500] transition ease-in-out duration-300 " >Help Center</Link>
                         </li>
-                        <li className="list-none">
-                            <Link to='/order-tracking' className="text-[13px] link font-[500] transition ease-in-out duration-300">Order Tracking</Link>
-                        </li>
-                      
+                        {
+                          authContext?.isLogin &&
+                          <li className="list-none">
+                              <Link to='/my-orders' className="text-[13px] link font-[500] transition ease-in-out duration-300">Order Tracking</Link>
+                          </li>
+                        
+                        }
                     </ul>
                    
 
@@ -155,8 +159,15 @@ const handleLogout=async()=>{
                 </div>
                 {/* search box */}
                 <div className={`col2   top-0 left-0 h-full w-full lg:w-[40%] lg:static p-2 lg:p-0 bg-white  z-[700]
-                hidden  lg:block`} >
-                    <Search/>
+                `} >
+                  {
+                    context.windowWidth >=992 &&
+                     <Search/>
+                  }
+                  {/* {
+                    (context.isSearchOpen || context.windowWidth >992) &&
+                  <Search/>
+                  } */}
 
                   
                 </div>
@@ -178,9 +189,12 @@ const handleLogout=async()=>{
                                                                          <li className="list-none">
 
                                 <Button onClick={handleClick} className="myAccountWrap !text-black  flex items-center gap-3 relative cursor-pointer">
+                                  <Clickable>
+
                                     <Button className="!text-black !rounded-full !w-[40px] !h-[40px] !min-w-[40px] !bg-[#f1f1f1]  ">
                                         <FaRegUser className="text-[17px] text-[rgba(0,0,0,0.7)]"/>
                                     </Button>
+                                  </Clickable>
                                     <div className="info flex flex-col items-start">
 
                                         <h4 className="text-[14px] capitalize font-[500] text-[rgba(0,0,0,0.7)]">{authContext?.user?.name}</h4>
@@ -192,6 +206,9 @@ const handleLogout=async()=>{
                                 </Button>
                                 </li>
                                 }
+                                {
+                                /* login user drop down  menu */}
+
                                    <Menu
         anchorEl={anchorEl}
         id="account-menu"
@@ -229,6 +246,7 @@ const handleLogout=async()=>{
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+
         <Link to='/my-account'>
           <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
         <FaUserCog/>
@@ -256,7 +274,7 @@ const handleLogout=async()=>{
         <IoHeartSharp/>
         <span className="text-[14px]">
 
-        My List
+        Favorites
         </span>
         </MenuItem>
         </Link>
@@ -285,6 +303,7 @@ const handleLogout=async()=>{
         </MenuItem>
       
                                         </Menu>
+
                                 </>
 
                                 
@@ -301,16 +320,20 @@ const handleLogout=async()=>{
                              
                              <Tooltip title='Compare'>
 
+                              <Clickable>
+
                                  <IconButton aria-label="compare">
                                 <StyledBadge badgeContent={4} color="secondary">
                                     <IoGitCompareOutline />
                                             
                                 </StyledBadge>
                                 </IconButton>
+                              </Clickable>
                              </Tooltip>
                         </li>
                           <li>
                             <Tooltip title='Wishlist'>
+                            <Clickable>
 
                               <IconButton onClick={()=>{
                                 navigate('/my-list')
@@ -319,6 +342,7 @@ const handleLogout=async()=>{
                                     <FaRegHeart />
                                 </StyledBadge>
                                 </IconButton>
+                                </Clickable>
                             </Tooltip>
                         </li>
                           </>
@@ -326,12 +350,15 @@ const handleLogout=async()=>{
                     
                         <li>
                             <Tooltip title='Cart'>
+                              <Clickable>
+
 
                               <IconButton aria-label="cart" onClick={()=>setOpenCartPanel(true)}>
                                 <StyledBadge badgeContent={cart?.length} color="secondary">
                                     <BsCart3 />
                                 </StyledBadge>
                                 </IconButton>
+                              </Clickable>
                             </Tooltip>
                         </li>
                     </ul>

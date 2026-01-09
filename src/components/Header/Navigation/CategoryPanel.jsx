@@ -3,13 +3,12 @@ import Drawer from '@mui/material/Drawer';
 
 import { IoCloseSharp } from "react-icons/io5";
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext} from 'react';
 import CategoryCollapse from '../../CategoryCollapse';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMenuCategories } from '../../../features/category/categoryMenuSlice';
+import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { AuthContext } from '../../../contexts/AuthContext';
-import { MyContext } from '../../../App';
+import { MyContext } from '../../../contexts/MyContext';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -20,20 +19,7 @@ const CategoryPanel = (props) => {
   const navigate = useNavigate()
 
 
-    // const openSubmenu=(index)=>{
-    //     if(submenuIndex === index){
-    //         return setSubmenuIndex(null)
-    //     }
-    //      setSubmenuIndex(index)
-    // }
-
-    // const openInnerSubmenu=(index)=>{
-    //     if(innerSubMenuIndex === index){
-    //         return setInnerSubMenuIndex(null)
-    //     }
-    //      setInnerSubMenuIndex(index)
-    // }
-
+ 
 
 
     const DrawerList = (

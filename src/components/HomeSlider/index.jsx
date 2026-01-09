@@ -12,7 +12,7 @@ import 'swiper/css/navigation';
 import { Navigation,Autoplay } from 'swiper/modules';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchHomeSlides } from '../../features/homeSlides';
-import { MyContext } from '../../App';
+import { MyContext } from '../../contexts/MyContext'; 
 import HomeSliderSkelton from '../Skeltons/HomeSliderSkelton';
 
 
@@ -20,17 +20,13 @@ import HomeSliderSkelton from '../Skeltons/HomeSliderSkelton';
 
 const HomeSlider = () => {
 
-  const{homeSlides}=useSelector(state=>state.homeSlides)
-  const[loading,setLoading]=useState(true)
-  const context = useContext(MyContext)
+  const{homeSlides,loading}=useSelector(state=>state.homeSlides)
   console.log(homeSlides)
+  
+  const context = useContext(MyContext)
   const dispatch = useDispatch()
-   const progressCircle = useRef(null);
-  const progressContent = useRef(null);
-  const onAutoplayTimeLeft = (s, time, progress) => {
-    progressCircle.current.style.setProperty('--progress', 1 - progress);
-    progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
-  };
+
+
 useEffect(()=>{
   dispatch(fetchHomeSlides())
 

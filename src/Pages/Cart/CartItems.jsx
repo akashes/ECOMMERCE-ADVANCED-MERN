@@ -10,8 +10,7 @@ import  Rating  from '@mui/material/Rating';
 import { useDispatch } from 'react-redux';
 import { removeCartItem, updateCart } from '../../features/cart/cartSlice';
 import { showError, showSuccess } from '../../utils/toastUtils';
-import { MyContext } from '../../App';
-
+import { MyContext } from '../../contexts/MyContext';
 
 const CartItems = ({item,size}) => {
   const context = useContext(MyContext)

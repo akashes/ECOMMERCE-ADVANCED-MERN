@@ -1,0 +1,23 @@
+/* Container for the cart items */
+.cart-scroll-container {
+  position: relative;
+}
+
+/* The bottom shadow hint */
+.cart-scroll-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+  pointer-events: none; /* Allows clicking through the shadow */
+  transition: opacity 0.3s ease;
+  border-radius: 0 0 6px 6px;
+}
+
+/* Optional: Hide the shadow when the user reaches the bottom (requires JS) */
+.cart-scroll-container.is-at-bottom::after {
+  opacity: 0;
+}

@@ -8,12 +8,9 @@ import { BiSolidMap } from "react-icons/bi";
 import { IoBagCheck } from "react-icons/io5";
 import { IoHeartSharp } from "react-icons/io5";
 import { IoLogOut } from "react-icons/io5";
-import axios from 'axios';
 import { showError, showSuccess } from '../../utils/toastUtils';
 import { AuthContext } from '../../contexts/AuthContext';
 import { uploadImage } from '../../utils/api';
-import { MyContext } from '../../App';
-import { useDispatch } from 'react-redux';
 
 const AccountSidebar = () => {
     const{user,setUser,logout}=useContext(AuthContext)
@@ -78,7 +75,7 @@ console.log(avatar)
   return (
      <div className="    bg-gradient-to-tr from-[#ffffff] to-[#e9e9e9]  card bg-white shadow-md rounded-md sticky top-[170px] ">
 
-                     <div className= "  w-full p-5 flex items-center justify-center flex-col">
+                     <div className= " rounded-t-3xl  w-full p-5 flex items-center justify-center flex-col">
                         {/* image */}
          <div className={`w-[110px] h-[110px] rounded-full overflow-hidden mb-4 relative group ${isUploading ? 'ring-4 ring-primary animate-pulse' : 'ring-4 ring-gray-300'}`}>
   <img src={avatar}  alt="avatar" className="w-full h-full object-cover" />

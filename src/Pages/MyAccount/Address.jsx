@@ -10,9 +10,8 @@ import { FaHome } from 'react-icons/fa'
 import { HiBuildingOffice } from "react-icons/hi2";
 import { MdHomeWork } from 'react-icons/md'
 import { AuthContext } from '../../contexts/AuthContext'
-import { MyContext } from '../../App'
 import AddAddress from './AddAddress'
-
+import { MyContext } from '../../contexts/MyContext'
 
 const Address = () => {
   const{openAddressPanel,setOpenAddressPanel}=useContext(MyContext)

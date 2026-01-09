@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoChatboxOutline, IoClose } from "react-icons/io5";
 import { Button, Drawer, Tooltip } from "@mui/material";
 
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox'
 
@@ -19,7 +18,7 @@ import { FaInstagram } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useContext } from "react";
-import { MyContext } from "../../App";
+import { MyContext } from "../../contexts/MyContext.jsx";
 import { removeCartItem } from "../../features/cart/cartSlice";
 import { showError, showSuccess } from "../../utils/toastUtils";
 
@@ -316,7 +315,9 @@ const Footer = () => {
           
           
           </div>
-     
+          {
+            cart && cart?.length>0 &&(
+
         <div className="bottomSection absolute bottom-0 left-0 w-full px-">
             <div className="bottomInfo py-3 px-4 w-full border-t border-[rgba(0,0,0,0.1)] flex flex-col items-center justify-between">
             <div className='flex items-center justify-between w-full'> 
@@ -370,6 +371,9 @@ const Footer = () => {
           </div>
 
         </div>
+            )
+          }
+     
       </Drawer>
 
     </>

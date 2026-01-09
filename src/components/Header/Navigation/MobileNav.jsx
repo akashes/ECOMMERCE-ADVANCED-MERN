@@ -1,15 +1,14 @@
 import { Button } from '@mui/material'
 import React, { useContext } from 'react'
 import { IoHomeOutline } from "react-icons/io5";
-import { IoIosSearch } from "react-icons/io";
+import {AiOutlineProduct} from 'react-icons/ai'
 import { LuHeart } from "react-icons/lu";
 import { BsBagCheck } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
 import { FaFilter } from "react-icons/fa6";
-import { MyContext } from '../../../App';
+import { MyContext } from '../../../contexts/MyContext';
 
 
 
@@ -47,8 +46,8 @@ const MobileNav = () => {
       {
          context.setIsSearchOpen(true)
       }} className='flex-col !w-[40px] !min-w-[40px] !capitalize'>
-         <IoIosSearch size={18}/>
-         <span className='text-[12px]'>Search</span>
+         <AiOutlineProduct size={19}/>
+         <span className='text-[12px]'>Products</span>
       </Button>
       </NavLink>
 

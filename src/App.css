@@ -30,3 +30,6 @@
 .cart-icon-loading {
   animation: swing 4.2s ease-in-out infinite;
 }
+
+
+.no-scrollbar { scrollbar-width: none; }

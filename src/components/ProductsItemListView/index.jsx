@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { MdOutlineShoppingCart } from "react-icons/md";
 
 import { useContext } from "react";
-import { MyContext } from "../../App";
+import { MyContext } from "../../contexts/MyContext";
 import throttle from "lodash.throttle";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeCartItem, updateCart } from "../../features/cart/cartSlice";
@@ -32,7 +32,7 @@ const ProductsItemListView = ({item}) => {
   const {setOpenProductDetailsModal} = useContext(MyContext)
   const discount = item?.oldPrice && item?.price ? Math.round(((item.oldPrice - item.price)/item.oldPrice)*100):0;
  const {cart,cartUpdationLoading,cartUpdatingItem}=useSelector(state=>state.cart)
- const{wishlist}=useSelector(state=>state.wishlist)
+ const{wishlist=[]}=useSelector(state=>state.wishlist)
 
 
 

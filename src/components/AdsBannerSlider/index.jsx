@@ -34,21 +34,21 @@ const AdsBannerSlider = ({itemsCount}) => {
    >
 
 <SwiperSlide>
-    <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752154615/1741669012402_banner1_h24d4s.webp"} link={"/test"}/>
+    <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752154615/1741669012402_banner1_h24d4s.webp"} link={"/products"}/>
 
 </SwiperSlide>
 <SwiperSlide>
-    <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752154616/1741669037986_banner2_oypvok.webp"} link={"/"}/>
+    <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752154616/1741669037986_banner2_oypvok.webp"} link={"/products"}/>
   
 </SwiperSlide>
 <SwiperSlide>
-   <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752154616/1741669057847_banner5_r91znf.webp"} link={"/"}/>
+   <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752154616/1741669057847_banner5_r91znf.webp"} link={"/products"}/>
 </SwiperSlide>
 <SwiperSlide>
-   <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752154616/1742453755529_1741669087880_banner6_qcivst.webp"} link={"/"} />
+   <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752154616/1742453755529_1741669087880_banner6_qcivst.webp"} link={"/products"} />
 </SwiperSlide>
 <SwiperSlide>
-   <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752155833/1739876036_Personal_Audio_Sale_qgy7zu.webp"} link={"/"} />
+   <BannerBox img={"https://res.cloudinary.com/dllelmzim/image/upload/v1752155833/1739876036_Personal_Audio_Sale_qgy7zu.webp"} link={"/products"} />
 </SwiperSlide>
 
    </Swiper>

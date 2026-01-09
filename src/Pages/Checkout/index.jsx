@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoIosCloseCircle, IoMdAdd } from 'react-icons/io';
 import AddAddress from '../MyAccount/AddAddress';
-import { MyContext } from '../../App';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getAddress } from '../../features/user/userSlice';
 import axios from 'axios';
@@ -15,7 +14,9 @@ import { showError, showSuccess, showWarning } from '../../utils/toastUtils';
 import { clearCart, deleteCart, removeCartItem } from '../../features/cart/cartSlice';
 import { loadPaypalScript } from '../../utils/paypal';
 import { SiRazorpay } from "react-icons/si";
-
+import { MyContext } from '../../contexts/MyContext';
+import { VscTriangleDown } from 'react-icons/vsc';
+import { Clickable } from '../../utils/Clickable';
 
 
 const Checkout = () => {
@@ -28,7 +29,6 @@ const Checkout = () => {
       console.log(address)
       const [menu, setMenu] = useState(null);
       const[isChecked,setIsChecked]=useState(0)
-      const [convertedAmount, setConvertedAmount] = useState(0);
 
       
       const [selectedAddress, setSelectedAddress] = useState(null);
@@ -352,7 +352,6 @@ useEffect(() => {
     if (respData.result === "success") {
       const rate = respData.conversion_rates.USD;
 usdAmt = (total * rate).toFixed(2);
-      console.log(usdAmt)
     }
 
     // Call backend to create order
@@ -439,8 +438,12 @@ usdAmt = (total * rate).toFixed(2);
     }
   };
 
+
+
   paypalPayment();
 }, [isChecked, total, cart, user, address]);  
+
+
 
 
   useEffect(()=>{
@@ -468,6 +471,7 @@ usdAmt = (total * rate).toFixed(2);
     <section className=" py-5 px-3 md:px-auto md:py-10 checkoutPage">
         <div className="w-full md:w-[70%] m-auto flex flex-col md:flex-row gap-2 md:gap-5">
             <div className="leftCol w-full md:w-[50%]">
+    
                 <div className="card bg-white shadow-md p-5 rounded-md w-full">
                     <div className="flex items-center justify-between gap-2">
 
@@ -525,7 +529,11 @@ usdAmt = (total * rate).toFixed(2);
 
             </div>
             <div className="rightCol w-full md:w-[50%]">
+              
                 <div className='card shadow-md bg-white p-5 rounded-md'>
+                  {
+                    cart?.length>0 ? (
+                      <>
                     <h2 className='mb-4'>Your Order</h2>
                     <div className="flex items-center justify-between py-3 border-t border-b border-[rgba(0,0,0,0.2)]">
                         <span className='text-[14px] font[600]'>Product </span>
@@ -631,6 +639,59 @@ usdAmt = (total * rate).toFixed(2);
                                             </div>
                                 
 </div>
+           </>
+
+                    ) : (
+                    <div className="flex flex-col items-center justify-center py-12 px-4 text-center bg-white  rounded-md">
+  <div className="relative mb-6">
+    <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
+       <img 
+         src="https://res.cloudinary.com/dllelmzim/image/upload/v1755950175/delete_o3nlss.png" 
+         alt="Empty Cart" 
+         className="w-16 h-16 object-contain grayscale opacity-70"
+       />
+    </div>
+   
+  </div>
+
+  <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+    Your checkout is empty!
+  </h2>
+  <p className="text-gray-500 max-w-sm mb-8 text-[14px] md:text-[15px]">
+    Looks like you haven't added anything to your cart yet. 
+    Add some products to proceed with your order.
+  </p>
+
+  {/* Call to Action */}
+  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+    <Clickable>
+
+    <Button 
+      onClick={() => navigate('/products')}
+      className="btn-org !px-8 !py-3 flex gap-2 items-center justify-center"
+      variant="contained"
+    >
+      Start Shopping
+    </Button>
+    </Clickable>
+ <Clickable>
+
+    <Button 
+      onClick={() => navigate('/')}
+      className="!border-gray-300 !text-gray-600 !px-8 !py-3 text-capitalize"
+      variant="outlined"
+    >
+      Go to Home
+    </Button>
+ </Clickable>
+
+  </div>
+
+
+</div>
+                    )
+                  }
+           
                 </div>
             </div>
             

@@ -27,7 +27,7 @@ const initialState =  {
   loading: false,
   error: null,
   totalPages: 1,
-  totalProducts: '',
+  totalProducts: 0,
   page: Number(searchParams.get("page")) || 1,
   filters: {
     search: searchParams.get("search") || '',

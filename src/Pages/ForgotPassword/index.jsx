@@ -6,8 +6,7 @@ import { IoMdEyeOff } from "react-icons/io";
 import  Button  from '@mui/material/Button';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import { FcGoogle } from "react-icons/fc";
-import toast from 'react-hot-toast';
+
 import { showError, showSuccess, showWarning } from '../../utils/toastUtils';
 import {  putData } from '../../utils/api';
 import { AuthContext } from '../../contexts/AuthContext';

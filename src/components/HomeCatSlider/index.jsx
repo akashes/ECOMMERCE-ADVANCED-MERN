@@ -1,4 +1,3 @@
-import React, { useEffect, useRef, useState } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -13,10 +12,8 @@ import "swiper/css/free-mode"
 import { FreeMode, Navigation } from 'swiper/modules';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchHomeSlides } from '../../features/homeSlides';
 import { setCategories } from '../../features/productsFilter/productsFilterSlice';
-import { Button } from '@mui/material';
-
+import {motion} from 'framer-motion'
 
 
 
@@ -32,7 +29,6 @@ const rootCategories = useSelector(
   }))
 );
 
-console.log(rootCategories)
 
 
   return (
@@ -71,13 +67,13 @@ console.log(rootCategories)
          
                                  }}
          >
-          <div className="item  py-4 lg:py-7 px-3 bg-white rounded-md lg:rounded-sm text-center flex items-center justify-center flex-col">
+          <motion.div whileTap={{scale:0.95}} whileHover={{scale:1.02}} className="item  py-4 lg:py-7 px-3 bg-white rounded-md lg:rounded-sm text-center flex items-center justify-center flex-col">
             <img src={item.image}  
             alt="Fashion"
             className=' w-[40px] lg:w-[60px] transition-all'
             />
             <h3 className='text-[12px] lg:text-[15px] font-[500] mt-3'>{item.name}</h3>
-          </div>
+          </motion.div>
          </div>
         </SwiperSlide>
       ))

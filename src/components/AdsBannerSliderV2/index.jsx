@@ -11,6 +11,7 @@ import { FreeMode, Navigation } from 'swiper/modules';
 import BannerBoxV2 from '../BannerBoxV2';
 
 const AdsBannerSliderV2 = ({banners,itemsCount}) => {
+        
   return (
    <div className='py-5 w-full ads-banner '>
    <Swiper

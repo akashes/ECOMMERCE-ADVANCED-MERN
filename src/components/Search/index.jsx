@@ -70,6 +70,7 @@ const Search = () => {
     setName(product.name);
     setSuggestions([]);
     navigate(`/product/${product._id}`); // or /products?search=...
+    setName('')
   };
 
 

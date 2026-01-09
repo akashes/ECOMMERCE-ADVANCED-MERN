@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 
 
 export const addToWishlist=createAsyncThunk('wishlist/addToWishlist',async({productId,user},{rejectWithValue})=>{
+    console.log('inside add to wishlist')
             if(!user){
             //guest
               let localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -19,6 +20,7 @@ export const addToWishlist=createAsyncThunk('wishlist/addToWishlist',async({prod
 
 
         const result = await axios.post(`/api/myList/add-to-mylist/${productId}`)
+        console.log(result.data)
         if(!result.data.success){
             throw new Error(result.data.message || 'Failed to add item to Wishlist')
         }
@@ -31,7 +33,6 @@ export const addToWishlist=createAsyncThunk('wishlist/addToWishlist',async({prod
 })
 
 export const getWishlistItems = createAsyncThunk('cart/getWishlistItems',async(user,{rejectWithValue,dispatch})=>{
-    console.log('inside getWishlistItems')
     console.log(user)
         if (!user) {
       const localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -157,7 +158,7 @@ const wishList = createSlice({
             state.loading=false
             state.error=null
         
-           state.wishlist=action.payload.items
+           state.wishlist=action.payload?.items
 
 
         }),

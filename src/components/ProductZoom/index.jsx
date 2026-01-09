@@ -9,8 +9,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 import { Navigation } from "swiper/modules";
-import { MyContext } from '../../App';
-
+import { MyContext } from '../../contexts/MyContext';
 
 
 const ProductZoom = ({images}) => {

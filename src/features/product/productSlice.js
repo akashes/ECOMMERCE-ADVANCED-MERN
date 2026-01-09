@@ -109,10 +109,11 @@ const productSlice = createSlice({
       })
       .addCase(getRelatedProducts.pending,(state)=>{
         state.relatedProductsLoading=true
+        state.relatedProducts=[]
         state.error=null
       })
       .addCase(getRelatedProducts.fulfilled,(state,action)=>{
-        state.relatedProductsLoading=true
+        state.relatedProductsLoading=false
         state.relatedProducts = action.payload.products
       })
       .addCase(getRelatedProducts.rejected,(state,action)=>{

@@ -16,6 +16,9 @@ import { Collapse } from "react-collapse";
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 
 const MyAccount = () => {
@@ -110,8 +113,11 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
           <div className="card bg-white p-5  mb-5 shadow-md rounded-md relative">
             {/* <CircularProgress size={20} className="absolute right-5 !text-black "/> */}
             <div className="flex items-center justify-between pb-2">
+<div>
 
             <h2 className="text-[20px]">My Profile</h2>
+<p>Joined {dayjs(authContext.user.createdAt).fromNow()}</p>
+</div>
             {
               !authContext.user.signUpWithGoogle===true &&              <Button className="!text-gray-700 gap-1" onClick={()=>setIsChangePasswordFormShow(prev=>!prev)} >Change Password <IoIosArrowDown className={` transition-transform duration-300 ${isChangePasswordFormShow && 'rotate-180'}`} />  </Button>
 

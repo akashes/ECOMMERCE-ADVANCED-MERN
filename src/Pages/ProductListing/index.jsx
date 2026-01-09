@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 import Sidebar from '../../components/Sidebar'
-import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
+
 import ProductItem from '../../components/ProductsItem';
 import { Button } from '@mui/material';
 
@@ -23,10 +21,8 @@ import { fetchProducts, setCategories, setPage, setPriceFilter, setRating, setSo
 import ProductItemSkeleton from '../../components/Skeltons/ProductItemSkelton';
 import ProductsItemListViewSkeleton from '../../components/Skeltons/ProductsItemListViewSkelton';
 import { useSearchParams } from 'react-router-dom';
-import { IoIosClose } from 'react-icons/io';
 import BreadCrumbs from '../../components/BreadCrumbs/BreadCrumbs';
-import { MyContext } from '../../App';
-
+import { MyContext } from '../../contexts/MyContext';
 const sortLabels = {
   relevance: "Relevance",
   sales_desc: "Sales, Highest To Lowest",
@@ -45,6 +41,8 @@ const ProductListing = () => {
   const[searchParams,setSearchParams]=useSearchParams()
   console.log(searchParams)
   const context = useContext(MyContext)
+  const [initialSyncDone, setInitialSyncDone] = useState(false);
+
 
 
   const{items,loading:filterProductsLoading,totalPages,page,filters,totalProducts}=useSelector(state=>state.filterProducts)
@@ -82,6 +80,13 @@ const ProductListing = () => {
 
   },[dispatch,filters,page])
 
+  useEffect(() => {
+  console.log("Current Filters:", filters);
+  console.log("Current Page:", page);
+}, [filters, page]);
+
+
+
   //state handler functions
  const handleCategorySelect = (catId) => {
   let updatedCategories = [...filters.categories];
@@ -105,6 +110,10 @@ const handleSelectRating=(e)=>{
   };
 
   useEffect(() => {
+      if (!initialSyncDone) {
+    setInitialSyncDone(true);
+    return;
+  }
     const params = {
       category: filters.categories.join(','),
       subCatId: filters.subCatId,
@@ -112,7 +121,7 @@ const handleSelectRating=(e)=>{
       sort: filters.sort,
       rating: filters.rating,
       page,
-      perPage: filters.PerPage,
+      perPage: filters.perPage,
       minPrice: filters.minPrice,
       maxPrice: filters.maxPrice,
       search: filters.search,
@@ -139,18 +148,18 @@ useEffect(()=>{
 
 },[])
 
-useEffect(() => {
-  return () => {
-    // cleanup -reset filters when leaving page
-    dispatch(setCategories([]));
-    dispatch(setSubCategories(null));
-    dispatch(setThirdSubCategories(null));
-    dispatch(setSort(''));
-    dispatch(setRating(''));
-    dispatch(setPage(1));
-    dispatch(setPriceFilter({ minPrice: '', maxPrice: '' }));
-  };
-}, [dispatch]);
+// useEffect(() => {
+//   return () => {
+//     // cleanup -reset filters when leaving page
+//     dispatch(setCategories([]));
+//     dispatch(setSubCategories(null));
+//     dispatch(setThirdSubCategories(null));
+//     dispatch(setSort(''));
+//     dispatch(setRating(''));
+//     dispatch(setPage(1));
+//     dispatch(setPriceFilter({ minPrice: '', maxPrice: '' }));
+//   };
+// }, [dispatch]);
   return (
   <section className='py-2  lg:py-5 pb-0'>
     <div className="container">

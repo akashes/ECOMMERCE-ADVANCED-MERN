@@ -17,6 +17,20 @@ export const getOrders = createAsyncThunk('order/getOrders',async(_,{rejectWithV
     }
 
 })
+export const cancelOrder = createAsyncThunk('order/cancelOrder',async(id,{rejectWithValue})=>{
+       try {
+        const result = await axios.delete(`/api/order/cancel-order/${id}`)
+        console.log(result)
+            if(!result.data.success){
+            throw new Error(result.data.message || 'Failed to Cancel order  ')
+        }
+        return result.data
+    } catch (error) {
+      return  rejectWithValue(error.response?.data?.message || error.message)
+        
+    }
+
+})
 
 
 
@@ -25,7 +39,9 @@ const orderSlice = createSlice({
     initialState:{
         loading:false,
         orders:[],
-        error:null
+        error:null,
+        cancelOrderLoading:false,
+        cancelledOrders:[]
     },
     reducers:{
 
@@ -43,6 +59,25 @@ const orderSlice = createSlice({
                 builder.addCase(getOrders.rejected,(state,action)=>{
                     state.loading=false
                     state.error=action.payload || 'Failed to get Orders'
+                })
+                builder.addCase(cancelOrder.pending,(state)=>{
+                    state.cancelOrderLoading=true
+                    state.error=null
+                })
+                builder.addCase(cancelOrder.fulfilled,(state,action)=>{
+                    state.cancelOrderLoading=false
+                    state.error=null
+                    state.cancelledOrders.push(action.payload.id)
+let cancelledOrderIndex = state.orders.findIndex(o => o._id === action.payload.order._id)
+if (cancelledOrderIndex !== -1) {
+  state.orders[cancelledOrderIndex] = action.payload.order
+}
+                 
+
+                })
+                builder.addCase(cancelOrder.rejected,(state,action)=>{
+                    state.cancelOrderLoading=false
+                    state.error=action.payload || 'Failed to cancel Order'
                 })
     }
 

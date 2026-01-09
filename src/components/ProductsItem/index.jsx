@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 
 import { useContext } from 'react';
-import { MyContext } from '../../App';
+import { MyContext } from '../../contexts/MyContext';
 import { BsCart3 } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeCartItem, updateCart } from '../../features/cart/cartSlice';
@@ -20,7 +20,7 @@ import { showError, showSuccess } from '../../utils/toastUtils';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import throttle from 'lodash.throttle'
-import { addToWishlist, removeWishlistItem } from '../../features/wishList/wishListSlice';
+import { addToWishlist } from '../../features/wishList/wishListSlice';
 
 const ProductItem = ({item}) => {
   const context = useContext(AuthContext)
@@ -28,14 +28,13 @@ const ProductItem = ({item}) => {
   const {setOpenProductDetailsModal} = useContext(MyContext)
   const discount = item?.oldPrice && item?.price ? Math.round(((item.oldPrice - item.price)/item.oldPrice)*100):0;
  const {cart,cartUpdationLoading,cartUpdatingItem}=useSelector(state=>state.cart)
- const{wishlist}=useSelector(state=>state.wishlist)
-
-
- console.log(wishlist)
+ const{wishlist=[]}=useSelector(state=>state.wishlist)
 
 
 
-   const isWishlisted = wishlist.find(i=>i.productId?._id===item._id || i._id===item._id)
+
+
+   const isWishlisted = wishlist?.find(i=>i.productId?._id===item._id || i._id===item._id)
  
  console.log(isWishlisted)
 
@@ -116,6 +115,8 @@ const ProductItem = ({item}) => {
 
   }
   return (
+    
+
     <div className='  productItem rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)]  '>
       <div className='imgWrapper w-[100%]  rounded-t-md overflow-hidden relative group'>
         <Link to={`/product/${item?._id}`}>
@@ -263,6 +264,7 @@ const ProductItem = ({item}) => {
 
       </div>
     </div>
+
   )
 }
 

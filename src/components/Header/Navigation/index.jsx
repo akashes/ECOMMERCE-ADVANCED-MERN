@@ -6,16 +6,16 @@ import { GoRocket } from "react-icons/go";
 
 
 import CategoryPanel from "./CategoryPanel";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 import './style.css'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMenuCategories } from "../../../features/category/categoryMenuSlice";
-import { resetFilters, setCategories, setSubCategories } from "../../../features/productsFilter/productsFilterSlice";
-import { MyContext } from "../../../App";
+import {  setCategories, setSubCategories } from "../../../features/productsFilter/productsFilterSlice";
 import MobileNav from "./MobileNav";
-
+import { MyContext } from "../../../contexts/MyContext";
 import { IoMenu } from "react-icons/io5";
+import { Clickable } from "../../../utils/Clickable";
 
 
 const Navigation = (props) => {
@@ -63,8 +63,10 @@ useEffect(()=>{
                        </Button>
             </div>
             }
-            <div className="col_2 w-full lg:w-[60%]">
-                <ul className="flex items-center gap-3 nav">
+            <div className="col_2 
+            w-full lg:w-[60%] 
+            ">
+                <ul className="flex  items-center gap-1 nav ">
                     <li className="list-none">
                         <Link to='/' className="link text-[14px] font-[500] ">
                         <Button className=" font-[500] !text-[rgba(0,0,0,0.8)]
@@ -78,6 +80,8 @@ useEffect(()=>{
                     {
                         categories?.length>0  && categories.map((category)=>(
                                  <li key={category._id} className="list-none relative z-500 ">
+                                    <Clickable>
+
                         <Button
                         onClick={()=>{
                             // dispatch(resetFilters())
@@ -95,6 +99,8 @@ useEffect(()=>{
                         {category.name}
                         </Button>
                         </Button>
+                                    </Clickable>
+
                        {
                         category?.children?.length!==0 && (
                              <div className="submenu absolute  top-[120%] opacity-0  transition-all  left-[0%] min-w-[150px] bg-white shadow-md rounded-md">
@@ -156,7 +162,7 @@ useEffect(()=>{
 
             </div>
             <div className="col_3 w-[20%] hidden lg:block">
-                <p className="text-[14px] font-[500] flex items-center gap-3 mb-0 mt-0"> 
+                <p className="text-[14px] font-[500] flex items-center gap-2 mb-0 mt-0"> 
                     <GoRocket className="text-[18px]"/>
                      Free International Delivery</p>
             </div>

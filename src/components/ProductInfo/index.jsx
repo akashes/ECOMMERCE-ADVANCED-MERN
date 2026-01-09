@@ -4,18 +4,17 @@ import QtyBox from '../QtyBox'
 import { BsCart3, BsCartDash } from 'react-icons/bs'
 import { FaRegHeart } from 'react-icons/fa6'
 import { IoGitCompareOutline } from 'react-icons/io5'
-import { MyContext } from '../../App'
+import { MyContext } from '../../contexts/MyContext'
 import { addToCart, removeCartItem, updateCart } from '../../features/cart/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError, showSuccess } from '../../utils/toastUtils'
 import { AuthContext } from '../../contexts/AuthContext'
 import throttle from 'lodash.throttle'
+import { addToWishlist } from '../../features/wishList/wishListSlice'
 
 const ProductInfo = ({product,goToReviews}) => {
-    console.log(product)
     const context = useContext(AuthContext)
     const{cart}=useSelector(state=>state.cart)
-    console.log(context)
     const dispatch = useDispatch()
               const isExistingCartItem = cart.find(i=>i.productId?._id===product?._id)
               const isOutOfStock = product?.countInStock===0
@@ -80,6 +79,20 @@ const ProductInfo = ({product,goToReviews}) => {
       }, 1000, { leading: true, trailing: true }),
     [dispatch, isExistingCartItem]
     );
+     const handleAddToWishList=async(productId)=>{
+        const resultAction = await dispatch(addToWishlist({productId,user:context.user}))
+        console.log(resultAction)
+        if(addToWishlist.fulfilled.match(resultAction)){
+          showSuccess('Item added to WishList')
+          return
+        }
+        if(addToWishlist.rejected.match(resultAction)){
+          showError(resultAction.payload || 'Failed to add item to WishList')
+          return
+        }
+    
+    
+      }
     
   return (
     <>
@@ -197,7 +210,7 @@ const ProductInfo = ({product,goToReviews}) => {
             </div>
               {/* add to Wishlist,compare  */}
             <div className="flex items-center gap-2 md:gap-4 mt-2 md:mt-4">
-        <span className="flex items-center gap-2 text-[13px] lg:text-[15px] link cursor-pointer font-[500]"> <FaRegHeart className="text-[18px]" /> Add to Wishlist</span>
+        <span onClick={()=>handleAddToWishList(product._id)} className="flex items-center gap-2 text-[13px] lg:text-[15px] link cursor-pointer font-[500]"> <FaRegHeart className="text-[18px]" /> Add to Wishlist</span>
         <span className="flex items-center gap-2 text-[13px] lg:text-[15px] link cursor-pointer font-[500]"> <IoGitCompareOutline className="text-[18px]"  /> Add to Compare</span>
     </div>
     

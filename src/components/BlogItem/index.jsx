@@ -2,10 +2,18 @@ import React from 'react'
 import { IoIosTimer } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-
+import DOMPurify from 'dompurify'
 
 const BlogItem = ({blog}) => {
-  console.log(blog)
+
+  const getCleanText = (html, length) => {
+    const cleanText = DOMPurify.sanitize(html, { ALLOWED_TAGS: [] });
+    
+    return cleanText.length > length 
+      ? cleanText.substring(0, length) + "..." 
+      : cleanText;
+  };
+
   return (
     <div className='blogItem group cursor-pointer '>
         <div className="imgWrapper w-full overflow-hidden rounded-md  relative ">
@@ -27,14 +35,15 @@ const BlogItem = ({blog}) => {
         </div>
         <div className="info py-4">
             <Link to='/' >
-            <h2 className='text-[15px] font-[600] text-black mb-3'>{blog.title.substr(0,16)+'...'}</h2>
+            <h2 className='text-[15px] font-[600] text-black mb-3'>
+{getCleanText(blog?.title, 50)}              </h2>
             </Link>
             <p className='text-[14px] lg:text-[16px]  font-[400] text-[rgba(0,0,0,0.8)] mb-4'>
-         <div dangerouslySetInnerHTML={{__html:blog?.description?.substr(0,200)+'...'}} >
-
-                    </div>
+         <div>
+{getCleanText(blog?.title, 50)}
+         </div>
             </p>
-                 <Link to='/' className=' flex items-center  gap-1 link font-[500]   '>
+                 <Link to={`/blog/${blog._id}`} className=' flex items-center  gap-1 link font-[500]   '>
                  Read More <MdKeyboardDoubleArrowRight className='group-hover:scale-150 group-hover:text-primary transition-all duration-300'/> </Link>
 
         </div>
