@@ -1,11 +1,10 @@
 import { Button, CircularProgress, Drawer, FormControlLabel, Radio, TextField } from '@mui/material'
-import React, { useState } from 'react'
 import { IoCloseSharp } from 'react-icons/io5'
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAddress, updateAddress } from '../../features/user/userSlice';
-import { showSuccess } from '../../utils/toastUtils';
+import { showError, showSuccess } from '../../utils/toastUtils';
 const AddAddress = ({openAddressPanel,toggleDrawer,formData,setFormData}) => {
 
     const{addressLoading}=useSelector(state=>state.user)
@@ -34,6 +33,12 @@ const AddAddress = ({openAddressPanel,toggleDrawer,formData,setFormData}) => {
         showError('All fields are required');
         return;
       }
+     const pincodeRegex = /^\d{6}$/;
+    
+    if (!pincodeRegex.test(formData.pincode)) {
+      showError('Please enter a valid 6-digit Pincode');
+      return;
+    }
     
       let resultAction;
     
