@@ -85,7 +85,7 @@ const BannerBoxV2 = ({banner}) => {
   }
   return (
     <div className='group bannerBoxV2 w-full overflow-hidden rounded-md group relative h-[150px] md:h-[250px] lg:h-[300px] ' >
-        <img src={banner.bannerImage.url}
+        <img src={banner?.bannerImage?.url}
          alt="" className='w-full transition-all duration-150 ease-in-out group-hover:scale-105 ' />
          <div className={`info absolute w-[50%] top-0 h-[full%]  z-50  p-1 md:p-3 lg:p-5 flex items-start  justify-center lg:justify-center flex-col gap-1 lg:gap-2 ${banner?.alignInfo==='left'?'left-0':'right-0'}`}>
             <h2 className='text-[13px] sm:text-[14px]  md:text-[18px] font-[600]'>

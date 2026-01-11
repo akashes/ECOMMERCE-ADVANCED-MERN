@@ -44,11 +44,12 @@ const MyListItems = ({item}) => {
               return
             }
           }else{
+            showError(resultAction.payload||resultAction.message)
               // showError(resultAction.payload || 'Failed to move item to Cart')
-              if(resultAction.payload=='Product already in cart'){
-                setShowAlert(true)
+              // if(resultAction.payload=='Product already in cart'){
+              //   setShowAlert(true)
 
-              }
+              // }
             
           }
     

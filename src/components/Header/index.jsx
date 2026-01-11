@@ -274,7 +274,7 @@ const handleLogout=async()=>{
         <IoHeartSharp/>
         <span className="text-[14px]">
 
-        Favorites
+        myorites
         </span>
         </MenuItem>
         </Link>

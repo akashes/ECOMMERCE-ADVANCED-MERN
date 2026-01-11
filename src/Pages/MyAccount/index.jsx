@@ -91,6 +91,9 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
    setConfirmPassword('')
   
   }
+  const handleVerifyEmail=async()=>{
+
+  }
 
       useEffect(()=>{
           window.scrollTo({ top: 0, behavior: "smooth" });
@@ -163,7 +166,7 @@ const hasChangedMobile = phone !== authContext.user?.mobile;
                 {
                !authContext?.user?.verify_email ?
                      <div className="w-[50%]">
-                  <Button className="!bg-black !text-white ">Verify Email</Button>
+                  <Button onClick={handleVerifyEmail} className="!bg-black !text-white ">Verify Email</Button>
                 </div>:
                 <div className="flex  items-center gap-1 w-[50%] ">
                     <img className="w-[20px]  align-middle" src="https://res.cloudinary.com/dllelmzim/image/upload/v1753885099/check_fl8d2v.png" alt="" />

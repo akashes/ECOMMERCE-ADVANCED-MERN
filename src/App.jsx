@@ -1,5 +1,5 @@
 import React, {  useContext, useEffect, useState } from 'react'
-import { BrowserRouter, Link, Route, RouterProvider, Routes, useLocation } from 'react-router-dom'
+import { RouterProvider } from 'react-router-dom'
 import { MyContext } from './contexts/MyContext'
 import './App.css'
 import './responsive.css'
@@ -9,8 +9,7 @@ import './responsive.css'
 
 
 
-import CartPage from './Pages/Cart'
-import Verify from './Pages/Verify'
+
 
 import  { Toaster } from 'react-hot-toast';
 

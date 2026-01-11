@@ -33,7 +33,6 @@ export const addToWishlist=createAsyncThunk('wishlist/addToWishlist',async({prod
 })
 
 export const getWishlistItems = createAsyncThunk('cart/getWishlistItems',async(user,{rejectWithValue,dispatch})=>{
-    console.log(user)
         if (!user) {
       const localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       console.log(localWishlist)

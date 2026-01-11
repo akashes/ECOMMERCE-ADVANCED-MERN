@@ -185,9 +185,16 @@ const Checkout = () => {
             return
         }
         if(result.data.success){
+          console.log(result.data)
             showSuccess( result?.data?.message || 'Order Placed Successfully')
             await dispatch(deleteCart())
-            navigate('/order-success')
+            navigate('/order-success',{
+              state:{
+                orderId:result.data.order._id,
+                amount:result.data.order.total,
+                paymentMethod:result.data.order.payment_method
+              }
+            })
 
             return
         }

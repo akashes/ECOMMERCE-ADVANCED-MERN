@@ -6,7 +6,8 @@ export const fetchBannerV1 = createAsyncThunk(
   'bannerV1/fetchBannerV1',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get('/api/bannerV1');
+      console.log('INSIDE FETCH BANNER')
+      const { data } = await axios.get('http://localhost:8000/api/bannerV1');
       return data;
     } catch (err) {
         console.log(err)

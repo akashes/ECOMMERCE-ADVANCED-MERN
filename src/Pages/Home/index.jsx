@@ -36,6 +36,7 @@ const Home = () => {
 
 
     const{banners,loading:adsBannerV1Loading}=useSelector(state=>state.bannerV1)
+    console.log(banners)
     
 
 
@@ -114,10 +115,14 @@ const randomBanners = React.useMemo(() => getRandomBanners(banners, 2), [banners
       <div className="section2 w-full lg:w-[30%]  flex flex-row lg:flex-col justify-between items-center gap-3 lg:gap-5   " 
       >
         {
-         randomBanners?.length>0 && randomBanners.map((item)=>(
+         randomBanners?.length>0 && randomBanners.map((item)=>{
+          console.log(item)
+return(
 
-            <BannerBoxV2 banner={item}  />
-          ))
+  <BannerBoxV2 banner={item}  />
+)
+         }
+          )
         }
       </div>
 
