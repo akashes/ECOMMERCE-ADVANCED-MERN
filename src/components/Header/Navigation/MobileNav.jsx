@@ -6,9 +6,12 @@ import { LuHeart } from "react-icons/lu";
 import { BsBagCheck } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { IoMdSearch } from "react-icons/io";
+
 
 import { FaFilter } from "react-icons/fa6";
 import { MyContext } from '../../../contexts/MyContext';
+import { Clickable } from '../../../utils/Clickable';
 
 
 
@@ -23,10 +26,13 @@ const MobileNav = () => {
   return (
     <div className='mobileNav bg-white p-1 px-3 w-full flex items-center justify-between gap-5 fixed bottom-0 left-0 place-items-center z-[51] '>
                             <NavLink to='/' className={({isActive})=>isActive?"active-tab":"non-active-tab"}>
-      <Button className='flex-col !w-[50px] !min-w-[50px] !capitalize  '>
+                            <Clickable>
+
+      <Button className='flex-col !w-[50px] !min-w-[50px] !capitalize p-1  '>
          <IoHomeOutline size={18}/>
          <span className='text-[12px]'>Home</span>
       </Button>
+                            </Clickable>
         </NavLink>
 
 {
@@ -40,34 +46,34 @@ const MobileNav = () => {
 
 
         
-                                    <NavLink to='/products' className={({isActive})=>isActive?"active-tab":"non-active-tab"}>
+                                    {/* <NavLink to='/products' className={({isActive})=>isActive?"active-tab":"non-active-tab"}> */}
 
       <Button onClick={()=>
       {
          context.setIsSearchOpen(true)
-      }} className='flex-col !w-[40px] !min-w-[40px] !capitalize'>
-         <AiOutlineProduct size={19}/>
-         <span className='text-[12px]'>Products</span>
+      }} className='flex-col !w-[50px] !min-w-[50px] !px-1 !capitalize  !text-gray-500'>
+         <IoMdSearch size={19}/>
+         <span className='text-[12px]'>Search</span>
       </Button>
-      </NavLink>
+      {/* </NavLink> */}
 
                                     <NavLink to='/my-list' className={({isActive})=>isActive?"active-tab":"non-active-tab"}>
 
-      <Button className='flex-col !w-[40px] !min-w-[40px] !capitalize'>
+      <Button className='flex-col !px-1 !w-[50px] !min-w-[50px] !capitalize'>
          <LuHeart size={18}/>
          <span className='text-[12px]'>Wishlist</span>
       </Button>
 </NavLink>
                                     <NavLink to='/my-orders' className={({isActive})=>isActive?"active-tab":"non-active-tab"}>
-      <Button className='flex-col !w-[40px] !min-w-[40px] !capitalize'>
+      <Button className='flex-col !px-1 !w-[50px] !min-w-[50px] !capitalize'>
          <BsBagCheck size={18}/>
          <span className='text-[12px]'>Orders</span>
       </Button>
 </NavLink>
                                     <NavLink to='/my-account' className={({isActive})=>isActive?"active-tab":"non-active-tab"}>
 
-      <Button className='flex-col !w-[40px] !min-w-[40px] !capitalize'>
-         <FiUser size={18}/>
+      <Button className='flex-col !px-1 !w-[50px] !min-w-[50px] !capitalize'>
+         <FiUser size={18} />
          <span className='text-[12px]'>User</span>
       </Button>
 </NavLink>    </div>

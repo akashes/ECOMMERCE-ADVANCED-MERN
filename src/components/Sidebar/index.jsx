@@ -47,7 +47,6 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
 
     const[isCategoryFilterOpen,setIsCategoryFilterOpen]=useState(true)
     const[isAvailabilityFilterOpen,setIsAvailabilityFilterOpen]=useState(false)
-    const[isSizeFilterOpen,setIsSizeFilterOpen]=useState(false)
 
 
       useEffect(() => {

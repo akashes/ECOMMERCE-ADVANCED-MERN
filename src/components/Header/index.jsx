@@ -7,7 +7,7 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import {  BsCart3 } from "react-icons/bs";
-import { IoGitCompareOutline } from "react-icons/io5";
+import { IoCloseSharp, IoGitCompareOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import Tooltip from '@mui/material/Tooltip';
 import Navigation from "./Navigation";
@@ -53,7 +53,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const context  = useContext(MyContext)
   const{cart}=useSelector(state=>state.cart)
   const{wishlist}=useSelector(state=>state.wishlist)
 
@@ -107,7 +106,7 @@ const handleLogout=async()=>{
 
 
     const authContext = useContext(AuthContext)
-    const{setOpenCartPanel,isLogin}=useContext(MyContext)
+    const{setOpenCartPanel,isLogin,windowWidth,isSearchOpen,setIsSearchOpen}=useContext(MyContext)
   return (
     <header className="bg-white sticky top-[-50px] z-100 " >
         <div className=" hidden lg:block top-strip py-2 border-t-[1px] border-gray-300 border-b-[1px] ">
@@ -147,7 +146,7 @@ const handleLogout=async()=>{
         <div className="header py-2  lg:py-4 border-b-[1px] border-gray-300 ">
             <div className="container flex items-center justify-between">
               {
-                context.windowWidth<992 &&
+                windowWidth<992 &&
                 <Button onClick={()=>setIsOpenCategoryPanel(true)} className='!w-[35px] !min-w-[35px] !h-[35px] !rounded-full !text-gray-800'>
 
                   <IoMenu size={22} />
@@ -158,24 +157,26 @@ const handleLogout=async()=>{
                     <Link to={'/'}><img src="/logo.jpg" alt="logo" /></Link>
                 </div>
                 {/* search box */}
-                <div className={`col2   top-0 left-0 h-full w-full lg:w-[40%] lg:static p-2 lg:p-0 bg-white  z-[700]
+                {/* <div className={`col2   top-0 left-0 h-full w-full lg:w-[40%] lg:static p-2 lg:p-0 bg-white  z-[700]
                 `} >
                   {
-                    context.windowWidth >=992 &&
+                    windowWidth >=1 &&
                      <Search/>
                   }
-                  {/* {
-                    (context.isSearchOpen || context.windowWidth >992) &&
-                  <Search/>
-                  } */}
+              
 
                   
-                </div>
+                </div> */}
+                <div className="col2 hidden lg:block w-[40%]">
+               <Search />
+            </div>
+
+
                 <div className="col3 w-[10%]  lg:w-[35%] flex items-center pl-7 ">
                     
                     <ul className="flex items-center justify-end gap-3 w-full">
                         {
-                            authContext?.isLogin ===false && context.windowWidth>992 ? (
+                            authContext?.isLogin ===false && windowWidth>992 ? (
                                        <li className="list-none">
                             <Link className="link transition ease-in-out duration-300 text-[15px] font-[500]" to='/login' >Login</Link>  | &nbsp;
                              <Link className="link transition ease-in-out duration-300 text-[15px] font-[500]" to='/register'>Register</Link>
@@ -185,7 +186,7 @@ const handleLogout=async()=>{
                             (
                                 <>
                                 {
-                                  context.windowWidth>992 && 
+                                  windowWidth>992 && 
                                                                          <li className="list-none">
 
                                 <Button onClick={handleClick} className="myAccountWrap !text-black  flex items-center gap-3 relative cursor-pointer">
@@ -313,7 +314,7 @@ const handleLogout=async()=>{
                  
                     
                         {
-                          context.windowWidth>992 && 
+                          windowWidth>992 && 
                           <>
                               <li>
        
@@ -369,12 +370,32 @@ const handleLogout=async()=>{
         <Navigation isOpenCategoryPanel={isOpenCategoryPanel} openCategoryPanel={openCategoryPanel} setIsOpenCategoryPanel={setIsOpenCategoryPanel} />
 
 
- {/* {
-        categories?.length!==0 && 
-    <CategoryPanel categories={categories} openCategoryPanel={openCategoryPanel}  isOpenCategoryPanel={isOpenCategoryPanel} />
+{/* mobile search component full screen overlay */}
+{
 
-    } */}
+windowWidth < 992 && isSearchOpen === true && (
+          <div className="fixed top-0 left-0 w-full h-full bg-white z-[9999] flex flex-col p-4 animate-in fade-in zoom-in duration-200">
+             
+             {/* Header of the Overlay: Title + Close Button */}
+             <div className="flex items-center justify-between mb-4">
+                <h4 className="text-lg font-bold text-gray-700">Search Products</h4>
+                <IconButton onClick={() => setIsSearchOpen(false)}>
+                  <IoCloseSharp className="text-2xl text-black" />
+                </IconButton>
+             </div>
 
+             {/* The Search Component */}
+             <div className="w-full">
+                {/* Pass a prop to Search if you want it to close the overlay 
+                   automatically when a user hits Enter.
+                   
+                   Example: <Search closeSearch={() => setIsSearchOpen(false)} />
+                */}
+                <Search closeSearch={()=>setIsSearchOpen(false)} />
+             </div>
+          </div>
+        )
+      }
 
 
     </header>

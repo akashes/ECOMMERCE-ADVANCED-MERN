@@ -191,7 +191,7 @@ const App = () => {
 
           }  />
         <Route path='/my-list' element={<MyList/>}  />
-        <Route path='/my-orders' element={<Orders/>}  />
+        <Route path='/orders' element={<Orders/>}  />
         <Route path='/request-otp' element={<p>request otp</p>}/>
         <Route path='/address' element={<Address/>}/>
       </Routes> */}

@@ -20,14 +20,13 @@ export const isTokenExpired = (token) => {
 export const refreshAccessToken = async () => {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/user/refresh-token`, // adjust path if needed
+      `${import.meta.env.VITE_API_URL}/api/user/refresh-token`,
       {},
       {
-        withCredentials: true, // very important to send refresh token cookie
+        withCredentials: true, 
       }
     );
 
-    console.log('response in auth util',response.data)
     return response.data.data.accessToken; // new access token
   } catch (error) {
     console.error('Error refreshing access token:', error);

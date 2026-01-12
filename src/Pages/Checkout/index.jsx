@@ -288,7 +288,13 @@ const Checkout = () => {
         if(result.data.success){
             showSuccess( result?.data?.message || 'Order Placed Successfully')
             await dispatch(deleteCart())
-            navigate('/order-success')
+ navigate('/order-success',{
+              state:{
+                orderId:result.data.order._id,
+                amount:result.data.order.total,
+                paymentMethod:result.data.order.payment_method
+              }
+            })
 
             return
         }
@@ -427,7 +433,13 @@ usdAmt = (total * rate).toFixed(2);
       if (res.data.success) {
         showSuccess("Order placed successfully via PayPal");
         dispatch(deleteCart());
-        navigate("/order-success");
+ navigate('/order-success',{
+              state:{
+                orderId:result.data.order._id,
+                amount:result.data.order.total,
+                paymentMethod:result.data.order.payment_method
+              }
+            })
       } else {
                     navigate('/order-failed')
 

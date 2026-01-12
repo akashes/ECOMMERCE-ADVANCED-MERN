@@ -9,7 +9,7 @@ import axios from 'axios';
 
 
 
-const Search = () => {
+const Search = ({closeSearch}) => {
   const [highlightIndex, setHighlightIndex] = useState(-1);
 
   const dispatch = useDispatch()
@@ -20,8 +20,34 @@ const Search = () => {
   const[suggestions,setSuggestions]=useState([])
   const navigate = useNavigate()
 
+  const[isMobile,setIsMobile]=useState(window.innerWidth<768);
+
+  const redirectToProductsPage=()=>{
+  if(!name.trim() ) return
+  dispatch(setSearch(name));
+  setSuggestions([]);
+
+  navigate(`/products?search=${name}`)
+
+  if(closeSearch){
+    closeSearch()
+  }
+}
+
+
   const handleKeyDown = (e) => {
-  if (suggestions.length === 0) return;
+
+    if(isMobile && e.key==='Enter'){
+      redirectToProductsPage();
+      return;
+    }
+
+
+    //FOR DESKTOP
+  if (suggestions.length === 0){
+    if(e.key==='Enter') redirectToProductsPage();
+    return;
+  }
 
   if (e.key === "ArrowDown") {
     setHighlightIndex((prev) => (prev + 1) % suggestions.length);
@@ -33,6 +59,18 @@ const Search = () => {
     handleSelect(suggestions[highlightIndex]);
   }
 };
+
+
+
+
+useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+
+  //debouncing
   useEffect(()=>{
     let handler= setTimeout(() => {
       setDebouncedName(name)
@@ -51,20 +89,20 @@ const Search = () => {
 
     useEffect(() => {
     const fetchSuggestions = async () => {
+      if(isMobile) return;
       if (!debouncedName.trim()) {
         setSuggestions([]);
         return;
       }
       try {
         const res = await axios.get(`/api/product/suggestions?query=${debouncedName}`);
-        console.log(res)
         setSuggestions(res.data);
       } catch (err) {
         console.error(err);
       }
     };
     fetchSuggestions();
-  }, [debouncedName]);
+  }, [debouncedName,isMobile]);
 
   const handleSelect = (product) => {
     setName(product.name);
@@ -88,7 +126,7 @@ const highlightMatch = (text, query) => {
   return (
     <>
       {preview.split(regex).map((part, i) =>
-        regex.test(part) ? <b key={i}>{part}</b> : part
+        regex.test(part) ? <span className='font-semibold' key={i}>{part}</span> : part
       )}
       {text.length > 20 && '...'} 
     </>
@@ -117,7 +155,7 @@ const highlightMatch = (text, query) => {
 
       {/* Suggestions dropdown */}
       {suggestions.length > 0 && (
-        <ul className="absolute left-0 top-[50px] w-full bg-white px-2 rounded shadow z-50">
+        <ul className="absolute left-0 top-[50px] w-full bg-white  rounded shadow z-1000">
   {suggestions.map((s, i) => (
     <li
       key={s._id}
