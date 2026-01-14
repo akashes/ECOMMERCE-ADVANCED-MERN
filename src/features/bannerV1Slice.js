@@ -7,7 +7,7 @@ export const fetchBannerV1 = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       console.log('INSIDE FETCH BANNER')
-      const { data } = await axios.get(import.meta.env.VITE_API_URL);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/bannerV1`);
       return data;
     } catch (err) {
         console.log(err)
