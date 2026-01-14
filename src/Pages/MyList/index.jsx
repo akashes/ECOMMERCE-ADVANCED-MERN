@@ -88,7 +88,7 @@ const MyList = () => {
               ))}
             </div>
           ) : (
-            <div className="flex justify-center items-center flex-col py-24 px-4 gap-6">
+            <div className="flex justify-center items-center flex-col py-10 px-4 gap-6">
               <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
                 <svg className="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path

@@ -40,7 +40,9 @@ const initialState =  {
     minPrice: searchParams.get("minPrice") || '',
     maxPrice: searchParams.get("maxPrice") || '',
     perPage: Number(searchParams.get("perPage")) || 10,
-  }
+    availability:null,
+  },
+  stockCounts: { inStock: 0, outOfStock: 0 },
 }
 
 
@@ -82,6 +84,10 @@ const filterProductsSlice = createSlice({
         state.filters.discount=''
     state.filters.categories = action.payload; 
     state.page = 1;
+  },
+  setAvailability:(state,action)=>{
+    state.filters.availability=action.payload
+
   },
   setSubCategories: (state, action) => {
     state.filters.categories=[]
@@ -147,6 +153,7 @@ const filterProductsSlice = createSlice({
           minPrice: "",
           maxPrice: "",
           perPage: 10,
+          availability:null
         },
       };
     },
@@ -162,6 +169,7 @@ const filterProductsSlice = createSlice({
         state.totalPages = action.payload.totalPages;
         state.page = action.payload.currentPage;
         state.totalProducts = action.payload.totalProducts
+        state.stockCounts = action.payload.stockCounts || { inStock: 0, outOfStock: 0 };
         })
         .addCase(fetchProducts.rejected, (state, action) => {
           state.loading = false;
@@ -170,5 +178,7 @@ const filterProductsSlice = createSlice({
     },
 })
 
-export const { setCategories,setSubCategories,setThirdSubCategories, setSort, setPage,setRating,setPriceFilter,setSearch,setDiscount ,resetFilters} = filterProductsSlice.actions;
+export const { setCategories,setSubCategories,setThirdSubCategories, setSort, setPage,setRating,setPriceFilter,setSearch,setDiscount ,resetFilters,
+  setAvailability
+} = filterProductsSlice.actions;
 export default filterProductsSlice.reducer

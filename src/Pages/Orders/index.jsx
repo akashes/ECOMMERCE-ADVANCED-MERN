@@ -117,7 +117,7 @@ const StatusBadge = ({ status }) => {
 const ProductRow = ({ product }) => (
   <div className="flex items-center gap-4 py-3 px-4 border-b border-gray-200 hover:bg-gray-50">
     <img
-      src={product.image[0] || "/placeholder.svg"}
+      src={product?.image[0] ||"/product-placeholder.png"}
       alt={product.name}
       className="w-12 h-12 object-cover rounded-lg"
     />
@@ -338,8 +338,7 @@ const Orders = () => {
                     order={order}
                     index={index}
                     showProducts={showProducts}
-                    onToggleProducts={setShowProducts}
-                    onViewDetails={() => handleViewDetails(order._id)}
+onToggleProducts={(idx) => setShowProducts(prev => (prev === idx ? null : idx))}                    onViewDetails={() => handleViewDetails(order._id)}
                     onCancelOrder={() => handleOpen(order._id)}
                     cancelledOrder={cancelledOrder}
                   />

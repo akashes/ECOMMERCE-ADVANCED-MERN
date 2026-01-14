@@ -75,7 +75,8 @@ const ProductListing = () => {
       minPrice:filters.minPrice,
       maxPrice:filters.maxPrice,
       search:filters.search,
-      discount:filters.discount
+      discount:filters.discount,
+      availability:filters.availability
     }))
 
   },[dispatch,filters,page])

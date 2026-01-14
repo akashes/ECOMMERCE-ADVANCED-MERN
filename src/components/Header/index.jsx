@@ -32,12 +32,11 @@ import { AuthContext } from "../../contexts/AuthContext.jsx";
 import {  postData } from "../../utils/api.js";
 import { showError, showSuccess } from "../../utils/toastUtils.js";
 import { useDispatch, useSelector } from "react-redux";
-import { clearWishlistReducer, removeFromWishlistReducer } from "../../features/wishList/wishListSlice.js";
+import { clearWishlistReducer } from "../../features/wishList/wishListSlice.js";
 
 
 import { IoMenu } from "react-icons/io5";
 import { fetchMenuCategories } from "../../features/category/categoryMenuSlice.js";
-import CategoryPanel from "./Navigation/CategoryPanel.jsx";
 import { Clickable } from "../../utils/Clickable.jsx";
 
 
@@ -56,7 +55,6 @@ const Header = () => {
   const{cart}=useSelector(state=>state.cart)
   const{wishlist}=useSelector(state=>state.wishlist)
 
-      const{categories}=useSelector(state=>state.category)
 
 const[isOpenCategoryPanel,setIsOpenCategoryPanel]=useState(false)
 
@@ -249,7 +247,7 @@ const handleLogout=async()=>{
       >
 
         <Link to='/my-account'>
-          <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
+          <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)] lg:!text-xl">
         <FaUserCog/>
         <span className="text-[14px]">
 
@@ -260,7 +258,7 @@ const handleLogout=async()=>{
       
         <Link to='/my-orders'>
         
-        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
+        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)] lg:!text-xl">
         <IoBagCheck/>
         <span className="text-[14px]">
 
@@ -271,11 +269,11 @@ const handleLogout=async()=>{
         
         <Link to='/my-list'>
 
-        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
+        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)] lg:!text-xl">
         <IoHeartSharp/>
         <span className="text-[14px]">
 
-        myorites
+        Favorites
         </span>
         </MenuItem>
         </Link>
@@ -283,7 +281,7 @@ const handleLogout=async()=>{
 
         <Link to='/address'>
 
-        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]">
+        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)] lg:!text-xl">
         <BiSolidMap/>
         <span className="text-[14px]">
 
@@ -293,7 +291,7 @@ const handleLogout=async()=>{
         </Link>
 
         <Divider/>
-        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)]"
+        <MenuItem onClick={handleClose} className="flex items-center gap-2 !py-2 !text-[rgba(0,0,0,0.7)] lg:!text-xl"
         onClick={handleLogout}
         >
         <IoLogOut/>
@@ -376,7 +374,6 @@ const handleLogout=async()=>{
 windowWidth < 992 && isSearchOpen === true && (
           <div className="fixed top-0 left-0 w-full h-full bg-white z-[9999] flex flex-col p-4 animate-in fade-in zoom-in duration-200">
              
-             {/* Header of the Overlay: Title + Close Button */}
              <div className="flex items-center justify-between mb-4">
                 <h4 className="text-lg font-bold text-gray-700">Search Products</h4>
                 <IconButton onClick={() => setIsSearchOpen(false)}>
@@ -384,13 +381,9 @@ windowWidth < 992 && isSearchOpen === true && (
                 </IconButton>
              </div>
 
-             {/* The Search Component */}
+             {/*  Search Component */}
              <div className="w-full">
-                {/* Pass a prop to Search if you want it to close the overlay 
-                   automatically when a user hits Enter.
-                   
-                   Example: <Search closeSearch={() => setIsSearchOpen(false)} />
-                */}
+              
                 <Search closeSearch={()=>setIsSearchOpen(false)} />
              </div>
           </div>

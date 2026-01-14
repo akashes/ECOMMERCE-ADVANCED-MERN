@@ -17,7 +17,7 @@ import Rating from '@mui/material/Rating';
 
 import './style.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { resetFilters, setDiscount, setPriceFilter } from '../../features/productsFilter/productsFilterSlice';
+import { resetFilters, setAvailability, setDiscount, setPriceFilter } from '../../features/productsFilter/productsFilterSlice';
 
 import { IoClose } from "react-icons/io5";
 import { MyContext } from '../../contexts/MyContext';
@@ -29,10 +29,19 @@ const Sidebar = (props) => {
 
   const dispatch = useDispatch()
 
-  const { filters } = useSelector(state => state.filterProducts);
+  const { filters,stockCounts } = useSelector(state => state.filterProducts);
+  console.log(filters)
 const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice || 50000]);
 
 
+
+  const handleStockToggle=(e)=>{
+    if(e.target.checked){
+      dispatch(setAvailability('in-stock'))
+    }else{
+      dispatch(setAvailability(null))
+    }
+  }
 
   //debounced price
     const [debouncedPrice, setDebouncedPrice] = useState(price);
@@ -123,33 +132,46 @@ const [price, setPrice] = useState([filters.minPrice || 100, filters.maxPrice ||
         </Collapse>
 
       </div>
-      <div className="box mt-2 lg:mt-3">
-        <h3 className=' w-full mb-3 text-[16px]
-         font-[600] flex items-center lg:pr-5'>
-            Availability
+     <div className="box mt-2 lg:mt-3">
+  <h3 className='w-full mb-3 text-[16px] font-[600] flex items-center lg:pr-5'>
+    Availability
+    <Button 
+      className='!text-black !w-[30px] !h-[30px] !min-w-[30px] !rounded-full !ml-auto' 
+      onClick={() => setIsAvailabilityFilterOpen(!isAvailabilityFilterOpen)}
+    >
+      <FaAngleDown 
+        style={{ transform: isAvailabilityFilterOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} 
+        className='transition-transform duration-300' 
+      />
+    </Button>
+  </h3>
 
-<Button className='!text-black !w-[30px] !h-[30px] !min-w-[30px] !rounded-full !ml-auto ' onClick={()=>setIsAvailabilityFilterOpen(!isAvailabilityFilterOpen)}>
-
-            <FaAngleDown style={{transform:isAvailabilityFilterOpen?'rotate(180deg)':'rotate(0deg)'}} className='transition-transform duration-300'  />
-</Button>
-
-            </h3>
-        <Collapse isOpened={isAvailabilityFilterOpen}>
-
-
-
-
-        <div className="scroll flex flex-wrap  lg:block px-4 relative -left-[13px] ">
-                  <FormControlLabel  control={<Checkbox size='small' />} label="Available  (17)" className='w-[200px] lg:w-full' />
-                  <FormControlLabel  control={<Checkbox size='small' />} label="In Stock  (10)" className='w-[200px] lg:w-full' />
-                  <FormControlLabel  control={<Checkbox size='small' />} label="Not Available  (17)" className='w-[200px] lg:w-full' />
-                  
-
-
-        </div>
-        </Collapse>
-
-      </div>
+  <Collapse isOpened={isAvailabilityFilterOpen}>
+    {/* 👇 Added a standard wrapper div for spacing/padding like your other filters */}
+    <div className="scroll flex flex-wrap lg:block px-4 relative -left-[13px]">
+    <FormControlLabel
+  control={
+    <Checkbox
+      size='small'
+      checked={filters.availability === 'in-stock'}
+      onChange={handleStockToggle}
+    />
+  }
+  // 👇 Passing a div instead of a string allows full styling
+  label={
+    <div className="flex items-center">
+      <span className="text-[14px] text-black">Include In-Stock Only</span>
+      <span className="ml-2 text-[11px] font-[600] text-green-700 bg-green-100 px-2 py-[1px] rounded-full">
+        {stockCounts?.inStock || 0}
+      </span>
+    </div>
+  }
+  className='w-full'
+/>
+      
+    </div>
+  </Collapse>
+</div>
 
    <div className="box mt-2 lg:mt-4">
   <h3 className='w-full mb-3 text-[16px] font-[600] flex items-center pr-5'>

@@ -40,46 +40,6 @@ const Address = () => {
     setSelectedAddress(null);
   };
 
-//   const handleChange = (e) => {
-//     setFormData({ ...formData, address_type: e.target.value })
-//   }
-
-//   const handleSubmit = async (e) => {
-//   e.preventDefault();
-
-//   if (!formData.address_line || !formData.city || !formData.state ||
-//       !formData.pincode || !formData.country || !formData.mobile) {
-//     showError('All fields are required');
-//     return;
-//   }
-
-//   let resultAction;
-
-//   if (formData._id) {
-//     resultAction = await dispatch(updateAddress(formData));
-//   } else {
-//     resultAction = await dispatch(addAddress(formData));
-//   }
-
-
-//   if (addAddress.fulfilled.match(resultAction) || updateAddress.fulfilled.match(resultAction)) {
-//     setFormData({
-//       address_line: '',
-//       city: '',
-//       state: '',
-//       pincode: '',
-//       country: '',
-//       mobile:'',
-//       landmark:'',
-//       address_type:'home'
-//     });
-//     toggleDrawer(false);
-//     showSuccess(resultAction.payload.message || 'Address Saved successfully');
-//   } else {
-//     showError(resultAction.payload.message || 'Failed to save address');
-//     toggleDrawer(false);
-//   }
-// };
 
 
 
@@ -130,20 +90,23 @@ const Address = () => {
           <div className="col1 w-[20%] hidden lg:block ">
             <AccountSidebar />
           </div>
-          <div className="col2 w-full lg:w-[50%]">
+          <div className="col2 w-full lg:w-[80%]">
             <div className="card bg-white p-5 mb-5 shadow-md rounded-md relative">
               <div className="flex items-center justify-between pb-2">
                 <h2 className="text-[20px]">Address</h2>
               </div>
               <hr className="text-gray-400" />
+              {
+                address?.length>0 &&
               <div onClick={() => setOpenAddressPanel(true)} className="flex items-center justify-center p-5 rounded-md border border-dashed border-[rgba(0,0,0,0.3)] bg-[#f1faff] cursor-pointer hover:bg-[#e5f5ff]">
                 <span className='text-[14px] font-[500] flex items-center gap-1'>
                   <IoMdAdd/>
                   Add Address</span>
               </div>
-              <div className="flex gap-2 flex-col mt-4 ">
-                {address?.length > 0 && [...address].reverse().map((addr) => (
-                  <label key={addr._id} className="addressBox w-full bg-[#f1f1f1] p-3 rounded-md cursor-pointer flex flex-col items-start justify-between border border-dashed border-[rgba(0,0,0,0.3)] group">
+              }
+              <div className="flex flex-wrap mt-4 gap-3 ">
+                {address?.length > 0 ?( [...address].reverse().map((addr) => (
+                  <label key={addr._id} className=" min-w-[200px] bg-[#f1f1f1] p-3 rounded-md cursor-pointer flex flex-col items-start justify-between border border-dashed border-[rgba(0,0,0,0.3)] group">
                     <span className='capitalize bg-gray-400 px-2 rounded-sm text-[13px] text-white flex gap-1 items-center'> {addr.address_type==='home'?<FaHome/>:addr.address_type==='work'?<HiBuildingOffice/>:<MdHomeWork/>}  {addr.address_type}</span>
                     <div className='flex justify-between items-center w-full'>
                       <span className='text-[12px] inline-block p-3 group-hover:scale-105 transition-all'>
@@ -162,16 +125,39 @@ const Address = () => {
                       </div>
                     </div>
                   </label>
-                ))}
+                ))
+                ):(
+                   <div className="w-full flex flex-col items-center justify-center py-12 px-5">
+          <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+            <FaHome className="text-2xl text-gray-400" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-700 mb-2">No Addresses Found</h3>
+          <p className="text-sm text-gray-500 text-center mb-6 max-w-md">
+            You haven't added any addresses yet. Add your first address to get started with your orders.
+          </p>
+          <Button
+            onClick={() => setOpenAddressPanel(true)}
+            variant="contained"
+            className='!bg-primary'
+            sx={{
+              color: "white",
+              textTransform: "none",
+              borderRadius: "6px",
+              padding: "10px 24px",
+              fontSize: "14px",
+              fontWeight: "500",
+              "&:hover": {
+                backgroundColor: "#0052a3",
+              },
+            }}
+          >
+            Add Your First Address
+          </Button>
+        </div>
+                )
+              }
                 
-                {
-                  addressLoading &&  <div className="addressBox w-full bg-[#f9f9f9] p-3 rounded-md border border-dashed border-[rgba(0,0,0,0.1)]">
-      <Skeleton variant="rectangular" width={60} height={24} className="mb-2 rounded" />
-
-      <Skeleton variant="text" width="70%" height={20} />
-      <Skeleton variant="text" width="50%" height={20} />
-    </div>
-                }
+            
               </div>
             </div>
           </div>
@@ -179,7 +165,7 @@ const Address = () => {
       </section>
 
       <Menu
-        className='!w-[200px]'
+        className='!w-[300px]'
         id="basic-menu"
         anchorEl={menu}
         open={Boolean(menu)}
@@ -213,6 +199,7 @@ const Address = () => {
           setOpenAddressPanel(true)
           handleClose()
         }}>Edit</MenuItem>
+
         <MenuItem         className='!text-gray-700'
 
 onClick={() => handleDelete(selectedAddress._id)}>Remove</MenuItem>

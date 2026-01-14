@@ -21,6 +21,8 @@ const BlogSection = () => {
           dispatch(getAllBlogs())
 
         },[dispatch])
+        
+         
 
   return (
       <section className=' blogSection py-5 pt-0 pb-3 lg:pb-8 bg-white'>

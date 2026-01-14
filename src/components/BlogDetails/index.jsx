@@ -33,11 +33,18 @@ const BlogDetails = () => {
        window.scrollTo({ top: 0, behavior: "smooth" });
  
  
-   },[])
+      },[])
+      useEffect(()=>{
+          window.scrollTo({ top: 0, behavior: "smooth" });
+    
+    
+      },[])
   if (loading) return  <BlogDetailsSkeleton/>
 
   const remainingBlogs = blogs.filter((b) => b._id !== id);
 
+
+  
   return (
    
     <div className="container mx-auto p-6">
@@ -65,7 +72,14 @@ const BlogDetails = () => {
                 key={b._id}
                 className="border-b pb-4 last:border-none"
               >
-                <h3 onClick={()=>navigate(`/blog/${b?._id}`)} className="text-md font-semibold mb-2 cursor-pointer hover:text-primary transition-colors">{b.title}</h3>
+                <h3 onClick={
+                  ()=>{
+                    navigate(`/blog/${b?._id}`)
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+
+                  }
+                  
+                  } className="text-md font-semibold mb-2 cursor-pointer hover:text-primary transition-colors">{b.title}</h3>
                 <img
                   src={b?.blogImage?.url}
                   alt={b.title}

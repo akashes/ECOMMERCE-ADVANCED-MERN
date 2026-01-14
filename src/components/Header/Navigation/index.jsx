@@ -64,7 +64,7 @@ useEffect(()=>{
             </div>
             }
             <div className="col_2 
-            w-full lg:w-[60%] 
+            w-full lg:w-[62%]  no-scrollbar
             ">
                 <ul className="flex  items-center gap-1 nav ">
                     <li className="list-none">
@@ -161,8 +161,8 @@ useEffect(()=>{
                 </ul>
 
             </div>
-            <div className="col_3 w-[20%] hidden lg:block">
-                <p className="text-[14px] font-[500] flex items-center gap-2 mb-0 mt-0"> 
+            <div className="col_3 w-[18%] hidden lg:block">
+                <p className="text-[14px] font-[500] flex items-center justify-center gap-2 !mb-0 mt-0"> 
                     <GoRocket className="text-[18px]"/>
                      Free International Delivery</p>
             </div>

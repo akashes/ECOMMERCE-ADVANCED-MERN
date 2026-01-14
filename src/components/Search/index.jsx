@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './style.css'
 import Button from '@mui/material/Button';
 import { IoSearch } from "react-icons/io5";
@@ -11,6 +11,8 @@ import axios from 'axios';
 
 const Search = ({closeSearch}) => {
   const [highlightIndex, setHighlightIndex] = useState(-1);
+
+  const searchContainerRef =  useRef(null)
 
   const dispatch = useDispatch()
   const searchValue = useSelector(state => state.filterProducts.filters.search)
@@ -37,17 +39,21 @@ const Search = ({closeSearch}) => {
 
   const handleKeyDown = (e) => {
 
-    if(isMobile && e.key==='Enter'){
+    // if(isMobile && e.key==='Enter'){
+    //   redirectToProductsPage();
+    //   return;
+    // }
+    if(e.key==='Enter'){
       redirectToProductsPage();
       return;
     }
 
 
     //FOR DESKTOP
-  if (suggestions.length === 0){
-    if(e.key==='Enter') redirectToProductsPage();
-    return;
-  }
+  // if (suggestions.length === 0){
+  //   if(e.key==='Enter') redirectToProductsPage();
+  //   return;
+  // }
 
   if (e.key === "ArrowDown") {
     setHighlightIndex((prev) => (prev + 1) % suggestions.length);
@@ -117,6 +123,21 @@ useEffect(() => {
     setName(searchValue || '')
   }, [searchValue])
 
+  useEffect(()=>{
+    const handleClickOutside=(e)=>{
+      if(searchContainerRef.current && !searchContainerRef.current.contains(e.target)){
+        setSuggestions([])
+      }
+    }
+
+    document.addEventListener('mousedown',handleClickOutside)
+
+    return()=>{
+      document.removeEventListener('mousedown',handleClickOutside)
+    }
+
+  },[])
+
 
 const highlightMatch = (text, query) => {
   const regex = new RegExp(`(${query})`, "gi");
@@ -137,7 +158,7 @@ const highlightMatch = (text, query) => {
 
   
   return (
-   <div className='relative w-full'>
+   <div ref={searchContainerRef} className='relative w-full'>
       <div className='searchBox w-full h-[50px] bg-[#e5e5e5] rounded-[5px] p-2'>
         <input
           value={name}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IoIosTimer } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
@@ -13,6 +13,9 @@ const BlogItem = ({blog}) => {
       ? cleanText.substring(0, length) + "..." 
       : cleanText;
   };
+
+  
+    
 
   return (
     <div className='blogItem group cursor-pointer '>

@@ -110,8 +110,8 @@ console.log(avatar)
                             <NavLink to='/my-account' className={({isActive})=>isActive?"border-l-4 border-primary":""}>
 
                             <Button className='flex items-center !justify-start !px-5 gap-3 !capitalize !text-[rgba(0,0,0,0.8)] w-full '>
-                                <FaUserCog className='text-[17px]'/>
-                                User Profile
+                                <FaUserCog className='text-[22px]'/>
+                                 Profile
                                 </Button>
                             </NavLink>
 
@@ -120,7 +120,7 @@ console.log(avatar)
                             <NavLink to='/my-list' className={({isActive})=>isActive?"border-l-4 border-primary":""}>
 
                             <Button className='flex items-center !justify-start !px-5 gap-3 !capitalize !text-[rgba(0,0,0,0.8)] w-full '>
-                                <IoHeartSharp className='text-[17px]'/>
+                                <IoHeartSharp className='text-[22px]'/>
                                 Wishlist
                                 </Button>
                             </NavLink>
@@ -130,7 +130,7 @@ console.log(avatar)
                             <NavLink to='/my-orders' className={({isActive})=>isActive?"border-l-4 border-primary":""}>
 
                             <Button className='flex items-center !justify-start !px-5 gap-3 !capitalize !text-[rgba(0,0,0,0.8)] w-full '>
-                                <IoBagCheck className='text-[17px]'/>
+                                <IoBagCheck className='text-[22px]'/>
                                 My Orders
                                 </Button>
                             </NavLink>
@@ -140,7 +140,7 @@ console.log(avatar)
                             <NavLink to='/address' className={({isActive})=>isActive?"border-l-4 border-primary":""}>
 
                             <Button className='flex items-center !justify-start !px-5 gap-3 !capitalize !text-[rgba(0,0,0,0.8)] w-full '>
-                                <BiSolidMap className='text-[17px]'/>
+                                <BiSolidMap className='text-[22px]'/>
                                 Address
                                 </Button>
                             </NavLink>
