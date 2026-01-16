@@ -72,7 +72,7 @@ const PopularProducts = () => {
           popularProductsLoading ? 
           (
            <motion.div
-           key="skelton"
+          //  key="skelton"
            key={currentCategoryId}
             initial={{opacity:0,x:20}}
             animate={{opacity:1,x:0}}

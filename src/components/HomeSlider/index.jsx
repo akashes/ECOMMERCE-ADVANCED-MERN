@@ -10,32 +10,36 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Navigation,Autoplay } from 'swiper/modules';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchHomeSlides } from '../../features/homeSlides';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { fetchHomeSlides } from '../../features/homeSlides';
 import { MyContext } from '../../contexts/MyContext'; 
 import HomeSliderSkelton from '../Skeltons/HomeSliderSkelton';
+import { useGetHomeSlidesQuery } from '../../features/homeSlides';
 
 
 
 
 const HomeSlider = () => {
 
-  const{homeSlides,loading}=useSelector(state=>state.homeSlides)
-  console.log(homeSlides)
+  // const{homeSlides,loading}=useSelector(state=>state.homeSlides)
+  const { data: slides, isLoading, error } = useGetHomeSlidesQuery(undefined,{
+    refetchOnReconnect:true
+  });
+
   
   const context = useContext(MyContext)
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
 
-useEffect(()=>{
-  dispatch(fetchHomeSlides())
+// useEffect(()=>{
+//   dispatch(fetchHomeSlides())
 
-},[])
+// },[])
   return (
     <div className='homeSlider pb-2 pt-2 lg:pt-4 lg:pb-4  '>
       <div className="container">
         {
-          loading?     <Swiper  spaceBetween={10} 
+          isLoading?     <Swiper  spaceBetween={10} 
    speed={500}
    navigation={true} 
    loop={true}
@@ -69,7 +73,7 @@ useEffect(()=>{
  className="sliderHome">
         
         {
-          homeSlides?.length>0 && homeSlides.map((img)=>(
+          slides?.length>0 && slides.map((img)=>(
                <SwiperSlide>
           <div className="item rounded-[10px] overflow-hidden">
 

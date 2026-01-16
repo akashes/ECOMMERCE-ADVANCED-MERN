@@ -2,7 +2,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '../../features/user/userSlice.js'
 import categoryReducer from '../../features/category/categoryMenuSlice.js'
-import homeSlidesReducer from '../../features/homeSlides.js'
+import  { homeSlidesApiSlice } from '../../features/homeSlides.js'
 import popularProductsByCategoryReducer from '../../features/popularProducts/popularProducts.js'
 import latestProductsReducer from '../../features/latestProducts/latestProducts.js'
 import featuredProductsReducer from '../../features/featuredProducts/featuredProducts.js'
@@ -13,11 +13,14 @@ import productReducer from '../../features/product/productSlice.js'
 import cartReducer from '../../features/cart/cartSlice.js'
 import wishlistReducer from '../../features/wishList/wishListSlice.js'
 import orderReducer from '../../features/order/orderSlice.js'
+import { setupListeners } from '@reduxjs/toolkit/query';
 export const store = configureStore({
+
   reducer: {
+    [homeSlidesApiSlice.reducerPath]:homeSlidesApiSlice.reducer,
     user:userReducer,
     category:categoryReducer,
-    homeSlides:homeSlidesReducer,
+    // homeSlides:homeSlidesReducer,
     popularProducts:popularProductsByCategoryReducer,
     latestProducts:latestProductsReducer,
     featuredProducts:featuredProductsReducer,
@@ -29,4 +32,9 @@ export const store = configureStore({
     wishlist:wishlistReducer,
     order:orderReducer
   },
+  middleware:(getDefaultMiddleware)=>
+    getDefaultMiddleware().concat(homeSlidesApiSlice.middleware)
+  
 });
+
+setupListeners(store.dispatch)

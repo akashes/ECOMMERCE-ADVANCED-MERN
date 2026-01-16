@@ -29,8 +29,8 @@ const ProductsSkelton = () => {
                freeMode={true}
                modules={[Navigation,FreeMode]}
                           breakpoints={{
-           250: { slidesPerView: 1,spaceBetween:10 },  
-           450:{slidesPerView:3,spaceBetween:10},
+           250: { slidesPerView: 2,spaceBetween:10 },  
+           450:{slidesPerView:2,spaceBetween:10},
     640: { slidesPerView: 3 },
     1024: { slidesPerView: 4 },
     1280: { slidesPerView: 6,spaceBetween:10 },
