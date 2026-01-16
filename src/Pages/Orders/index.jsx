@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { cancelOrder, getOrders } from "../../features/order/orderSlice"
+import { cancelOrder, getOrders,updateOrderStatus } from "../../features/order/orderSlice"
 import { useNavigate } from "react-router-dom"
 import { Dialog, DialogActions, DialogContent, Typography, Box, Button } from "@mui/material"
 import { styled } from "@mui/material/styles"
@@ -11,7 +11,8 @@ import { FaChevronDown, FaEye } from "react-icons/fa"
 import AccountSidebar from "../../components/AccountSidebar"
 import { showError, showSuccess } from "../../utils/toastUtils"
 import OrdersSkeleton from "../../components/Skeltons/OrdersSkelton"
-
+import { io } from "socket.io-client" 
+import { AuthContext } from "../../contexts/AuthContext"
 const DarkDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root": {
     backgroundColor: "#1e293b",
@@ -255,6 +256,40 @@ const Orders = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { orders, cancelledOrders, loading } = useSelector((state) => state.order)
+  const {user}= useContext(AuthContext)
+  console.log(user)
+
+  useEffect(()=>{
+    if(!user?._id) return
+    const socket = io(import.meta.env.VITE_API_URL,{
+      withCredentials:true
+    });
+
+    //join user room 
+    socket.on('connect',()=>{
+      socket.emit('join-user-room',user._id);
+      console.log(user?._id)
+      console.log('joined uesr room ')
+    })
+    //listen for order updates
+    socket.on('order-updated',(data)=>{
+      console.log('order updated by admin')
+      console.log("Order Update Received:", data);
+
+      showSuccess(data.message || `Order ${data.order_status}!`);
+      dispatch(updateOrderStatus({
+        orderId:data.orderId,
+        order_status:data.order_status
+      }))
+
+    })
+
+
+    return()=>{
+      socket.disconnect()
+    }
+
+  },[user,dispatch])
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" })

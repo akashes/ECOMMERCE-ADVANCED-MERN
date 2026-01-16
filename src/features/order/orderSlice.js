@@ -44,6 +44,13 @@ const orderSlice = createSlice({
         cancelledOrders:[]
     },
     reducers:{
+        updateOrderStatus:(state,action)=>{
+            const {orderId,order_status}=action.payload
+            const order = state.orders.find(o=>o._id===orderId)
+            if(order){
+                order.order_status=order_status
+            }
+        }
 
     },
     extraReducers:(builder)=>{
@@ -83,5 +90,5 @@ if (cancelledOrderIndex !== -1) {
 
 
 })
-
+export const {updateOrderStatus}=orderSlice.actions
 export default orderSlice.reducer
