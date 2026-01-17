@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useState } from 'react'
-import { Button, Rating } from '@mui/material'
-import QtyBox from '../QtyBox'
+import Button from "@mui/material/Button";import QtyBox from '../QtyBox'
+import Rating from "@mui/material/Rating";
 import { BsCart3, BsCartDash } from 'react-icons/bs'
 import { FaRegHeart } from 'react-icons/fa6'
 import { IoGitCompareOutline } from 'react-icons/io5'

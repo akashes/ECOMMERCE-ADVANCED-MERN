@@ -169,7 +169,7 @@ const highlightMatch = (text, query) => {
           placeholder='Search for Products...'
           className='w-full outline-none bg-transparent h-[35px] p-2 text-[14px]'
         />
-        <Button className='!absolute top-[50%] right-[5px] -translate-y-[50%] !rounded-full !text-black'>
+        <Button onClick={redirectToProductsPage} className='!absolute top-[50%] right-[5px] -translate-y-[50%] !rounded-full !text-black'>
           <IoSearch className='text-[#4e4e4e] text-[20px]' />
         </Button>
       </div>

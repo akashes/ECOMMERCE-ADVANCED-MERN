@@ -6,7 +6,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useContext} from 'react';
 import CategoryCollapse from '../../CategoryCollapse';
 import { useSelector } from 'react-redux';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button'
 import { AuthContext } from '../../../contexts/AuthContext';
 import { MyContext } from '../../../contexts/MyContext';
 import { useNavigate } from 'react-router-dom';

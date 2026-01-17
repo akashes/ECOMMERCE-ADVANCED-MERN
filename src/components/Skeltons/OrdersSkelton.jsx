@@ -1,5 +1,10 @@
-import { Skeleton, Table, TableBody, TableCell, TableHead, TableRow, Box } from "@mui/material";
-
+import Skeleton from "@mui/material/Skeleton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Box from "@mui/material/Box";
 const OrdersSkeleton = () => {
   const rows = Array.from({ length: 5 }); // Show 5 placeholder rows
   const columns = Array.from({ length: 13 }); // Same number of columns as your table

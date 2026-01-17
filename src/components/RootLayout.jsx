@@ -3,6 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 import ProductDetailsModal from "./ProductDetailsModal";
+import { Suspense } from "react";
 
 const RootLayout = () => {
   const location = useLocation();
@@ -17,7 +18,9 @@ const RootLayout = () => {
       {!shouldHide && <Header />}
       
       <main>
+        {/* <Suspense fallback={<div>loading</div>}> */}
         <Outlet /> {/* This renders Home, ProductListing, etc. */}
+        {/* </Suspense> */}
       </main>
 
       {!shouldHide && <Footer />}

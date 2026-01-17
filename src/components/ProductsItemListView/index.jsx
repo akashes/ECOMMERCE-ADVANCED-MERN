@@ -2,8 +2,7 @@ import React, { useMemo } from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-import { Button } from "@mui/material";
-
+import Button from "@mui/material/Button";
 import { FaHeart, FaMinus, FaPlus, FaRegHeart } from "react-icons/fa";
 import { IoGitCompareOutline } from "react-icons/io5";
 import { MdZoomOutMap } from "react-icons/md";

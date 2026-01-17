@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
 import Button from "@mui/material/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { showError, showSuccess, showWarning } from "../../utils/toastUtils";
 import { postData } from "../../utils/api";
@@ -23,6 +23,7 @@ provider.setCustomParameters({
 const Register = () => {
   const authContext = useContext(AuthContext)
     const navigate = useNavigate()
+    const location = useLocation()
     const[isLoading,setIsLoading]=useState(false)
   const [showPassword, setShowPassword] = React.useState(false);
   const [formFields,setFormFields]=useState({
@@ -30,6 +31,8 @@ const Register = () => {
     email: "",
     password: ""
   })
+       const redirectionPath = location?.state?.from || '/'
+
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormFields({ ...formFields, [name]: value });
@@ -129,7 +132,7 @@ const Register = () => {
             authContext.login(res.data.accessToken,res.data.user)
 
     showSuccess(res.message || 'Login successful',3000)
-    navigate('/')
+    navigate(redirectionPath,{replace:true})
   
 
     

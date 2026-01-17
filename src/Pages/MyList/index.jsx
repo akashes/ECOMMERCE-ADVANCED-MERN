@@ -9,7 +9,7 @@ import { AuthContext } from "../../contexts/AuthContext"
 import { getWishlistItems, setWishlistReducer } from "../../features/wishList/wishListSlice"
 import ConfirmDialog from "../../components/ConfirmDialog"
 import { useNavigate } from "react-router-dom"
-import { Button } from "@mui/material"
+import  Button from "@mui/material/Button"
 
 const MyList = () => {
   const dispatch = useDispatch()
@@ -65,9 +65,12 @@ const MyList = () => {
   return (
     <section className="py-8 lg:py-16 w-full bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="container flex flex-col md:flex-row gap-8">
+        {
+          context?.user &&
         <div className="col1 w-full md:w-[20%] hidden lg:block">
           <AccountSidebar />
         </div>
+        }
         <div className="col2 w-full md:w-[80%]">
           <div className="mb-8">
             <div className="flex items-baseline justify-between mb-2">

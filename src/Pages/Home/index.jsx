@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { lazy, useEffect } from 'react'
 import HomeSlider from '../../components/HomeSlider'
 import HomeCatSlider from '../../components/HomeCatSlider'
 
 import { LiaShippingFastSolid } from "react-icons/lia";
-import AdsBannerSlider from '../../components/AdsBannerSlider';
 
 
 
@@ -16,17 +15,26 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/free-mode';
 
-import HomeSliderV2 from '../../components/HomeSliderV2';
-import BannerBoxV2 from '../../components/BannerBoxV2';
-import AdsBannerSliderV2 from '../../components/AdsBannerSliderV2';
+
+const HomeSliderV2 = lazy(()=>import('../../components/HomeSliderV2'))
+const BannerBoxV2 = lazy(()=>import('../../components/BannerBoxV2'))
+const AdsBannerSliderV2 = lazy(()=>import('../../components/AdsBannerSliderV2'))
+
+const AdsBannerSkeletonSlider = lazy(() => import('../../components/Skeltons/AdsBannerSkeltonSlider'));
+const LatestProducts = lazy(() => import('../../components/LatestProducts'));
+const FeaturedProducts = lazy(() => import('../../components/FeaturedProducts'));
+const BlogSection = lazy(() => import('../../components/BlogSection'));
+const AdsBannerSlider = lazy(() => import('../../components/AdsBannerSlider'));
+
+// import AdsBannerSkeletonSlider from '../../components/Skeltons/AdsBannerSkeltonSlider';
+// import LatestProducts from '../../components/LatestProducts';
+// import FeaturedProducts from '../../components/FeaturedProducts';
+// import BlogSection from '../../components/BlogSection';
+// import AdsBannerSlider from '../../components/AdsBannerSlider';
+
 import {  useSelector } from 'react-redux';
 
-
-import AdsBannerSkeletonSlider from '../../components/Skeltons/AdsBannerSkeltonSlider';
 import PopularProducts from '../../components/PopularProducts';
-import LatestProducts from '../../components/LatestProducts';
-import FeaturedProducts from '../../components/FeaturedProducts';
-import BlogSection from '../../components/BlogSection';
 
 
 
@@ -36,7 +44,6 @@ const Home = () => {
 
 
     const{banners,loading:adsBannerV1Loading}=useSelector(state=>state.bannerV1)
-    console.log(banners)
     
 
 
@@ -54,38 +61,6 @@ const randomBanners = React.useMemo(() => getRandomBanners(banners, 2), [banners
 
 
 
-
-
-  // Observer for featured products
-//   useEffect(() => {
-//     const observer = new IntersectionObserver(
-//       entries => {
-//         entries.forEach(entry => {
-//           if (entry.isIntersecting && !featuredTriggered) {
-//             dispatch(fetchFeaturedProducts());
-//             setFeaturedTriggered(true);
-//           }
-//         });
-//       },
-//       { threshold: 0.2 }
-//     );
-
-//     if (featuredRef.current) observer.observe(featuredRef.current);
-//    return () => {
-//    if (featuredRef.current) observer.unobserve(featuredRef.current);
-// };
-//   }, [dispatch, featuredTriggered]);
-
-// useEffect(()=>{
-//   dispatch(fetchFeaturedProducts())
-// },[dispatch])
-
-
-
-  // useEffect(()=>{
-  //   dispatch(getAllBlogs())
-
-  // },[])
 
 
 

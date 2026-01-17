@@ -1,5 +1,4 @@
-import { Skeleton } from "@mui/material";
-
+import Skeleton from "@mui/material/Skeleton";
 const ProductDetailsSkeleton = () => {
   return (
     <section className="bg-white py-5">

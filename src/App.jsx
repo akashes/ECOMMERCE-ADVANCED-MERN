@@ -5,12 +5,6 @@ import './App.css'
 import './responsive.css'
 
 
-
-
-
-
-
-
 import  { Toaster } from 'react-hot-toast';
 
 import axios from 'axios'
@@ -63,16 +57,7 @@ const App = () => {
        
        
        
-      //  const handleCloseProductDetailsModal = () => {
-      //    setOpenProductDetailsModal({
-      //     open:false,
-      //     product:null
-      //    });
-      //   };
-        
-        // const openAlertBox=(status)=>{
-        //   toast(status)
-        // }
+    
         
         const values={
           openProductDetailsModal,
@@ -93,46 +78,6 @@ const App = () => {
 
 
 
-    // useEffect(()=>{
-    //   if(user){
-
-    //     dispatch(getCartItems())
-    //   }
-  
-    // },[user])
-    // useEffect(()=>{
-    //   if(user){
-
-    //     dispatch(getAddress(user._id))
-    //   }
-  
-    // },[user])
-
-
-      // useEffect(() => {
-      //    const run = async () => {
-      //     if (!user) {
-      //       dispatch(getWishlistItems(null));
-      //       return;
-      //     }
-    
-      //     const local = JSON.parse(localStorage.getItem("wishlist")) || [];
-      //     setLocalWishlist(local);
-    
-      //     if (local.length === 0) {
-      //       dispatch(getWishlistItems(user));
-      //     } else {
-      //       // confirm && 
-      //       // setConfirmOpen(true); 
-      //     }
-      //   };
-      //   if(user){
-
-            
-      //       run();
-      //   }
-      //  }
-      // , [user, dispatch]);
 
       useEffect(()=>{
         if(user){
@@ -167,34 +112,7 @@ const App = () => {
     <>
     <MyContext.Provider value={values}>
         <Toaster />
-      {/* <Routes>
-        <Route path='/' element={<Home/>}  />
-        <Route path='/products' element={<ProductListing/>}  />
-        <Route path='/product/:id' element={<ProductDetails/>}  />
-        <Route path='/blog/:id' element={<BlogDetails/>}  />
-        <Route path='/login' element={<Login/>}  />
-        <Route path='/register' element={<Register/>}  />
-        <Route path='/cart' element={<CartPage/>}  />
-        <Route path='/verify' element={<Verify resetPassword={false} />}  />
-        <Route path='/verify-reset-password' element={<Verify resetPassword={true}/>}  />
-        <Route path='/reset-password' element={<ResetPassword/>}  />
-        <Route path='/checkout' element={<Checkout/>}  />
-        <Route path='/order-success' element={<OrderSuccess/>}  />
-        <Route path='/order-failed' element={<OrderFail/>}  />
-        <Route path='/order/:orderId' element={<OrderTracking/>} />
-
-
-        <Route path='/my-account' element={
-          <PrivateRoute>
-          <MyAccount/>
-          </PrivateRoute>
-
-          }  />
-        <Route path='/my-list' element={<MyList/>}  />
-        <Route path='/orders' element={<Orders/>}  />
-        <Route path='/request-otp' element={<p>request otp</p>}/>
-        <Route path='/address' element={<Address/>}/>
-      </Routes> */}
+     
       <RouterProvider router={router}/>
 
 

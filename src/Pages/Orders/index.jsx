@@ -4,7 +4,12 @@ import { useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { cancelOrder, getOrders,updateOrderStatus } from "../../features/order/orderSlice"
 import { useNavigate } from "react-router-dom"
-import { Dialog, DialogActions, DialogContent, Typography, Box, Button } from "@mui/material"
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles"
 import { CiWarning } from "react-icons/ci"
 import { FaChevronDown, FaEye } from "react-icons/fa"
@@ -296,8 +301,11 @@ const Orders = () => {
   }, [])
 
   useEffect(() => {
-    dispatch(getOrders())
-  }, [])
+    if(user){
+
+      dispatch(getOrders())
+    }
+  }, [dispatch,user])
 
   const handleCancelOrder = async (orderId) => {
     try {

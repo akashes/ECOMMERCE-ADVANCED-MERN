@@ -1,12 +1,12 @@
-import { Tab, Tabs } from '@mui/material';
-import React, { useCallback, useEffect } from 'react'
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';import React, { useCallback, useEffect } from 'react'
 import { MdOutlineSearchOff } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux'
 import ProductsSlider from './ProductsSlider';
 import ProductsSkelton from './ProductsSkelton';
 import { fetchPopularProductsByCategory } from '../features/popularProducts/popularProducts';
-import { AnimatePresence } from 'framer-motion';
-import {motion} from 'framer-motion'
+import { AnimatePresence,m, LazyMotion,domAnimation } from 'framer-motion';
+// import {motion} from 'framer-motion'
 
 const PopularProducts = () => {
     const dispatch = useDispatch()
@@ -36,7 +36,10 @@ const PopularProducts = () => {
 
   return (
   <section className='bg-white py-3 md:py-5 lg:py-8 '>
+    <LazyMotion features={domAnimation}>
+
     <div className="container ">
+
       <div className="flex items-center justify-between flex-col lg:flex-row ">
         <div className="leftSec w-full lg:w-[40%]">
           <h2 className=' text-[14px] md:text-[16px] lg:text-[20px] font-[600]'>Popular Products</h2>
@@ -71,7 +74,7 @@ const PopularProducts = () => {
         {
           popularProductsLoading ? 
           (
-           <motion.div
+           <m.div
           //  key="skelton"
            key={currentCategoryId}
             initial={{opacity:0,x:20}}
@@ -81,10 +84,10 @@ const PopularProducts = () => {
            >
 
                <ProductsSkelton />
-           </motion.div>
+           </m.div>
         ) : popularProducts?.length>0 ?
         (
-            <motion.div
+            <m.div
             key={currentCategoryId}
             initial={{opacity:0,x:20}}
             animate={{opacity:1,x:0}}
@@ -93,11 +96,11 @@ const PopularProducts = () => {
             >
 
                   <ProductsSlider key={currentCategoryId} items={popularProducts} itemsCount={popularProducts?.length} />
-            </motion.div>
+            </m.div>
 
 
         ):(
-              <motion.div 
+              <m.div 
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     className="w-full h-[400px] flex flex-col items-center justify-center text-gray-500 bg-gray-50 rounded-md border border-dashed border-gray-300"
@@ -107,7 +110,7 @@ const PopularProducts = () => {
     <p className="text-sm text-gray-400 max-w-[250px] text-center mt-2">
       We couldn't find any popular products in this category right now.
     </p>
-  </motion.div>
+  </m.div>
 
 )
 
@@ -116,6 +119,8 @@ const PopularProducts = () => {
       
   
     </div>
+    </LazyMotion>
+
    </section>
 
   )

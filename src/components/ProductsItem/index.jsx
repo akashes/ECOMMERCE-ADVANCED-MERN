@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import './style.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Rating from '@mui/material/Rating';
-import { Button } from '@mui/material';
+import  Button  from '@mui/material/Button';
 
 import { FaHeart, FaMinus, FaPlus, FaRegHeart } from "react-icons/fa";
 import { IoGitCompareOutline } from "react-icons/io5";
@@ -23,6 +23,7 @@ import throttle from 'lodash.throttle'
 import { addToWishlist } from '../../features/wishList/wishListSlice';
 
 const ProductItem = ({item}) => {
+  const navigate = useNavigate()
   const context = useContext(AuthContext)
   const dispatch = useDispatch()
   const {setOpenProductDetailsModal} = useContext(MyContext)
@@ -119,18 +120,25 @@ const ProductItem = ({item}) => {
 
     <div className='  productItem rounded-md overflow-hidden shadow-lg border-1 border-[rgba(0,0,0,0.1)]  '>
       <div className='imgWrapper w-[100%]  rounded-t-md overflow-hidden relative group'>
-        <Link to={`/product/${item?._id}`}>
+        <div onClick={()=>{
+          navigate(`/product/${item?._id}`)
+                window.scrollTo({ top: 0, behavior: "smooth" });
+
+          
+        }} 
+        >
 
         <div className={`${isUpdating && '  scale-105 duration-500 ease-in-out'} img h-[220px] overflow-hidden`}>
         <img src={item?.images[0]?.url} 
         alt=""
         className='w-full ' />
         <img src={item?.images[1]?.url} 
+        loading='lazy'
         alt=""
         className='w-full absolute left-0 top-0 opacity-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-in-out ' />
 
         </div>
-        </Link>
+        </div>
         {
           discount && discount>=5 && (
 
@@ -191,9 +199,17 @@ const ProductItem = ({item}) => {
           </div>
         </h6>
         <h3 className=' text-[12px] lg:text-[13px] title mt-1 font-[500] text-[#000] mb-1'>
-            <Link to={`/product/${item._id}`} className='link'>
+            <span
+            //  to={`/product/${item._id}`}
+            onClick={()=>{
+          navigate(`/product/${item?._id}`)
+                window.scrollTo({ top: 0, behavior: "smooth" });
+
+          
+        }} 
+              className='link'>
             {item?.name.substr(0,30)+'...'}
-            </Link>
+            </span>
             </h3>
             {
               item?.numReviews===0 ? <span className='text-[12px]'>No Reviews Yet</span>:

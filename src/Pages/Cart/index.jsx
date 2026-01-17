@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Button, Rating, Skeleton } from "@mui/material";
-import { BsFillBagCheckFill } from "react-icons/bs";
+import Button from "@mui/material/Button";
+import Rating from "@mui/material/Rating";
+import Skeleton from "@mui/material/Skeleton";import { BsFillBagCheckFill } from "react-icons/bs";
 import CartItems from "./CartItems";
 import { useSelector } from "react-redux";
 import CartItemSkeleton from "../../components/Skeltons/CartItemsSkelton";

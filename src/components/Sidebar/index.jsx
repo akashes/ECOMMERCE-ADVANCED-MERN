@@ -7,8 +7,7 @@ import { FaAngleDown } from "react-icons/fa6";
 
 
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Button } from '@mui/material';
-
+import Button from "@mui/material/Button";
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 

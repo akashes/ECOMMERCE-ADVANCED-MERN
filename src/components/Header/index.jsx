@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import Search from "../Search"
 
 import Badge from '@mui/material/Badge';
@@ -51,6 +51,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Header = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const dispatch = useDispatch()
   const{cart}=useSelector(state=>state.cart)
   const{wishlist}=useSelector(state=>state.wishlist)
@@ -94,8 +95,8 @@ const handleLogout=async()=>{
  
       dispatch(clearWishlistReducer());
 
+      navigate('/')
   authContext.logout()
-  navigate('/')
 
 
 }
@@ -176,8 +177,35 @@ const handleLogout=async()=>{
                         {
                             authContext?.isLogin ===false && windowWidth>992 ? (
                                        <li className="list-none">
-                            <Link className="link transition ease-in-out duration-300 text-[15px] font-[500]" to='/login' >Login</Link>  | &nbsp;
-                             <Link className="link transition ease-in-out duration-300 text-[15px] font-[500]" to='/register'>Register</Link>
+                            <Button 
+  disableRipple 
+  sx={{
+    '&:hover': {
+      backgroundColor: 'transparent', 
+    
+      boxShadow: 'none',
+    },
+  }}
+                            className=" !text-gray-600 !capitalize link transition ease-in-out duration-300 text-[15px] font-[500]" 
+                            onClick={()=>{
+                              navigate('/login',{state:{from:location.pathname}})
+                            }}
+                            
+                             >Login</Button>  | &nbsp;
+                             <Button 
+                               disableRipple 
+  sx={{
+    '&:hover': {
+      backgroundColor: 'transparent', 
+    
+      boxShadow: 'none',
+    },
+  }}
+                             onClick={()=>{
+                              navigate('/register',{state:{from:location.pathname}})
+                            }}
+                             
+                             className=" !text-gray-600 !capitalize  link transition ease-in-out duration-300 text-[15px] font-[500]">Register</Button>
                         </li>
                             )
                             :

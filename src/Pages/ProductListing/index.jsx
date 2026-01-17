@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import Sidebar from '../../components/Sidebar'
 
 import ProductItem from '../../components/ProductsItem';
-import { Button } from '@mui/material';
+import  Button  from '@mui/material/Button';
 
 import { IoCloseCircle, IoGrid } from "react-icons/io5";
 import { FaThList } from "react-icons/fa";

@@ -4,7 +4,7 @@ import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
 
 import  Button  from '@mui/material/Button';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { FcGoogle } from "react-icons/fc";
 import toast from 'react-hot-toast';
@@ -24,6 +24,8 @@ provider.setCustomParameters({
 
 
 const Login = () => {
+    const navigate = useNavigate()
+    const location = useLocation()
     const authContext = useContext(AuthContext)
     const[isLoading,setIsLoading]=useState(false)
     const[showPassword,setShowPassword]=useState(false)
@@ -33,7 +35,7 @@ const Login = () => {
        email: '',
        password: '',
      })
-     const navigate = useNavigate()
+     const redirectionPath = location?.state?.from || '/'
      //forgot password
     const forgotPassword=async(e)=>{
         e.preventDefault()
@@ -102,7 +104,7 @@ const Login = () => {
         // localStorage.setItem('refreshToken',result.data.refreshToken)
         showSuccess(result.message || 'Login successful')
         authContext.login(result.data.accessToken,result.data.user)
-        navigate('/')
+        navigate(redirectionPath,{replace:true})
     }
 
       const authWithGoogle=async()=>{
@@ -143,7 +145,7 @@ const Login = () => {
                 authContext.login(res.data.accessToken,res.data.user)
     
         showSuccess(res.message || 'Login successful',3000)
-        navigate('/')
+        navigate(redirectionPath,{replace:true})
       
     
         

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import './style.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { MyContext } from '../../contexts/MyContext'
-import { Button } from '@mui/material'
+import Button from "@mui/material/Button";
 import { useDispatch } from 'react-redux'
 import { setCategories, setSubCategories } from '../../features/productsFilter/productsFilterSlice'
 import axios from 'axios'

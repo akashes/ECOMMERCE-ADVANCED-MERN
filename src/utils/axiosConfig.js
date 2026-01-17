@@ -167,6 +167,7 @@ axios.interceptors.response.use(
         // Logout Logic
         localStorage.removeItem('accessToken');
         localStorage.removeItem('user');
+        // axios.post(`${import.meta.env.VITE_API_URL}/api/user/logout`)
         
 
         if (window.location.pathname !== '/login') {

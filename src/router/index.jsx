@@ -1,25 +1,30 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../Pages/Home";
-import ProductListing from "../Pages/ProductListing";
+import { lazy } from "react";
+
 import PrivateRoute from "../components/PrivateRoute";
 import RootLayout from "../components/RootLayout";
-import ProductDetails from "../Pages/ProductDetails";
-import CartPage from "../Pages/Cart";
-import MyAccount from "../Pages/MyAccount";
-import OrderSuccess from "../Pages/OrderSuccess";
-import Login from "../Pages/Login";
-import Register from "../Pages/Register";
-import MyList from "../Pages/MyList";
-import BlogDetails from "../components/BlogDetails";
-import Verify from "../Pages/Verify";
-import ResetPassword from "../Pages/ForgotPassword";
-import Checkout from "../Pages/Checkout";
-import OrderFail from "../Pages/OrderFail";
-import OrderTracking from "../components/OrderTracking";
-import Orders from "../Pages/Orders";
-import Address from "../Pages/MyAccount/Address";
 import { homeLoader } from "../loaders/homeLoader";
-// ... import other pages
+
+
+import Home from "../Pages/Home";
+const ProductListing = lazy(() => import("../Pages/ProductListing"));
+const ProductDetails = lazy(() => import("../Pages/ProductDetails"));
+const CartPage = lazy(() => import("../Pages/Cart"));
+const MyAccount = lazy(() => import("../Pages/MyAccount"));
+const MyList = lazy(() => import("../Pages/MyList"));
+const Login = lazy(() => import("../Pages/Login"));
+const Register = lazy(() => import("../Pages/Register"));
+const BlogDetails = lazy(() => import("../components/BlogDetails"));
+const Verify = lazy(() => import("../Pages/Verify"));
+const ResetPassword = lazy(() => import("../Pages/ForgotPassword"));
+const Checkout = lazy(() => import("../Pages/Checkout"));
+const OrderSuccess = lazy(() => import("../Pages/OrderSuccess"));
+const OrderFail = lazy(() => import("../Pages/OrderFail"));
+const OrderTracking = lazy(() => import("../components/OrderTracking"));
+const Orders = lazy(() => import("../Pages/Orders"));
+const Address = lazy(() => import("../Pages/MyAccount/Address"));
+
+
 
 export const router = createBrowserRouter([
   {

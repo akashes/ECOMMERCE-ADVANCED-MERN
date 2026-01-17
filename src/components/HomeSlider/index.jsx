@@ -39,7 +39,8 @@ const HomeSlider = () => {
     <div className='homeSlider pb-2 pt-2 lg:pt-4 lg:pb-4  '>
       <div className="container">
         {
-          isLoading?     <Swiper  spaceBetween={10} 
+          isLoading?   
+            <Swiper  spaceBetween={10} 
    speed={500}
    navigation={true} 
    loop={true}

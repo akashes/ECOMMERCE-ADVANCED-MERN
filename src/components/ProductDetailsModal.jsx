@@ -1,5 +1,8 @@
 import React, { useContext } from 'react';
-import { Dialog, DialogContent, DialogContentText, Button } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import Button from '@mui/material/Button';
 import { IoClose } from "react-icons/io5";
 import ProductZoom from './ProductZoom';
 import ProductInfo from './ProductInfo';

@@ -15,7 +15,7 @@ import {
   fetchProductById,
   getRelatedProducts,
 } from "../../features/product/productSlice";
-import {  Typography } from "@mui/material";
+import   Typography  from "@mui/material/Typography";
 import ProductDetailsSkeleton from "../../components/Skeltons/ProductDetailsSkelton";
 import { showError, showWarning } from "../../utils/toastUtils";
 import { AuthContext } from "../../contexts/AuthContext";

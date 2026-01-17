@@ -33,6 +33,7 @@ export const addToWishlist=createAsyncThunk('wishlist/addToWishlist',async({prod
 })
 
 export const getWishlistItems = createAsyncThunk('cart/getWishlistItems',async(user,{rejectWithValue,dispatch})=>{
+    console.log(user)
         if (!user) {
       const localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       console.log(localWishlist)
@@ -54,6 +55,7 @@ export const getWishlistItems = createAsyncThunk('cart/getWishlistItems',async(u
     }
 
 
+if(user){
 
     try {
         const result = await axios.get(`/api/myList`)
@@ -66,6 +68,7 @@ export const getWishlistItems = createAsyncThunk('cart/getWishlistItems',async(u
         rejectWithValue(error.response?.data?.message || error.message)
         
     }
+}
 })
 
 export const removeWishlistItem = createAsyncThunk('cart/removeWishlistItem',async({wishlistItemId,user},{rejectWithValue})=>{

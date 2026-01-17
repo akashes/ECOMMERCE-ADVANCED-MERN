@@ -1,7 +1,7 @@
-import { Button } from "@mui/material"
+import  Button  from "@mui/material/Button"
 import { RiMenu2Fill } from "react-icons/ri";
 import { LiaAngleDownSolid } from "react-icons/lia";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GoRocket } from "react-icons/go";
 
 

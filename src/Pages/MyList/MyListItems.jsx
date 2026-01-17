@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import  Rating  from '@mui/material/Rating';
-import { Alert, Button } from '@mui/material';
+import  Button from "@mui/material/Button"
+import  Alert from "@mui/material/Alert"
+
 import { addToCart } from '../../features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromWishlistReducer, removeWishlistItem } from '../../features/wishList/wishListSlice';

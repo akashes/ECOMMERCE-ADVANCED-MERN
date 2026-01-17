@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Check, Home, Package } from "lucide-react"
+
+import MdCheck from "react-icons/lib/md/check";
+import MdHome from "react-icons/lib/md/home";
+import MdLocalShipping from "react-icons/lib/md/local-shipping"; 
+
 import { useLocation } from "react-router-dom"
 import { Clickable } from "../../utils/Clickable"
 const OrderSuccess = () => {
@@ -43,7 +47,7 @@ console.log(location.state)
 
             {/* Check Icon Container */}
             <div className="w-28 h-28 bg-primary rounded-full flex items-center justify-center relative z-10 shadow-lg shadow-primary/30">
-              <Check className="w-14 h-14 text-primary-foreground stroke-[3]" />
+              <MdCheck className="w-14 h-14 text-primary-foreground stroke-[3]" />
             </div>
           </div>
         </div>
@@ -63,7 +67,7 @@ console.log(location.state)
         >
           <div className="flex items-start gap-4 mb-4">
             <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Package className="w-6 h-6 text-primary" />
+              <MdLocalShipping className="w-6 h-6 text-primary" />
             </div>
             <div className="flex-1 text-left">
                 <div className="flex gap-4">
@@ -109,7 +113,7 @@ console.log(location.state)
             onClick={() => navigate("/", { replace: true })}
             className="flex-1 shadow-md px-10 py-3 bg-secondary text-secondary-foreground font-semibold rounded-lg hover:bg-secondary/80 transition-colors duration-200 flex items-center justify-center gap-2"
             >
-            <Home className="w-4 h-4" />
+            <MdHome className="w-4 h-4" />
             Home
           </button>
             </Clickable>
